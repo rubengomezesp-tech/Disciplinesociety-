@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discipline Society — Earn Your Place</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Oswald:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:    #0A0A0A;
+  --black2:   #111111;
+  --black3:   #1A1A1A;
+  --gold:     #C9A84C;
+  --gold-lt:  #E2C97E;
+  --gold-dk:  #8B6914;
+  --cream:    #F0EAD6;
+  --cream2:   #D4C9A8;
+  --white:    #FAFAF8;
+  --muted:    #6B6560;
+  --border:   rgba(201,168,76,0.18);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ── */
+#cur { width:6px; height:6px; background:var(--gold); border-radius:50%;
+  position:fixed; pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%); transition:transform .1s; }
+#cur-ring { width:28px; height:28px; border:1px solid rgba(201,168,76,.45); border-radius:50%;
+  position:fixed; pointer-events:none; z-index:9998;
+  transform:translate(-50%,-50%); transition:all .15s ease; }
+
+/* ── GRAIN ── */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:8000; opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='.04'/%3E%3C/svg%3E");
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 56px; height:72px;
+  background:linear-gradient(to bottom,rgba(10,10,10,.98),rgba(10,10,10,.6));
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,168,76,.1);
+}
+
+.nav-logo {
+  display:flex; align-items:center; gap:14px; text-decoration:none;
+}
+.nav-logo-icon {
+  width:40px; height:40px;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display', serif;
+  font-size:14px; font-weight:900;
+  color:var(--gold);
+  letter-spacing:-.02em;
+  background:rgba(201,168,76,.06);
+  flex-shrink:0;
+}
+.nav-logo-text {
+  display:flex; flex-direction:column; line-height:1;
+}
+.nav-logo-main {
+  font-family:'Oswald', sans-serif;
+  font-size:15px; font-weight:600;
+  letter-spacing:.22em; color:var(--white);
+  text-transform:uppercase;
+}
+.nav-logo-sub {
+  font-family:'Cormorant Garamond', serif;
+  font-size:9px; letter-spacing:.35em;
+  color:var(--gold); text-transform:uppercase;
+  margin-top:3px; font-style:italic;
+}
+
+.nav-links { display:flex; gap:36px; list-style:none; align-items:center; }
+.nav-links a {
+  color:var(--muted); text-decoration:none;
+  font-size:10.5px; letter-spacing:.22em; text-transform:uppercase;
+  transition:color .2s; font-weight:400;
+}
+.nav-links a:hover { color:var(--gold); }
+.nav-links .nav-btn {
+  background:transparent; border:1px solid var(--gold);
+  color:var(--gold) !important; padding:9px 22px;
+  font-size:9.5px !important; letter-spacing:.25em !important;
+  transition:all .25s !important;
+}
+.nav-links .nav-btn:hover { background:var(--gold); color:var(--black) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh; display:grid; grid-template-columns:1fr 1fr;
+  position:relative; overflow:hidden;
+}
+
+.hero-bg-text {
+  position:absolute; bottom:-60px; left:-20px;
+  font-family:'Oswald', sans-serif; font-size:22vw; font-weight:700;
+  color:rgba(201,168,76,.025); line-height:1;
+  letter-spacing:-.03em; pointer-events:none; z-index:0;
+  white-space:nowrap;
+}
+
+.hero-left {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:140px 64px 80px 56px; position:relative; z-index:2;
+}
+
+.hero-eyebrow {
+  display:flex; align-items:center; gap:16px; margin-bottom:36px;
+  opacity:0; animation: revealUp .9s .2s forwards;
+}
+.hero-eyebrow-line { width:36px; height:1px; background:var(--gold); }
+.hero-eyebrow span {
+  font-size:10px; letter-spacing:.45em; color:var(--gold);
+  text-transform:uppercase; font-weight:400;
+}
+
+.hero-title {
+  font-family:'Oswald', sans-serif; font-weight:700;
+  font-size:clamp(60px, 7.5vw, 108px);
+  line-height:.92; letter-spacing:.01em;
+  margin-bottom:8px;
+  opacity:0; animation: revealUp .9s .4s forwards;
+}
+.hero-title .stroke {
+  -webkit-text-stroke:1.5px var(--gold);
+  color:transparent; display:block;
+}
+.hero-title .solid { color:var(--white); display:block; }
+
+.hero-tagline {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(18px, 2vw, 26px);
+  font-style:italic; color:var(--gold-lt);
+  letter-spacing:.08em; margin-bottom:40px; font-weight:300;
+  opacity:0; animation: revealUp .9s .55s forwards;
+}
+
+.hero-desc {
+  font-size:14px; line-height:1.8; color:var(--muted);
+  max-width:360px; margin-bottom:52px;
+  font-weight:300; letter-spacing:.04em;
+  opacity:0; animation: revealUp .9s .7s forwards;
+}
+
+.hero-ctas {
+  display:flex; gap:16px; align-items:center;
+  opacity:0; animation: revealUp .9s .85s forwards;
+}
+.btn-gold {
+  background:var(--gold); color:var(--black);
+  padding:15px 40px; font-family:'Oswald', sans-serif;
+  font-size:11px; font-weight:600; letter-spacing:.3em;
+  text-transform:uppercase; text-decoration:none;
+  transition:all .25s; border:none; cursor:none;
+  display:inline-block;
+}
+.btn-gold:hover { background:var(--gold-lt); transform:translateY(-2px); }
+.btn-outline {
+  border:1px solid rgba(201,168,76,.35); color:var(--muted);
+  padding:14px 32px; font-family:'Oswald', sans-serif;
+  font-size:10px; font-weight:400; letter-spacing:.3em;
+  text-transform:uppercase; text-decoration:none;
+  transition:all .25s; cursor:none;
+  display:inline-block;
+}
+.btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+
+.hero-right { position:relative; overflow:hidden; }
+.hero-img {
+  width:100%; height:100%; object-fit:cover;
+  object-position:top center;
+  filter:contrast(1.05) brightness(.88);
+  opacity:0; animation: fadeIn 1.4s .3s forwards;
+}
+.hero-right::before {
+  content:''; position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(to right, var(--black) 0%, transparent 35%),
+    linear-gradient(to top, var(--black) 0%, transparent 25%);
+}
+.hero-gold-line {
+  position:absolute; top:0; left:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+  z-index:2; opacity:.4;
+}
+
+.hero-stats {
+  position:absolute; bottom:52px; left:56px; z-index:10;
+  display:flex; gap:52px;
+  opacity:0; animation: revealUp .9s 1s forwards;
+}
+.stat { display:flex; flex-direction:column; gap:5px; }
+.stat-n {
+  font-family:'Oswald', sans-serif; font-size:38px; font-weight:700;
+  color:var(--gold); letter-spacing:.03em; line-height:1;
+}
+.stat-l {
+  font-size:9px; letter-spacing:.3em; color:var(--muted);
+  text-transform:uppercase; font-weight:400;
+}
+
+/* ── TICKER ── */
+.ticker {
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:13px 0; overflow:hidden; white-space:nowrap;
+  background:rgba(201,168,76,.04);
+}
+.ticker-track { display:inline-flex; animation:tick 22s linear infinite; }
+.t-item {
+  font-family:'Oswald', sans-serif; font-size:11px;
+  letter-spacing:.35em; text-transform:uppercase;
+  color:var(--gold); padding:0 32px;
+}
+.t-sep { color:rgba(201,168,76,.3); font-size:14px; }
+@keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTION SHARED ── */
+.s-label {
+  display:flex; align-items:center; gap:14px; margin-bottom:20px;
+}
+.s-label-line { width:28px; height:1px; background:var(--gold); flex-shrink:0; }
+.s-label span {
+  font-size:9.5px; letter-spacing:.45em; color:var(--gold);
+  text-transform:uppercase; font-weight:400;
+}
+.s-title {
+  font-family:'Oswald', sans-serif; font-size:clamp(42px, 5vw, 68px);
+  font-weight:700; line-height:.95; letter-spacing:.02em;
+}
+
+/* ── MANIFESTO ── */
+.manifesto {
+  padding:120px 56px; display:grid;
+  grid-template-columns:1fr 2fr; gap:80px; align-items:center;
+  border-bottom:1px solid var(--border);
+}
+.manifesto-left {}
+.manifesto-right {}
+.manifesto-quote {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(28px, 3.5vw, 46px);
+  font-style:italic; line-height:1.3; color:var(--cream);
+  font-weight:300;
+}
+.manifesto-quote em { color:var(--gold); font-style:normal; }
+.manifesto-body {
+  font-size:14px; line-height:1.85; color:var(--muted);
+  margin-top:28px; max-width:540px; letter-spacing:.03em;
+}
+
+/* ── PRODUCTS ── */
+.products { padding:100px 56px 120px; }
+.products-header {
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:56px;
+}
+.all-link {
+  font-size:10px; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--muted); text-decoration:none;
+  display:flex; align-items:center; gap:10px; padding-bottom:4px;
+  border-bottom:1px solid var(--border); transition:all .2s;
+}
+.all-link::after { content:'→'; transition:transform .2s; }
+.all-link:hover { color:var(--gold); border-color:var(--gold); }
+.all-link:hover::after { transform:translateX(4px); }
+
+.products-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+  background:var(--border);
+}
+.product-card {
+  background:var(--black2); position:relative; overflow:hidden; cursor:none;
+}
+.product-card.featured { grid-row:span 2; }
+
+.p-img-wrap { overflow:hidden; aspect-ratio:3/4; position:relative; }
+.product-card.featured .p-img-wrap { aspect-ratio:auto; height:100%; min-height:520px; }
+.p-img {
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .7s ease, filter .4s ease;
+  filter:grayscale(25%) brightness(.85);
+}
+.product-card:hover .p-img { transform:scale(1.05); filter:grayscale(0%) brightness(.95); }
+
+.p-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(10,10,10,.95) 0%, rgba(10,10,10,.1) 55%);
+}
+
+.p-badge {
+  position:absolute; top:18px; left:18px; z-index:2;
+  background:var(--gold); color:var(--black);
+  font-size:8.5px; letter-spacing:.25em; font-weight:600;
+  text-transform:uppercase; padding:5px 12px;
+}
+
+.p-info {
+  position:absolute; bottom:0; left:0; right:0; padding:24px; z-index:2;
+}
+.p-name {
+  font-family:'Oswald', sans-serif; font-weight:600;
+  font-size:17px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--white); margin-bottom:4px;
+}
+.p-cat { font-size:9.5px; letter-spacing:.22em; color:var(--gold); margin-bottom:10px; }
+.p-price {
+  font-family:'Oswald', sans-serif; font-size:24px; font-weight:700;
+  color:var(--gold); letter-spacing:.05em;
+}
+.p-price small { font-size:13px; color:var(--muted); margin-right:2px; font-weight:300; }
+
+.p-add {
+  position:absolute; bottom:24px; right:24px; z-index:3;
+  width:38px; height:38px; background:var(--gold);
+  border:none; color:var(--black); font-size:20px; cursor:none;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transform:translateY(10px);
+  transition:opacity .3s, transform .3s;
+}
+.product-card:hover .p-add { opacity:1; transform:translateY(0); }
+
+/* ── BRAND STRIP ── */
+.brand-strip {
+  padding:100px 56px;
+  background:var(--black2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+}
+
+.brand-img-col { position:relative; }
+.brand-main-img {
+  width:100%; aspect-ratio:4/5; object-fit:cover;
+  filter:contrast(1.05);
+}
+.brand-img-frame {
+  position:absolute; bottom:-24px; right:-24px;
+  width:55%; aspect-ratio:1;
+  border:1px solid var(--border); z-index:-1;
+}
+.brand-gold-accent {
+  position:absolute; top:32px; left:-32px;
+  font-family:'Oswald', sans-serif; font-size:160px; font-weight:700;
+  color:rgba(201,168,76,.04); line-height:1; pointer-events:none;
+  letter-spacing:-.03em;
+}
+
+.brand-content {}
+.brand-title {
+  font-family:'Oswald', sans-serif; font-size:clamp(36px,4vw,56px);
+  font-weight:700; line-height:1.05; margin-bottom:28px;
+}
+.brand-title .gold { color:var(--gold); }
+.brand-body { font-size:14.5px; line-height:1.85; color:var(--muted); margin-bottom:40px; max-width:460px; }
+
+.brand-values { display:flex; flex-direction:column; gap:0; margin-top:40px; }
+.bv {
+  display:flex; align-items:center; gap:24px;
+  padding:18px 0; border-bottom:1px solid var(--border);
+}
+.bv:first-child { border-top:1px solid var(--border); }
+.bv-num {
+  font-family:'Oswald', sans-serif; font-size:11px; font-weight:700;
+  color:var(--gold); letter-spacing:.1em; min-width:28px;
+}
+.bv-text { font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--white); font-weight:500; }
+.bv-sub { font-size:11px; color:var(--muted); margin-top:2px; letter-spacing:.04em; }
+
+/* ── CATEGORIES ── */
+.categories { padding:100px 56px 120px; }
+.cat-grid {
+  display:grid; grid-template-columns:1.6fr 1fr 1fr;
+  grid-template-rows:auto auto; gap:1px;
+  background:var(--border); margin-top:56px;
+}
+.cat-card { position:relative; overflow:hidden; cursor:none; }
+.cat-card.cat-tall { grid-row:span 2; }
+.cat-img {
+  width:100%; height:100%; object-fit:cover;
+  min-height:280px; display:block;
+  filter:grayscale(40%) brightness(.65);
+  transition:filter .5s, transform .6s;
+}
+.cat-card.cat-tall .cat-img { min-height:560px; }
+.cat-card:hover .cat-img { filter:grayscale(5%) brightness(.75); transform:scale(1.04); }
+.cat-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 55%);
+}
+.cat-info {
+  position:absolute; bottom:0; left:0; right:0;
+  padding:32px 28px;
+}
+.cat-tag { font-size:9px; letter-spacing:.4em; color:var(--gold); margin-bottom:6px; }
+.cat-name {
+  font-family:'Oswald', sans-serif; font-size:32px; font-weight:700;
+  letter-spacing:.04em; color:var(--white); margin-bottom:14px; line-height:1;
+}
+.cat-link {
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); text-decoration:none;
+  display:inline-flex; align-items:center; gap:8px; transition:all .2s;
+}
+.cat-link::after { content:'→'; }
+.cat-card:hover .cat-link { color:var(--gold); gap:12px; }
+
+/* ── DS MONOGRAM SECTION ── */
+.monogram-section {
+  padding:120px 56px;
+  text-align:center; position:relative; overflow:hidden;
+  background:var(--black3);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.monogram-bg {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.mono-bg-text {
+  font-family:'Oswald', sans-serif; font-size:40vw; font-weight:700;
+  color:rgba(201,168,76,.02); line-height:1; letter-spacing:-.05em;
+}
+.monogram-content { position:relative; z-index:2; max-width:680px; margin:0 auto; }
+.mono-icon {
+  width:96px; height:96px; border:1px solid var(--gold);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  margin:0 auto 40px; background:rgba(201,168,76,.06);
+}
+.mono-icon span {
+  font-family:'Playfair Display',serif; font-size:32px; font-weight:900;
+  color:var(--gold); letter-spacing:-.03em;
+}
+.mono-headline {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(32px,4vw,52px); font-style:italic;
+  color:var(--cream); line-height:1.25; font-weight:300; margin-bottom:24px;
+}
+.mono-headline strong { color:var(--gold); font-style:normal; font-weight:700; }
+.mono-sub { font-size:13px; color:var(--muted); line-height:1.8; margin-bottom:48px; letter-spacing:.04em; }
+.mono-values {
+  display:flex; justify-content:center; gap:48px; flex-wrap:wrap;
+  border-top:1px solid var(--border); padding-top:40px; margin-top:16px;
+}
+.mv { display:flex; flex-direction:column; gap:6px; align-items:center; }
+.mv-label { font-size:9px; letter-spacing:.4em; color:var(--gold); text-transform:uppercase; }
+.mv-value { font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; color:var(--white); letter-spacing:.1em; }
+
+/* ── NEWSLETTER ── */
+.newsletter {
+  padding:120px 56px; text-align:center; position:relative; overflow:hidden;
+}
+.nl-title {
+  font-family:'Oswald',sans-serif; font-size:clamp(44px,6vw,76px);
+  font-weight:700; line-height:.95; margin-bottom:8px;
+}
+.nl-title .gold { color:var(--gold); }
+.nl-italic {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:clamp(18px,2vw,24px); color:var(--gold-lt); margin-bottom:16px;
+}
+.nl-sub { font-size:13px; color:var(--muted); margin-bottom:48px; letter-spacing:.06em; }
+.nl-form { display:flex; max-width:460px; margin:0 auto; }
+.nl-input {
+  flex:1; background:var(--black2); border:1px solid var(--border);
+  border-right:none; color:var(--white); padding:16px 22px;
+  font-family:'Oswald',sans-serif; font-size:13px; letter-spacing:.05em;
+  outline:none; transition:border-color .2s;
+}
+.nl-input::placeholder { color:var(--muted); }
+.nl-input:focus { border-color:var(--gold); }
+.nl-btn {
+  background:var(--gold); border:none; color:var(--black);
+  padding:16px 30px; font-family:'Oswald',sans-serif;
+  font-size:10px; font-weight:600; letter-spacing:.3em;
+  text-transform:uppercase; cursor:none; transition:background .2s;
+  white-space:nowrap;
+}
+.nl-btn:hover { background:var(--gold-lt); }
+
+/* ── FOOTER ── */
+footer {
+  background:var(--black2);
+  border-top:1px solid var(--border);
+  padding:72px 56px 40px;
+}
+.footer-top {
+  display:grid; grid-template-columns:2.2fr 1fr 1fr 1fr;
+  gap:64px; margin-bottom:64px;
+}
+.f-brand-logo {
+  display:flex; align-items:center; gap:14px; margin-bottom:20px; text-decoration:none;
+}
+.f-logo-circle {
+  width:44px; height:44px; border:1px solid var(--gold); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:var(--gold);
+  background:rgba(201,168,76,.06); flex-shrink:0;
+}
+.f-logo-txt { display:flex; flex-direction:column; line-height:1; }
+.f-logo-main { font-size:14px; font-weight:600; letter-spacing:.2em; color:var(--white); }
+.f-logo-sub { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:9px; letter-spacing:.3em; color:var(--gold); margin-top:3px; }
+.f-desc { font-size:13px; line-height:1.8; color:var(--muted); max-width:260px; margin-bottom:32px; }
+.f-socials { display:flex; gap:10px; }
+.f-soc {
+  width:34px; height:34px; border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:600; color:var(--muted);
+  text-decoration:none; text-transform:uppercase; letter-spacing:.05em;
+  transition:all .2s;
+}
+.f-soc:hover { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,.06); }
+.f-col-title {
+  font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold);
+  font-weight:600; margin-bottom:24px;
+}
+.f-links { list-style:none; display:flex; flex-direction:column; gap:13px; }
+.f-links a {
+  color:var(--muted); text-decoration:none; font-size:13px;
+  transition:color .2s; letter-spacing:.03em;
+}
+.f-links a:hover { color:var(--gold); }
+.footer-bot {
+  border-top:1px solid var(--border); padding-top:32px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.f-copy { font-size:11px; color:var(--muted); letter-spacing:.08em; }
+.f-legal { display:flex; gap:24px; }
+.f-legal a { font-size:11px; color:var(--muted); text-decoration:none; letter-spacing:.1em; transition:color .2s; }
+.f-legal a:hover { color:var(--gold); }
+
+/* ── ANIMATIONS ── */
+@keyframes revealUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
+.reveal {
+  opacity:0; transform:translateY(32px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay:.1s; }
+.reveal-delay-2 { transition-delay:.2s; }
+.reveal-delay-3 { transition-delay:.3s; }
+
+/* ── MOBILE ── */
+@media (max-width:768px) {
+  nav { padding:0 20px; }
+  .nav-links { display:none; }
+  .hero { grid-template-columns:1fr; }
+  .hero-right { display:none; }
+  .hero-left { padding:120px 24px 100px; }
+  .hero-stats { left:24px; bottom:32px; gap:32px; }
+  .manifesto { grid-template-columns:1fr; padding:80px 24px; gap:40px; }
+  .products { padding:80px 24px; }
+  .products-grid { grid-template-columns:1fr 1fr; }
+  .product-card.featured { grid-row:span 1; }
+  .brand-strip { grid-template-columns:1fr; padding:80px 24px; gap:40px; }
+  .brand-img-col { display:none; }
+  .categories { padding:80px 24px; }
+  .cat-grid { grid-template-columns:1fr; }
+  .cat-card.cat-tall { grid-row:span 1; }
+  .monogram-section { padding:80px 24px; }
+  .newsletter { padding:80px 24px; }
+  .nl-form { flex-direction:column; }
+  .nl-input { border-right:1px solid var(--border); border-bottom:none; }
+  footer { padding:56px 24px 32px; }
+  .footer-top { grid-template-columns:1fr; gap:40px; }
+  .footer-bot { flex-direction:column; gap:20px; text-align:center; }
+  .mono-values { gap:28px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">DS</div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-main">Discipline Society</span>
+      <span class="nav-logo-sub">Earn Your Place</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#productos">Colección</a></li>
+    <li><a href="#filosofia">Filosofía</a></li>
+    <li><a href="#categorias">Categorías</a></li>
+    <li><a href="#cursos">Cursos</a></li>
+    <li><a href="#newsletter" class="nav-btn">Únete</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">DS</div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Miami, FL · Est. 2028</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="stroke">EARN</span>
+      <span class="solid">YOUR</span>
+      <span class="stroke">PLACE</span>
+    </h1>
+
+    <p class="hero-tagline">Discipline Society Athletic</p>
+
+    <p class="hero-desc">
+      No es una marca de fitness. Es una declaración. Construida para los que se levantan antes que el resto y trabajan cuando nadie mira.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#productos" class="btn-gold">Ver Colección</a>
+      <a href="#filosofia" class="btn-outline">Nuestra historia</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-gold-line"></div>
+    <img
+      src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=900&q=90"
+      alt="Discipline Society Athletic"
+      class="hero-img"
+    >
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-n">5AM</span>
+      <span class="stat-l">Hora de inicio</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">100%</span>
+      <span class="stat-l">Sin atajos</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">365</span>
+      <span class="stat-l">Días al año</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="t-item">DISCIPLINE SOCIETY</span><span class="t-sep">·</span>
+    <span class="t-item">EARN YOUR PLACE</span><span class="t-sep">·</span>
+    <span class="t-item">MIAMI, FL</span><span class="t-sep">·</span>
+    <span class="t-item">DISCIPLINE OVER EVERYTHING</span><span class="t-sep">·</span>
+    <span class="t-item">EST. 2028</span><span class="t-sep">·</span>
+    <span class="t-item">BUILT UNDER PRESSURE</span><span class="t-sep">·</span>
+    <span class="t-item">DISCIPLINE SOCIETY</span><span class="t-sep">·</span>
+    <span class="t-item">EARN YOUR PLACE</span><span class="t-sep">·</span>
+    <span class="t-item">MIAMI, FL</span><span class="t-sep">·</span>
+    <span class="t-item">DISCIPLINE OVER EVERYTHING</span><span class="t-sep">·</span>
+    <span class="t-item">EST. 2028</span><span class="t-sep">·</span>
+    <span class="t-item">BUILT UNDER PRESSURE</span><span class="t-sep">·</span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="manifesto reveal" id="filosofia">
+  <div>
+    <div class="s-label">
+      <div class="s-label-line"></div>
+      <span>Manifiesto</span>
+    </div>
+    <div class="s-title">DISCIPLINE<br><span style="color:var(--gold)">OVER</span><br>EVERYTHING</div>
+  </div>
+  <div>
+    <p class="manifesto-quote">
+      La disciplina no se siente bien.<br>
+      <em>Se hace igual.</em>
+    </p>
+    <p class="manifesto-body">
+      Discipline Society nació en Miami con raíces en España. No somos una marca de motivación — somos una marca de acción. La ropa que llevas dice cómo piensas. Nosotros vestimos a los que ya lo saben: el proceso es el punto.
+      <br><br>
+      Mañanas tempranas. Entrenamiento real. Negocio propio. Sin postureo, sin atajos. Solo estructura, constancia y resultados a largo plazo.
+    </p>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="productos">
+  <div class="products-header reveal">
+    <div>
+      <div class="s-label">
+        <div class="s-label-line"></div>
+        <span>Nueva colección</span>
+      </div>
+      <h2 class="s-title">THE DROP</h2>
+    </div>
+    <a href="#" class="all-link">Ver todo</a>
+  </div>
+
+  <div class="products-grid">
+
+    <div class="product-card featured reveal">
+      <div class="p-img-wrap">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=700&q=85" alt="DS Athletic Set" class="p-img">
+        <div class="p-overlay"></div>
+        <span class="p-badge">Flagship</span>
+        <div class="p-info">
+          <div class="p-name">DS ATHLETIC SET</div>
+          <div class="p-cat">Colección Principal</div>
+          <div class="p-price"><small>€</small>189</div>
+        </div>
+        <button class="p-add">+</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-1">
+      <div class="p-img-wrap">
+        <img src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=600&q=80" alt="Hoodie DS" class="p-img">
+        <div class="p-overlay"></div>
+        <span class="p-badge">Nuevo</span>
+        <div class="p-info">
+          <div class="p-name">HOODIE EARN YOUR PLACE</div>
+          <div class="p-cat">Ropa / Sudaderas</div>
+          <div class="p-price"><small>€</small>89</div>
+        </div>
+        <button class="p-add">+</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-2">
+      <div class="p-img-wrap">
+        <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80" alt="DS Tank" class="p-img">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <div class="p-name">TANK TOP DS</div>
+          <div class="p-cat">Training / Miami</div>
+          <div class="p-price"><small>€</small>49</div>
+        </div>
+        <button class="p-add">+</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-1">
+      <div class="p-img-wrap">
+        <img src="https://images.unsplash.com/photo-1556306535-0f09a537f0a3?w=600&q=80" alt="Jogger DS" class="p-img">
+        <div class="p-overlay"></div>
+        <span class="p-badge">Top ventas</span>
+        <div class="p-info">
+          <div class="p-name">JOGGER 5AM</div>
+          <div class="p-cat">Training</div>
+          <div class="p-price"><small>€</small>79</div>
+        </div>
+        <button class="p-add">+</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-2">
+      <div class="p-img-wrap">
+        <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&q=80" alt="Cap DS" class="p-img">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <div class="p-name">SNAPBACK DS</div>
+          <div class="p-cat">Accesorios</div>
+          <div class="p-price"><small>€</small>35</div>
+        </div>
+        <button class="p-add">+</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-3">
+      <div class="p-img-wrap">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80" alt="Pack DS" class="p-img">
+        <div class="p-overlay"></div>
+        <span class="p-badge">Pack Premium</span>
+        <div class="p-info">
+          <div class="p-name">DS PREMIUM PACK</div>
+          <div class="p-cat">Pack completo · Edición limitada</div>
+          <div class="p-price"><small>€</small>139</div>
+        </div>
+        <button class="p-add">+</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BRAND / PHILOSOPHY -->
+<section class="brand-strip" id="filosofia2">
+  <div class="brand-img-col reveal">
+    <span class="brand-gold-accent">DS</span>
+    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=700&q=85" alt="Training" class="brand-main-img">
+    <div class="brand-img-frame"></div>
+  </div>
+  <div class="brand-content reveal">
+    <div class="s-label">
+      <div class="s-label-line"></div>
+      <span>Por qué existimos</span>
+    </div>
+    <h3 class="brand-title">
+      Construido en<br>
+      <span class="gold">Miami.</span><br>
+      Con alma española.
+    </h3>
+    <p class="brand-body">
+      Discipline Society no es lifestyle de Instagram. Es el resultado de levantarse cuando nadie te ve, entrenar cuando duele, y construir algo propio mientras el resto duerme. Cada prenda lleva eso dentro.
+    </p>
+    <div class="brand-values">
+      <div class="bv">
+        <span class="bv-num">01</span>
+        <div>
+          <div class="bv-text">Disciplina real</div>
+          <div class="bv-sub">No inspiración — acción sistemática</div>
+        </div>
+      </div>
+      <div class="bv">
+        <span class="bv-num">02</span>
+        <div>
+          <div class="bv-text">Mañanas tempranas</div>
+          <div class="bv-sub">5AM es ventaja competitiva</div>
+        </div>
+      </div>
+      <div class="bv">
+        <span class="bv-num">03</span>
+        <div>
+          <div class="bv-text">Proceso largo</div>
+          <div class="bv-sub">Consistencia sobre intensidad</div>
+        </div>
+      </div>
+      <div class="bv">
+        <span class="bv-num">04</span>
+        <div>
+          <div class="bv-text">Construir en silencio</div>
+          <div class="bv-sub">Los resultados hablan solos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categorias">
+  <div class="products-header reveal">
+    <div>
+      <div class="s-label">
+        <div class="s-label-line"></div>
+        <span>Explorar</span>
+      </div>
+      <h2 class="s-title">CATEGORÍAS</h2>
+    </div>
+    <a href="#" class="all-link">Ver todo</a>
+  </div>
+
+  <div class="cat-grid">
+    <div class="cat-card cat-tall reveal">
+      <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80" alt="Athletic" class="cat-img">
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-tag">Colección</div>
+        <div class="cat-name">ATHLETIC</div>
+        <a href="#" class="cat-link">Explorar colección</a>
+      </div>
+    </div>
+    <div class="cat-card reveal">
+      <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&q=80" alt="Lifestyle" class="cat-img">
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-tag">Colección</div>
+        <div class="cat-name">LIFESTYLE</div>
+        <a href="#" class="cat-link">Explorar</a>
+      </div>
+    </div>
+    <div class="cat-card reveal">
+      <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80" alt="Accesorios" class="cat-img">
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-tag">Colección</div>
+        <div class="cat-name">ACCESORIOS</div>
+        <a href="#" class="cat-link">Explorar</a>
+      </div>
+    </div>
+    <div class="cat-card reveal">
+      <img src="https://images.unsplash.com/photo-1599058917765-a780eda07a3e?w=600&q=80" alt="Training Gear" class="cat-img">
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-tag">Próximamente</div>
+        <div class="cat-name">TRAINING GEAR</div>
+        <a href="#" class="cat-link">Lista de espera</a>
+      </div>
+    </div>
+    <div class="cat-card reveal" id="cursos">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80" alt="Cursos DS" class="cat-img">
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-tag">Digital · Próximamente</div>
+        <div class="cat-name">CURSOS DS</div>
+        <a href="#newsletter" class="cat-link">Acceso anticipado</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONOGRAM / IDENTITY -->
+<section class="monogram-section reveal">
+  <div class="monogram-bg"><span class="mono-bg-text">DS</span></div>
+  <div class="monogram-content">
+    <div class="mono-icon"><span>DS</span></div>
+    <p class="mono-headline">
+      No entramos a la sociedad.<br>
+      <strong>La ganamos.</strong>
+    </p>
+    <p class="mono-sub">
+      Cada pieza está diseñada para durar. Cada detalle tiene intención. Desde los cordones grabados hasta el bordado en manga — esto no es ropa de gym. Es una declaración.
+    </p>
+    <div class="mono-values">
+      <div class="mv"><span class="mv-label">Filosofía</span><span class="mv-value">DISCIPLINE</span></div>
+      <div class="mv"><span class="mv-label">Método</span><span class="mv-value">CONSISTENCIA</span></div>
+      <div class="mv"><span class="mv-label">Resultado</span><span class="mv-value">LIBERTAD</span></div>
+      <div class="mv"><span class="mv-label">Origen</span><span class="mv-value">PROPÓSITO</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <div class="s-label reveal" style="justify-content:center">
+    <div class="s-label-line"></div>
+    <span>Comunidad</span>
+    <div class="s-label-line"></div>
+  </div>
+  <h2 class="nl-title reveal">ÚNETE A LA<br><span class="gold">SOCIEDAD</span></h2>
+  <p class="nl-italic reveal">Earn your place.</p>
+  <p class="nl-sub reveal">Acceso anticipado a drops, cursos exclusivos y contenido sin filtros.</p>
+  <div class="nl-form reveal">
+    <input type="email" class="nl-input" placeholder="tu@email.com" id="nl-email">
+    <button class="nl-btn" id="nl-btn">Entrar</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="#" class="f-brand-logo">
+        <div class="f-logo-circle">DS</div>
+        <div class="f-logo-txt">
+          <span class="f-logo-main">Discipline Society</span>
+          <span class="f-logo-sub">Earn Your Place</span>
+        </div>
+      </a>
+      <p class="f-desc">Ropa y conocimiento para los que construyen algo real. Miami · España · Global.</p>
+      <div class="f-socials">
+        <a href="#" class="f-soc">ig</a>
+        <a href="#" class="f-soc">tt</a>
+        <a href="#" class="f-soc">yt</a>
+        <a href="#" class="f-soc">x</a>
+      </div>
+    </div>
+    <div>
+      <div class="f-col-title">Tienda</div>
+      <ul class="f-links">
+        <li><a href="#">Novedades</a></li>
+        <li><a href="#">Athletic</a></li>
+        <li><a href="#">Lifestyle</a></li>
+        <li><a href="#">Accesorios</a></li>
+        <li><a href="#">Packs</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-col-title">Digital</div>
+      <ul class="f-links">
+        <li><a href="#">Cursos DS</a></li>
+        <li><a href="#">Comunidad</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Podcast</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-col-title">Info</div>
+      <ul class="f-links">
+        <li><a href="#">Sobre DS</a></li>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">Tallas</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <span class="f-copy">© 2025 Discipline Society · Miami, FL · España</span>
+    <div class="f-legal">
+      <a href="#">Privacidad</a>
+      <a href="#">Cookies</a>
+      <a href="#">Términos</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* CURSOR */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function loop(){
+  rx += (mx-rx)*.12; ry += (my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.product-card,.cat-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cur.style.transform='translate(-50%,-50%) scale(2.5)';
+    ring.style.transform='translate(-50%,-50%) scale(1.6)';
+    ring.style.borderColor='rgba(201,168,76,.8)';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cur.style.transform='translate(-50%,-50%) scale(1)';
+    ring.style.transform='translate(-50%,-50%) scale(1)';
+    ring.style.borderColor='rgba(201,168,76,.45)';
+  });
+});
+
+/* SCROLL REVEAL */
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*70);
+  });
+},{threshold:.08});
+reveals.forEach(el=>obs.observe(el));
+
+/* NEWSLETTER */
+document.getElementById('nl-btn').addEventListener('click',function(){
+  const email = document.getElementById('nl-email').value;
+  if(email.includes('@')){
+    this.textContent='✓ Bienvenido';
+    this.style.background='#1A5C2A';
+    document.getElementById('nl-email').value='';
+    document.getElementById('nl-email').placeholder='Ya eres parte de la sociedad.';
+  }
+});
+
+/* ADD TO CART feedback */
+document.querySelectorAll('.p-add').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    const orig=this.textContent;
+    this.textContent='✓';
+    this.style.background='#1A5C2A';
+    setTimeout(()=>{ this.textContent=orig; this.style.background=''; },1500);
+  });
+});
+</script>
+</body>
+</html>
