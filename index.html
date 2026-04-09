@@ -946,61 +946,85 @@
     },
   };
 
-  const TEE_IMAGES = {
-    black: 'images/tee-black.png',
-    sand:  'images/tee-sand.png',
-  };
+const TEE_IMAGES = {
+  black: 'images/tee-black.png',
+  sand:  'images/tee-sand.png',
+};
 
-  const TEE_COLOR_LABELS = {
-    black: '— Negro',
-    sand:  '— Arena',
-  };
+const TEE_COLOR_LABELS = {
+  black: '— Negro',
+  sand:  '— Arena',
+};
 
-  let teeColor = 'black';
-  let teeSize  = 'L';
+let teeColor = 'black';
+let teeSize  = 'L';
 
-  const teeColorGrid   = document.getElementById('tee-color-grid');
-  const teeSizeGrid    = document.getElementById('tee-size-grid');
-  const teeImage       = document.getElementById('tee-image');
-  const teeColorLabel  = document.getElementById('tee-color-current');
-  const teeSizeLabel   = document.getElementById('tee-size-current');
-  const buyTeeBtn      = document.getElementById('buy-tee-btn');
-  const teeCheckoutMsg = document.getElementById('tee-checkout-message');
+const teeColorGrid   = document.getElementById('tee-color-grid');
+const teeSizeGrid    = document.getElementById('tee-size-grid');
+const teeImage       = document.getElementById('tee-image');
+const teeColorLabel  = document.getElementById('tee-color-current');
+const teeSizeLabel   = document.getElementById('tee-size-current');
+const buyTeeBtn      = document.getElementById('buy-tee-btn');
+const teeCheckoutMsg = document.getElementById('tee-checkout-message');
 
-  // Cambiar color (con fade de imagen)
-  teeColorGrid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.color-btn');
-    if (!btn) return;
-    teeColorGrid.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    teeColor = btn.dataset.color;
-    teeColorLabel.textContent = TEE_COLOR_LABELS[teeColor];
 
-    // Fade image transition
-    teeImage.classList.add('fading');
-    setTimeout(() => {
-      teeImage.src = TEE_IMAGES[teeColor];
-      teeImage.onload = () => teeImage.classList.remove('fading');
-      // Fallback si la imagen ya estaba cacheada
-      setTimeout(() => teeImage.classList.remove('fading'), 400);
-    }, 250);
+// 🔥 SOLUCIÓN CLAVE → sincroniza al cargar
+function syncInitialTee() {
+  if (!teeImage) return;
+  teeImage.src = TEE_IMAGES[teeColor];
+  teeColorLabel.textContent = TEE_COLOR_LABELS[teeColor];
+  teeSizeLabel.textContent = '— ' + teeSize;
+  teeImage.classList.remove('fading');
+}
 
-    teeCheckoutMsg.textContent = '';
-    teeCheckoutMsg.className = 'checkout-message';
-  });
+// Ejecutar al cargar DOM
+document.addEventListener('DOMContentLoaded', syncInitialTee);
 
-  // Cambiar talla
-  teeSizeGrid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.size-btn');
-    if (!btn) return;
-    teeSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    teeSize = btn.dataset.size;
-    teeSizeLabel.textContent = '— ' + teeSize;
-    teeCheckoutMsg.textContent = '';
-    teeCheckoutMsg.className = 'checkout-message';
-  });
 
+// 🔁 CAMBIO DE COLOR
+teeColorGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.color-btn');
+  if (!btn) return;
+
+  teeColorGrid.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  teeColor = btn.dataset.color;
+  teeColorLabel.textContent = TEE_COLOR_LABELS[teeColor];
+
+  teeImage.classList.add('fading');
+
+  setTimeout(() => {
+    teeImage.src = TEE_IMAGES[teeColor];
+
+    teeImage.onload = () => {
+      teeImage.classList.remove('fading');
+    };
+
+    // fallback por si carga instantáneo
+    setTimeout(() => teeImage.classList.remove('fading'), 400);
+
+  }, 250);
+
+  teeCheckoutMsg.textContent = '';
+  teeCheckoutMsg.className = 'checkout-message';
+});
+
+
+// 🔁 CAMBIO DE TALLA
+teeSizeGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.size-btn');
+  if (!btn) return;
+
+  teeSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  teeSize = btn.dataset.size;
+  teeSizeLabel.textContent = '— ' + teeSize;
+
+  teeCheckoutMsg.textContent = '';
+  teeCheckoutMsg.className = 'checkout-message';
+});
   // Comprar
   buyTeeBtn.addEventListener('click', async () => {
     teeCheckoutMsg.textContent = '';
