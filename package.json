@@ -1,0 +1,13 @@
+{
+  "name": "discipline-society",
+  "version": "1.0.0",
+  "description": "Discipline Society — Founders landing",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "stripe": "^17.5.0",
+    "resend": "^4.0.1"
+  }
+}

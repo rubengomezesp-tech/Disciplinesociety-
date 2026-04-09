@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedido confirmado · Discipline Society</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0908;--ink:#f5f2ec;--ink-dim:#a8a39a;--gold:#c9a961;
+    --line:rgba(201,169,97,.18);
+    --serif:"Cormorant Garamond",serif;
+    --sans:"Inter Tight",-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    padding:32px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(201,169,97,.12),transparent 55%);
+  }
+  .wrap{
+    max-width:680px;text-align:center;position:relative;z-index:2;
+    padding:72px 48px;border:1px solid var(--line);
+  }
+  .wrap::before,.wrap::after{
+    content:"";position:absolute;width:18px;height:18px;border:1px solid var(--gold);
+  }
+  .wrap::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .wrap::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .check{
+    width:72px;height:72px;border:1px solid var(--gold);border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;margin-bottom:32px;
+    position:relative;
+  }
+  .check::after{
+    content:"";width:24px;height:12px;border-left:1.5px solid var(--gold);
+    border-bottom:1.5px solid var(--gold);transform:rotate(-45deg) translate(2px,-2px);
+  }
+  .tag{
+    display:block;font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:24px;
+  }
+  h1{
+    font-family:var(--serif);font-size:clamp(44px,7vw,80px);font-weight:400;
+    line-height:.98;letter-spacing:-.02em;margin-bottom:24px;
+  }
+  h1 em{font-style:italic;color:var(--gold)}
+  p{color:var(--ink-dim);font-size:16px;max-width:480px;margin:0 auto 20px;line-height:1.8}
+  .order-id{
+    display:inline-block;margin-top:8px;padding:10px 20px;border:1px solid var(--line);
+    font-family:monospace;font-size:11px;letter-spacing:.08em;color:var(--ink-dim);
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:14px;margin-top:40px;
+    padding:20px 40px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;
+    text-decoration:none;font-weight:500;background:var(--gold);color:var(--bg);
+    transition:all .4s;
+  }
+  .btn:hover{background:var(--ink);transform:translateY(-2px)}
+  .quote{
+    margin-top:48px;padding-top:32px;border-top:1px solid var(--line);
+    font-family:var(--serif);font-style:italic;font-size:16px;color:var(--gold);
+    line-height:1.6;max-width:440px;margin-left:auto;margin-right:auto;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="check"></div>
+    <div class="tag">— Pedido confirmado —</div>
+    <h1>Bienvenido al <em>movimiento.</em></h1>
+    <p>Tu pedido ha quedado registrado. Vas a recibir un email con la confirmación en los próximos minutos.</p>
+    <p>Producción y envío: 5–7 días laborables.</p>
+    <div class="order-id" id="order-id">Cargando referencia…</div>
+    <br>
+    <a href="/" class="btn">Volver al inicio →</a>
+    <div class="quote">"Earn your place."</div>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sid = params.get('session_id');
+    const el = document.getElementById('order-id');
+    if (sid) {
+      el.textContent = 'REF · ' + sid.slice(-12).toUpperCase();
+    } else {
+      el.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# =========================================
+# Discipline Society · Netlify configuration
+# =========================================
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Headers de seguridad + caché
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.pdf"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Redirect bonito para la guía gratis (opcional)
+[[redirects]]
+  from = "/guia"
+  to = "/Protocolo-30-Dias-Discipline-Society.pdf"
+  status = 302

@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+
+# Netlify
+.netlify/
+
+# Env vars — NUNCA subir claves al repo
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
