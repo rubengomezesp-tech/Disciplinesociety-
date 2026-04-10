@@ -9,7 +9,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://js.stripe.com/v3/"></script>
-<style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabase = supabase.createClient(
+    'https://wqmnvmlvlpxlpucejmtz.supabase.co',
+    'sb_publishable_wvemLMfsS3XayBVS0t_sSQ_n70h2q6F'
+  );
+</script>
+  <style>
   :root{
     --bg:#0a0908; --bg-2:#110f0d; --ink:#f5f2ec; --ink-dim:#a8a39a;
     --gold:#c9a961; --gold-deep:#8a7239; --beige:#e8e4dc;
