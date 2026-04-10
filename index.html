@@ -275,6 +275,50 @@
   .tee-trust span{display:inline-flex;align-items:center;gap:8px}
   .tee-trust .dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
 
+  /* =========================================
+     CORE TRACKSUIT — Founders Edition
+     ========================================= */
+  .tracksuit{border-top:1px solid var(--line);padding:160px 32px;background:var(--bg);position:relative;overflow:hidden}
+  .tracksuit::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 10% 40%,rgba(201,169,97,.10),transparent 55%),radial-gradient(ellipse at 90% 60%,rgba(201,169,97,.05),transparent 55%);pointer-events:none}
+  .tracksuit-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2}
+  @media(max-width:960px){.tracksuit-inner{grid-template-columns:1fr;gap:56px}}
+  .tracksuit-visual{position:relative;border:1px solid var(--line);padding:24px;background:linear-gradient(180deg,rgba(201,169,97,.04),transparent 60%)}
+  .tracksuit-visual::before,.tracksuit-visual::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold)}
+  .tracksuit-visual::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .tracksuit-visual::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .tracksuit-visual img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .tracksuit-visual:hover img{transform:scale(1.015)}
+  .tracksuit-badge{position:absolute;top:18px;right:18px;background:var(--bg);border:1px solid var(--gold);color:var(--gold);padding:8px 14px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;z-index:3}
+  /* Slider */
+  .tracksuit-slider{position:relative;overflow:hidden;width:100%}
+  .tracksuit-slides{display:flex;width:100%;transition:transform .7s cubic-bezier(.65,.05,.36,1);will-change:transform}
+  .tracksuit-slide{flex:0 0 100%;width:100%}
+  .tracksuit-slide img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+  .tracksuit-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:4}
+  .tracksuit-dot{width:28px;height:2px;background:rgba(245,242,236,.25);border:none;padding:0;cursor:pointer;transition:background .4s,width .4s}
+  .tracksuit-dot:hover{background:rgba(201,169,97,.5)}
+  .tracksuit-dot.active{background:var(--gold);width:40px}
+  .tracksuit-content h2{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);font-weight:400;line-height:.98;letter-spacing:-.015em;margin-bottom:22px}
+  .tracksuit-content h2 em{font-style:italic;color:var(--gold);font-weight:300}
+  .tracksuit-content .lead{font-size:16px;color:var(--ink-dim);line-height:1.8;margin-bottom:18px;max-width:500px}
+  .tracksuit-content .lead.strong{color:var(--ink);font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;margin-bottom:28px;max-width:520px}
+  .tracksuit-content .lead.strong span{color:var(--gold)}
+  .tracksuit-specs{list-style:none;margin-bottom:36px;border-top:1px solid var(--line)}
+  .tracksuit-specs li{display:grid;grid-template-columns:28px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-dim)}
+  .tracksuit-specs li b{color:var(--ink);font-weight:500}
+  .tracksuit-specs .n{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:13px}
+  .tracksuit-price-row{display:flex;align-items:baseline;gap:18px;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tracksuit-price{font-family:var(--serif);font-size:52px;color:var(--ink);letter-spacing:-.01em;line-height:1}
+  .tracksuit-price em{font-style:italic;color:var(--gold);font-size:28px;margin-left:6px;font-weight:400}
+  .tracksuit-price-note{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .tracksuit-sizes{margin-bottom:28px}
+  .tracksuit-sizes-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .tracksuit-sizes-label .current{color:var(--ink-dim);font-size:10px;letter-spacing:.15em}
+  .tracksuit-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .tracksuit-trust{margin-top:32px;display:flex;gap:24px;flex-wrap:wrap;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .tracksuit-trust span{display:inline-flex;align-items:center;gap:8px}
+  .tracksuit-trust .dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
+
   .access{padding:180px 32px;text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--line)}
   .access::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,169,97,.12),transparent 60%)}
   .access-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}
@@ -374,8 +418,8 @@
   </a>
   <ul class="nav-links">
     <li><a href="#brand">La Marca</a></li>
-    <li><a href="#products">Productos</a></li>
     <li><a href="#tee">Core Tee</a></li>
+    <li><a href="#tracksuit">Tracksuit</a></li>
     <li><a href="#hoodie">Hoodie</a></li>
     <li><a href="#access">Acceso</a></li>
     <li><a href="#philosophy">Filosofía</a></li>
@@ -417,64 +461,6 @@
         <div class="pillar"><div class="pillar-num">II.</div><div><div class="pillar-title">Exclusividad</div><div class="pillar-desc">Producción bajo demanda. Drops limitados. Nada masivo.</div></div></div>
         <div class="pillar"><div class="pillar-num">III.</div><div><div class="pillar-title">Precisión</div><div class="pillar-desc">Cada detalle decidido. Nada improvisado.</div></div></div>
         <div class="pillar"><div class="pillar-num">IV.</div><div><div class="pillar-title">Superioridad</div><div class="pillar-desc">No competimos. Establecemos el estándar.</div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="products" id="products">
-  <div class="container">
-    <div class="products-header reveal">
-      <div>
-        <div class="section-label">El Universo</div>
-        <h2 class="section-title">Tres pilares. <em>Un solo estándar.</em></h2>
-      </div>
-      <div class="products-count"><span>—</span> Tres líneas en preparación</div>
-    </div>
-    <div class="product-grid">
-      <div class="product-card reveal">
-        <div class="product-index">N° 001</div>
-        <div class="product-visual">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 60 L70 40 L90 50 L110 50 L130 40 L150 60 L160 90 L150 100 L145 180 L55 180 L50 100 L40 90 Z" stroke="#c9a961" stroke-width="1.2" fill="none"/>
-            <path d="M90 50 Q100 58 110 50" stroke="#c9a961" stroke-width="1.2" fill="none"/>
-            <text x="100" y="130" text-anchor="middle" font-family="Cormorant Garamond" font-size="14" fill="#c9a961" font-style="italic">DS</text>
-          </svg>
-        </div>
-        <div class="product-category">Premium Apparel</div>
-        <h3 class="product-title">Ropa <em>Élite</em></h3>
-        <p class="product-desc">Diseñada para destacar dentro y fuera del gimnasio. Tejidos técnicos, cortes estudiados, detalles que solo reconocen los que saben.</p>
-        <div class="product-status"><span class="pulse"></span>Core Tee y Hoodie disponibles abajo</div>
-      </div>
-      <div class="product-card reveal">
-        <div class="product-index">N° 002</div>
-        <div class="product-visual">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="70" y="50" width="60" height="110" stroke="#c9a961" stroke-width="1.2" fill="none"/>
-            <rect x="70" y="50" width="60" height="20" stroke="#c9a961" stroke-width="1.2" fill="none"/>
-            <text x="100" y="115" text-anchor="middle" font-family="Cormorant Garamond" font-size="16" fill="#c9a961" font-style="italic">DS</text>
-            <text x="100" y="135" text-anchor="middle" font-family="Inter Tight" font-size="5" fill="#c9a961" letter-spacing="1">NUTRITION</text>
-          </svg>
-        </div>
-        <div class="product-category">Functional Nutrition</div>
-        <h3 class="product-title">Fórmulas <em>Limpias</em></h3>
-        <p class="product-desc">Cream of Rice, suplementos y productos funcionales. Ingredientes sin compromisos. Sabores diseñados. Resultados reales.</p>
-        <div class="product-status"><span class="pulse"></span>Disponible pronto — Lanzamiento 2026</div>
-      </div>
-      <div class="product-card reveal">
-        <div class="product-index">N° 003</div>
-        <div class="product-visual">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="65" y="45" width="70" height="110" stroke="#c9a961" stroke-width="1.2" fill="none"/>
-            <line x1="65" y1="45" x2="65" y2="155" stroke="#c9a961" stroke-width="2.5"/>
-            <text x="100" y="120" text-anchor="middle" font-family="Cormorant Garamond" font-size="20" fill="#c9a961" font-style="italic">DS</text>
-            <text x="100" y="140" text-anchor="middle" font-family="Inter Tight" font-size="4" fill="#c9a961" letter-spacing="1">SYSTEMS</text>
-          </svg>
-        </div>
-        <div class="product-category">Digital Systems</div>
-        <h3 class="product-title">Sistemas <em>Mentales</em></h3>
-        <p class="product-desc">Guías de disciplina, entrenamiento y estructura mental. Contenido gratuito para entrar. Contenido premium para los que van en serio.</p>
-        <div class="product-status"><span class="pulse"></span>Primer ebook gratis — Muy pronto</div>
       </div>
     </div>
   </div>
@@ -548,7 +534,81 @@
     <div class="tee-visual-wrap reveal">
       <div class="tee-visual">
         <div class="tee-badge">N° 002 · Founders</div>
-        <img src="tee-black.png" id="tee-image" alt="Discipline Society · Core Tee Founders Edition" />
+        <img src="tee-black.jpg" id="tee-image" alt="Discipline Society · Core Tee Founders Edition" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     DS CORE TRACKSUIT — Founders Edition
+     ========================================= -->
+<section class="tracksuit" id="tracksuit">
+  <div class="tracksuit-inner">
+    <div class="tracksuit-visual-wrap reveal">
+      <div class="tracksuit-visual">
+        <div class="tracksuit-badge">N° 003 · Founders</div>
+        <div class="tracksuit-slider" id="tracksuit-slider">
+          <div class="tracksuit-slides" id="tracksuit-slides">
+            <div class="tracksuit-slide">
+              <img src="tracksuit.jpg" alt="Discipline Society · Core Tracksuit Founders Edition" />
+            </div>
+            <div class="tracksuit-slide">
+              <img src="tracksuit-detail.jpg" alt="Discipline Society · Core Tracksuit · Detalle bordado" />
+            </div>
+          </div>
+          <div class="tracksuit-dots" id="tracksuit-dots">
+            <button class="tracksuit-dot active" data-slide="0" type="button" aria-label="Vista conjunto"></button>
+            <button class="tracksuit-dot" data-slide="1" type="button" aria-label="Vista detalle"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tracksuit-content reveal">
+      <div class="section-label">Founders Drop · N° 003</div>
+      <h2>DS <em>Core Tracksuit.</em><br>Founders <em>Edition.</em></h2>
+      <p class="lead strong">
+        No es un chándal.<br>
+        Es la <span>armadura</span> de quien entrena en silencio y domina de día.
+      </p>
+      <p class="lead">
+        Nylon técnico con caída estructurada, bordados "Discipline Society" en manga y pierna, y logo DS sobre el pecho. Zips laterales en el bajo del pantalón para ajuste exacto sobre la zapatilla. Diseñado para el gimnasio, construido para la calle.
+      </p>
+
+      <ul class="tracksuit-specs">
+        <li><span class="n">I.</span><div><b>Nylon técnico arrugado premium</b> — textura que respira carácter.</div></li>
+        <li><span class="n">II.</span><div><b>Bordado "Discipline Society"</b> — manga y pierna, hilo blanco sobre navy.</div></li>
+        <li><span class="n">III.</span><div><b>Logo DS sobre el pecho</b> — monograma bordado con estrellas.</div></li>
+        <li><span class="n">IV.</span><div><b>Zip lateral en el bajo</b> — ajuste exacto sobre la zapatilla.</div></li>
+        <li><span class="n">V.</span><div><b>Set completo · 2 piezas</b> — chaqueta + pantalón · producción limitada.</div></li>
+      </ul>
+
+      <div class="tracksuit-price-row">
+        <div class="tracksuit-price">149<em>€</em></div>
+        <div class="tracksuit-price-note">Envío incluido UE · Set completo · Edición limitada</div>
+      </div>
+
+      <div class="tracksuit-sizes">
+        <div class="tracksuit-sizes-label">Talla <span class="current" id="tracksuit-size-current">— L</span></div>
+        <div class="size-grid" id="tracksuit-size-grid">
+          <button class="size-btn" data-size="S" type="button">S</button>
+          <button class="size-btn" data-size="M" type="button">M</button>
+          <button class="size-btn active" data-size="L" type="button">L</button>
+          <button class="size-btn" data-size="XL" type="button">XL</button>
+          <button class="size-btn" data-size="XXL" type="button">XXL</button>
+        </div>
+      </div>
+
+      <div class="tracksuit-cta">
+        <button id="buy-tracksuit-btn" class="btn btn-primary" type="button">Comprar ahora <span class="arrow">→</span></button>
+        <a href="#access" class="btn btn-secondary">Acceso Anticipado</a>
+      </div>
+      <div id="tracksuit-checkout-message" class="checkout-message" aria-live="polite"></div>
+
+      <div class="tracksuit-trust">
+        <span><span class="dot"></span>Pago seguro vía Stripe</span>
+        <span><span class="dot"></span>Envío en 5–7 días</span>
+        <span><span class="dot"></span>Devolución 14 días</span>
       </div>
     </div>
   </div>
@@ -632,8 +692,9 @@
         <p>Un movimiento para quienes eligen construirse en silencio. Ropa, nutrición y sistemas de disciplina de nivel élite.</p>
       </div>
       <div class="footer-col"><h4>Shop</h4><ul>
+        <li><a href="#tee">Core Tee</a></li>
+        <li><a href="#tracksuit">Core Tracksuit</a></li>
         <li><a href="#hoodie">Founders Hoodie</a></li>
-        <li><a href="#">Essentials <span class="soon">Soon</span></a></li>
         <li><a href="#">Drops <span class="soon">Soon</span></a></li>
       </ul></div>
       <div class="footer-col"><h4>Nutrition</h4><ul>
@@ -946,85 +1007,61 @@
     },
   };
 
-const TEE_IMAGES = {
-  black: 'images/tee-black.png',
-  sand:  'images/tee-sand.png',
-};
+  const TEE_IMAGES = {
+    black: 'images/tee-black.png',
+    sand:  'images/tee-sand.png',
+  };
 
-const TEE_COLOR_LABELS = {
-  black: '— Negro',
-  sand:  '— Arena',
-};
+  const TEE_COLOR_LABELS = {
+    black: '— Negro',
+    sand:  '— Arena',
+  };
 
-let teeColor = 'black';
-let teeSize  = 'L';
+  let teeColor = 'black';
+  let teeSize  = 'L';
 
-const teeColorGrid   = document.getElementById('tee-color-grid');
-const teeSizeGrid    = document.getElementById('tee-size-grid');
-const teeImage       = document.getElementById('tee-image');
-const teeColorLabel  = document.getElementById('tee-color-current');
-const teeSizeLabel   = document.getElementById('tee-size-current');
-const buyTeeBtn      = document.getElementById('buy-tee-btn');
-const teeCheckoutMsg = document.getElementById('tee-checkout-message');
+  const teeColorGrid   = document.getElementById('tee-color-grid');
+  const teeSizeGrid    = document.getElementById('tee-size-grid');
+  const teeImage       = document.getElementById('tee-image');
+  const teeColorLabel  = document.getElementById('tee-color-current');
+  const teeSizeLabel   = document.getElementById('tee-size-current');
+  const buyTeeBtn      = document.getElementById('buy-tee-btn');
+  const teeCheckoutMsg = document.getElementById('tee-checkout-message');
 
+  // Cambiar color (con fade de imagen)
+  teeColorGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.color-btn');
+    if (!btn) return;
+    teeColorGrid.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    teeColor = btn.dataset.color;
+    teeColorLabel.textContent = TEE_COLOR_LABELS[teeColor];
 
-// 🔥 SOLUCIÓN CLAVE → sincroniza al cargar
-function syncInitialTee() {
-  if (!teeImage) return;
-  teeImage.src = TEE_IMAGES[teeColor];
-  teeColorLabel.textContent = TEE_COLOR_LABELS[teeColor];
-  teeSizeLabel.textContent = '— ' + teeSize;
-  teeImage.classList.remove('fading');
-}
+    // Fade image transition
+    teeImage.classList.add('fading');
+    setTimeout(() => {
+      teeImage.src = TEE_IMAGES[teeColor];
+      teeImage.onload = () => teeImage.classList.remove('fading');
+      // Fallback si la imagen ya estaba cacheada
+      setTimeout(() => teeImage.classList.remove('fading'), 400);
+    }, 250);
 
-// Ejecutar al cargar DOM
-document.addEventListener('DOMContentLoaded', syncInitialTee);
+    teeCheckoutMsg.textContent = '';
+    teeCheckoutMsg.className = 'checkout-message';
+  });
 
+  // Cambiar talla
+  teeSizeGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.size-btn');
+    if (!btn) return;
+    teeSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    teeSize = btn.dataset.size;
+    teeSizeLabel.textContent = '— ' + teeSize;
+    teeCheckoutMsg.textContent = '';
+    teeCheckoutMsg.className = 'checkout-message';
+  });
 
-// 🔁 CAMBIO DE COLOR
-teeColorGrid.addEventListener('click', (e) => {
-  const btn = e.target.closest('.color-btn');
-  if (!btn) return;
-
-  teeColorGrid.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  teeColor = btn.dataset.color;
-  teeColorLabel.textContent = TEE_COLOR_LABELS[teeColor];
-
-  teeImage.classList.add('fading');
-
-  setTimeout(() => {
-    teeImage.src = TEE_IMAGES[teeColor];
-
-    teeImage.onload = () => {
-      teeImage.classList.remove('fading');
-    };
-
-    // fallback por si carga instantáneo
-    setTimeout(() => teeImage.classList.remove('fading'), 400);
-
-  }, 250);
-
-  teeCheckoutMsg.textContent = '';
-  teeCheckoutMsg.className = 'checkout-message';
-});
-
-
-// 🔁 CAMBIO DE TALLA
-teeSizeGrid.addEventListener('click', (e) => {
-  const btn = e.target.closest('.size-btn');
-  if (!btn) return;
-
-  teeSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  teeSize = btn.dataset.size;
-  teeSizeLabel.textContent = '— ' + teeSize;
-
-  teeCheckoutMsg.textContent = '';
-  teeCheckoutMsg.className = 'checkout-message';
-});
   // Comprar
   buyTeeBtn.addEventListener('click', async () => {
     teeCheckoutMsg.textContent = '';
@@ -1074,6 +1111,128 @@ teeSizeGrid.addEventListener('click', (e) => {
       teeCheckoutMsg.className = 'checkout-message error';
       buyTeeBtn.disabled = false;
       buyTeeBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+    }
+  });
+
+  /* =========================================
+     DS CORE TRACKSUIT · STRIPE CHECKOUT
+     =========================================
+
+     🔑 RELLENA LOS PRICE IDs DEL TRACKSUIT
+     Stripe Dashboard → Products → DS Core Tracksuit → Prices
+
+     Estructura: TRACKSUIT_PRICES[talla] = 'price_...'
+     Si tu producto tiene un único precio (el mismo para todas las tallas),
+     pon el mismo price_... en las 5 tallas.
+     La talla queda registrada en los metadatos del pedido.
+  */
+  const TRACKSUIT_PRICES = {
+    S:   'price_REEMPLAZAR_TRACKSUIT',
+    M:   'price_REEMPLAZAR_TRACKSUIT',
+    L:   'price_REEMPLAZAR_TRACKSUIT',
+    XL:  'price_REEMPLAZAR_TRACKSUIT',
+    XXL: 'price_REEMPLAZAR_TRACKSUIT',
+  };
+
+  let tracksuitSize = 'L';
+  const tracksuitSizeGrid    = document.getElementById('tracksuit-size-grid');
+  const tracksuitSizeLabel   = document.getElementById('tracksuit-size-current');
+  const buyTracksuitBtn      = document.getElementById('buy-tracksuit-btn');
+  const tracksuitCheckoutMsg = document.getElementById('tracksuit-checkout-message');
+
+  // Slider del tracksuit (conjunto + detalle)
+  const tracksuitSlides = document.getElementById('tracksuit-slides');
+  const tracksuitDots   = document.querySelectorAll('#tracksuit-dots .tracksuit-dot');
+  let tracksuitCurrent  = 0;
+  let tracksuitAutoplay = null;
+
+  function goToTracksuitSlide(i) {
+    tracksuitCurrent = i;
+    tracksuitSlides.style.transform = `translateX(-${i * 100}%)`;
+    tracksuitDots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+  }
+  function startTracksuitAutoplay() {
+    stopTracksuitAutoplay();
+    tracksuitAutoplay = setInterval(() => {
+      goToTracksuitSlide((tracksuitCurrent + 1) % tracksuitDots.length);
+    }, 5000);
+  }
+  function stopTracksuitAutoplay() {
+    if (tracksuitAutoplay) { clearInterval(tracksuitAutoplay); tracksuitAutoplay = null; }
+  }
+  tracksuitDots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      goToTracksuitSlide(parseInt(dot.dataset.slide, 10));
+      stopTracksuitAutoplay();
+      startTracksuitAutoplay();
+    });
+  });
+  // Pausar autoplay cuando el usuario está sobre la imagen
+  const tracksuitSliderEl = document.getElementById('tracksuit-slider');
+  tracksuitSliderEl.addEventListener('mouseenter', stopTracksuitAutoplay);
+  tracksuitSliderEl.addEventListener('mouseleave', startTracksuitAutoplay);
+  startTracksuitAutoplay();
+
+  // Cambiar talla
+  tracksuitSizeGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.size-btn');
+    if (!btn) return;
+    tracksuitSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    tracksuitSize = btn.dataset.size;
+    tracksuitSizeLabel.textContent = '— ' + tracksuitSize;
+    tracksuitCheckoutMsg.textContent = '';
+    tracksuitCheckoutMsg.className = 'checkout-message';
+  });
+
+  // Comprar
+  buyTracksuitBtn.addEventListener('click', async () => {
+    tracksuitCheckoutMsg.textContent = '';
+    tracksuitCheckoutMsg.className = 'checkout-message';
+
+    if (!PK_REGEX.test(STRIPE_PUBLISHABLE_KEY)) {
+      tracksuitCheckoutMsg.textContent = 'Checkout en configuración. Vuelve pronto.';
+      tracksuitCheckoutMsg.className = 'checkout-message info';
+      return;
+    }
+    const priceId = TRACKSUIT_PRICES[tracksuitSize];
+    if (!PRICE_REGEX.test(priceId)) {
+      tracksuitCheckoutMsg.textContent = 'Esta talla todavía no está disponible.';
+      tracksuitCheckoutMsg.className = 'checkout-message info';
+      console.warn('[Stripe] Edita TRACKSUIT_PRICES[' + tracksuitSize + '] en index.html');
+      return;
+    }
+
+    const stripe = getStripe();
+    if (!stripe) {
+      tracksuitCheckoutMsg.textContent = 'No se pudo inicializar el pago. Recarga la página.';
+      tracksuitCheckoutMsg.className = 'checkout-message error';
+      return;
+    }
+
+    buyTracksuitBtn.disabled = true;
+    buyTracksuitBtn.innerHTML = 'Redirigiendo...';
+    try {
+      const res = await fetch('/.netlify/functions/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId,
+          size: tracksuitSize,
+          product: 'ds-core-tracksuit'
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+
+      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+      if (error) throw error;
+    } catch (err) {
+      console.error(err);
+      tracksuitCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+      tracksuitCheckoutMsg.className = 'checkout-message error';
+      buyTracksuitBtn.disabled = false;
+      buyTracksuitBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
     }
   });
 </script>
