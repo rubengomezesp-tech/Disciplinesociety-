@@ -1,13 +1,10 @@
 {
-  "name": "discipline-society",
+  "name": "discipline-society-functions",
   "version": "1.0.0",
-  "description": "Discipline Society — Founders landing",
   "private": true,
-  "scripts": {
-    "dev": "netlify dev"
-  },
+  "description": "Netlify Functions dependencies for Discipline Society",
   "dependencies": {
-    "stripe": "^17.5.0",
-    "resend": "^4.0.1"
+    "@supabase/supabase-js": "^2.45.0",
+    "stripe": "^16.0.0"
   }
 }
