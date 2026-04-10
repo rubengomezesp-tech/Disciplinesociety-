@@ -62,26 +62,32 @@ exports.handler = async (event) => {
     if (color) metadata.color = color;
 
     const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      shipping_address_collection: {
-        allowed_countries: [
-          'ES', 'PT', 'FR', 'IT', 'DE', 'NL', 'BE', 'LU', 'AT', 'IE',
-          'DK', 'SE', 'FI', 'PL', 'CZ', 'GR', 'GB', 'US', 'CA', 'MX',
-        ],
-      },
-      metadata,
-      allow_promotion_codes: true,
-      locale: 'es',
-      success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/cancel.html`,
-    });
+  mode: 'payment',
+  payment_method_types: ['card'],
+
+  client_reference_id: body.userId, // 🔥 CLAVE
+
+  line_items: [
+    {
+      price: priceId,
+      quantity: 1,
+    },
+  ],
+
+  shipping_address_collection: {
+    allowed_countries: [
+      'ES','PT','FR','IT','DE','NL','BE','LU','AT','IE',
+      'DK','SE','FI','PL','CZ','GR','GB','US','CA','MX',
+    ],
+  },
+
+  metadata,
+  allow_promotion_codes: true,
+  locale: 'es',
+
+  success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+  cancel_url: `${origin}/cancel.html`,
+});
 
     return json(200, { id: session.id });
   } catch (err) {
