@@ -959,11 +959,25 @@
     buyBtn.disabled = true;
     buyBtn.innerHTML = 'Redirigiendo...';
     try {
-      const res = await fetch('/.netlify/functions/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, size: selectedSize, product: 'founders-hoodie' })
-      });
+      const { data: { session } } = await supabase.auth.getSession();
+
+if (!session) {
+  window.location.href = '/acceder';
+  return;
+}
+
+const userId = session.user.id;
+
+const res = await fetch('/.netlify/functions/create-checkout', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    priceId,
+    size: selectedSize,
+    product: 'founders-hoodie',
+    userId
+  })
+});
       const data = await res.json();
       if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
 
@@ -1088,31 +1102,75 @@
     }
 
     buyTeeBtn.disabled = true;
-    buyTeeBtn.innerHTML = 'Redirigiendo...';
-    try {
-      const res = await fetch('/.netlify/functions/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priceId,
-          size: teeSize,
-          color: teeColor,
-          product: 'ds-core-tee'
-        })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+buyTeeBtn.innerHTML = 'Redirigiendo...';
 
-      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
-      if (error) throw error;
-    } catch (err) {
-      console.error(err);
-      teeCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
-      teeCheckoutMsg.className = 'checkout-message error';
-      buyTeeBtn.disabled = false;
-      buyTeeBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
-    }
+try {
+  // 👇 Obtener sesión
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = '/acceder';
+    return;
+  }
+
+  const userId = session.user.id;
+
+  // 👇 Crear checkout
+  buyTeeBtn.disabled = true;
+buyTeeBtn.innerHTML = 'Redirigiendo...';
+
+try {
+  // 👇 Obtener sesión
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = '/acceder';
+    return;
+  }
+
+  const userId = session.user.id;
+
+  // 👇 Crear checkout
+buyTeeBtn.disabled = true;
+buyTeeBtn.innerHTML = 'Redirigiendo...';
+
+try {
+  // 👇 Obtener sesión
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = '/acceder';
+    return;
+  }
+
+  const userId = session.user.id;
+
+  // 👇 Crear checkout
+  const res = await fetch('/.netlify/functions/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      priceId,
+      size: teeSize,
+      color: teeColor,
+      product: 'ds-core-tee',
+      userId // 🔥 CLAVE
+    })
   });
+
+  const data = await res.json();
+  if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+
+  const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+  if (error) throw error;
+
+} catch (err) {
+  console.error(err);
+  teeCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+  teeCheckoutMsg.className = 'checkout-message error';
+  buyTeeBtn.disabled = false;
+  buyTeeBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+}
 
   /* =========================================
      DS CORE TRACKSUIT · STRIPE CHECKOUT
@@ -1211,29 +1269,42 @@
     }
 
     buyTracksuitBtn.disabled = true;
-    buyTracksuitBtn.innerHTML = 'Redirigiendo...';
-    try {
-      const res = await fetch('/.netlify/functions/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priceId,
-          size: tracksuitSize,
-          product: 'ds-core-tracksuit'
-        })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+buyTracksuitBtn.innerHTML = 'Redirigiendo...';
 
-      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
-      if (error) throw error;
-    } catch (err) {
-      console.error(err);
-      tracksuitCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
-      tracksuitCheckoutMsg.className = 'checkout-message error';
-      buyTracksuitBtn.disabled = false;
-      buyTracksuitBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
-    }
+try {
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = '/acceder';
+    return;
+  }
+
+  const userId = session.user.id;
+
+  const res = await fetch('/.netlify/functions/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      priceId,
+      size: tracksuitSize,
+      product: 'ds-core-tracksuit',
+      userId
+    })
+  });
+
+  const data = await res.json();
+  if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+
+  const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+  if (error) throw error;
+
+} catch (err) {
+  console.error(err);
+  tracksuitCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+  tracksuitCheckoutMsg.className = 'checkout-message error';
+  buyTracksuitBtn.disabled = false;
+  buyTracksuitBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+}
   });
 </script>
 
