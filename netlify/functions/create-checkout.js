@@ -65,7 +65,7 @@ exports.handler = async (event) => {
   mode: 'payment',
   payment_method_types: ['card'],
 
-  client_reference_id: body.userId, // 🔥 CLAVE
+  client_reference_id: userId, // 🔥 CLAVE
 
   line_items: [
     {
