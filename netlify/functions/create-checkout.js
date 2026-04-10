@@ -32,7 +32,7 @@ exports.handler = async (event) => {
     return json(400, { error: 'JSON inválido.' });
   }
 
-  const { product, size, color, priceId } = body;
+  const { product, size, color, priceId, userId } = body;
 
   if (!ALLOWED_PRODUCTS.includes(product)) {
     return json(400, { error: 'Producto no válido.' });
