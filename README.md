@@ -1,167 +1,104 @@
-# Phase 3 — Order System (Stripe → Supabase → /mi-cuenta)
+# Phase 4 — Contenido Exclusivo + Gracias Premium
 
-## Archivos de esta fase
+## Archivos a sustituir / crear
 
 ```
-sql/orders.sql                          ← SQL para la tabla
-netlify/functions/stripe-webhook.js     ← Webhook Stripe → Supabase
-netlify/functions/package.json          ← Dependencias del webhook
-assets/js/account.js                    ← ACTUALIZADO (ahora lista pedidos)
-mi-cuenta.html                          ← ACTUALIZADO (nuevo contenedor de pedidos)
+mi-cuenta.html                        ← REEMPLAZAR (versión Phase 3 → Phase 4)
+gracias.html                          ← REEMPLAZAR
+assets/pdf/discipline-protocol.pdf    ← NUEVO (tu PDF existente, renombrado o movido aquí)
 ```
 
-Lo único que cambia de Fase 2 son `account.js` y `mi-cuenta.html` — los dos archivos de la sección "Pedidos" donde antes había un placeholder. El resto (autenticación, login, registro, perfil) queda intacto.
+**Eso es todo.** No se toca nada de JS, Stripe, webhook, Supabase, autenticación ni pedidos. Solo HTML y un archivo estático.
 
 ---
 
-## PASO 1 — Crear la tabla en Supabase
+## Qué he cambiado
 
-1. Ve a Supabase → **SQL Editor** → **New Query**
-2. Pega el contenido de `sql/orders.sql`
-3. Pulsa **Run**
+### 1. `mi-cuenta.html`
+- Añadida la sección **"Contenido Exclusivo"** debajo de Pedidos.
+- Nuevo bloque visual `.vault-item` (borde fino, hover dorado, CTA editorial) que se integra con las fichas existentes sin parecer un dashboard.
+- Enlace al PDF vía `/assets/pdf/discipline-protocol.pdf`.
+- Todo lo demás (perfil, pedidos, logout, `account.js`) sigue exactamente igual.
 
-Esto crea:
-- Tabla `orders` con las columnas pedidas (+ `currency` y `stripe_session_id` para robustez)
-- Índice por `user_id` + fecha
-- **Row Level Security activado** — cada usuario solo puede ver SUS pedidos
-- **Sin policy de INSERT** → nadie puede crear pedidos desde el frontend. Solo el webhook (que usa la service_role key) puede escribir. Esta es la garantía de seguridad.
-
----
-
-## PASO 2 — Configurar variables de entorno en Netlify
-
-Ve a **Netlify → Site settings → Environment variables** y añade:
-
-| Variable | Dónde conseguirla |
-|---|---|
-| `STRIPE_SECRET_KEY` | Stripe Dashboard → Developers → API keys → Secret key |
-| `STRIPE_WEBHOOK_SECRET` | Se crea en el PASO 4 |
-| `SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API → **service_role** key (¡la secreta!) |
-
-⚠️ **IMPORTANTE:** La `service_role` key es una llave maestra. NUNCA la pongas en código frontend, solo en variables de entorno de Netlify.
+### 2. `gracias.html`
+- Rediseñada por completo manteniendo el lenguaje black/gold.
+- Estructura editorial: eyebrow dorado → título "Estás Dentro" → divisor → copy premium → whisper line → 2 CTAs.
+- CTA primario dorado sólido: **"Ir a mi cuenta"**.
+- CTA secundario ghost: **"Explorar la colección"**.
+- Firma inferior: **"Built Under Pressure"** (de tu identidad de marca).
+- Animación `fadeUp` sutil al cargar.
 
 ---
 
-## PASO 3 — Subir los archivos
+## Por qué PDF estático y no Supabase Storage
 
-Sube la estructura manteniendo carpetas:
+Para esta fase he elegido **archivo estático** dentro del proyecto porque:
 
-```
-tu-sitio/
-├── mi-cuenta.html                          ← reemplaza el anterior
-├── netlify/
-│   └── functions/
-│       ├── stripe-webhook.js               ← NUEVO
-│       └── package.json                    ← NUEVO
-├── sql/
-│   └── orders.sql                          ← (referencia, no se despliega)
-└── assets/
-    └── js/
-        └── account.js                      ← reemplaza el anterior
-```
+1. **Simplicidad máxima** — subes el PDF una vez, Netlify lo sirve desde su CDN global. Cero infraestructura nueva.
+2. **Sin latencia** — carga instantánea, sin llamadas a API.
+3. **La página `/mi-cuenta` ya está protegida** por la lógica de sesión en `account.js` (sin login → redirect a `/acceder`). El enlace al PDF solo es visible para usuarios autenticados.
+4. **Mantenimiento trivial** — si actualizas la guía, reemplazas el archivo y haces deploy.
 
-Si ya tenías `netlify/functions/package.json` con otras dependencias, **no lo sobrescribas** — solo añade estas dos líneas a `dependencies`:
+**Tradeoff honesto:** alguien con la URL directa (`tudominio.com/assets/pdf/discipline-protocol.pdf`) podría acceder sin estar logueado. Para Fase 4 con una guía gratuita de captación esto es aceptable (de hecho la mandas por email, que es el mismo nivel de apertura).
 
-```json
-"@supabase/supabase-js": "^2.45.0",
-"stripe": "^16.0.0"
-```
-
-Haz commit + push. Netlify detectará la función automáticamente y la desplegará en:
-
-```
-https://tu-dominio.com/.netlify/functions/stripe-webhook
-```
+Si en el futuro quieres **PDFs realmente privados** (p. ej. ebooks premium de pago), se migra a **Supabase Storage con signed URLs** generadas desde una Netlify Function. Esa migración es sencilla y no rompe nada de esta fase.
 
 ---
 
-## PASO 4 — Registrar el webhook en Stripe
+## Pasos exactos
 
-1. Ve a **Stripe Dashboard → Developers → Webhooks → Add endpoint**
-2. **Endpoint URL:** `https://tu-dominio.com/.netlify/functions/stripe-webhook`
-3. **Events to send:** selecciona solo `checkout.session.completed`
-4. Guarda
-5. Copia el **Signing secret** (empieza por `whsec_...`)
-6. Pégalo en Netlify como `STRIPE_WEBHOOK_SECRET`
-7. Redeploy del sitio (para que la función lea la nueva variable)
+1. **Sube tu PDF actual** a la carpeta `assets/pdf/` de tu proyecto. Renómbralo a `discipline-protocol.pdf` (o cambia el `href` del `vault-cta` en `mi-cuenta.html` al nombre real).
 
----
+   ```
+   tu-sitio/
+   └── assets/
+       └── pdf/
+           └── discipline-protocol.pdf
+   ```
 
-## PASO 5 — Pasar `user_id` a Stripe Checkout ⚠️ CRÍTICO
-
-Esto es lo único que tienes que tocar en tu código de checkout actual. Sin esto, el webhook no sabe a qué usuario asociar el pedido.
-
-En el punto donde creas la sesión de Stripe Checkout (ya sea en el frontend con `stripe.redirectToCheckout` o en otra Netlify Function), **añade `client_reference_id` con el ID del usuario logueado**.
-
-### Si usas Stripe desde el frontend (Payment Links / redirectToCheckout):
-
-```js
-import { supabase } from '/assets/js/supabase-client.js';
-
-async function iniciarCompra() {
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session) {
-    window.location.href = '/acceder';
-    return;
-  }
-
-  // Añade el user_id como query param al Payment Link
-  const paymentLink = 'https://buy.stripe.com/TU_PAYMENT_LINK';
-  window.location.href = `${paymentLink}?client_reference_id=${session.user.id}`;
-}
-```
-
-### Si creas la sesión desde una Netlify Function:
-
-```js
-const checkoutSession = await stripe.checkout.sessions.create({
-  mode: 'payment',
-  line_items: [ /* ... */ ],
-  success_url: 'https://tu-dominio.com/gracias',
-  cancel_url: 'https://tu-dominio.com/',
-
-  // 👇 AÑADE ESTA LÍNEA
-  client_reference_id: userId, // lo pasas desde el frontend al llamar a la función
-});
-```
-
-Si un usuario compra sin estar logueado, el webhook no podrá asociar el pedido y lo descartará silenciosamente (con un warning en los logs). El pago aún se procesa normal — simplemente no aparecerá en "Mi cuenta". Para máxima cobertura, requiere login antes del checkout.
+2. **Reemplaza** `mi-cuenta.html` por la versión de Phase 4.
+3. **Reemplaza** `gracias.html` por la versión de Phase 4.
+4. Commit + push → Netlify despliega.
 
 ---
 
-## PASO 6 — Probar el flujo completo
+## Verificación
 
-1. Loguéate en `/acceder`
-2. Ve a `/mi-cuenta` → sección Pedidos → debería decir "Aún no tienes pedidos registrados"
-3. Haz una compra de prueba con una tarjeta Stripe test (`4242 4242 4242 4242`)
-4. Vuelve a `/mi-cuenta` → el pedido debe aparecer con producto, fecha, importe y estado "Pagado"
-5. Verifica en **Supabase → Table Editor → orders** que la fila existe
-6. Verifica en **Stripe → Webhooks → tu endpoint → logs** que el evento llegó con status 200
-
-### Si algo falla
-
-- **El pedido no aparece pero el pago se cobró:** mira los logs del webhook en Netlify (**Functions → stripe-webhook → Logs**) y en Stripe (**Webhooks → endpoint → Recent deliveries**). El error más común es no haber pasado `client_reference_id` al crear el checkout.
-- **Signature verification failed:** la `STRIPE_WEBHOOK_SECRET` no coincide. Copia de nuevo el signing secret de Stripe y redeploy.
-- **Permission denied leyendo orders:** la RLS está bien, pero comprueba que estás logueado al abrir `/mi-cuenta` — solo usuarios autenticados pueden consultar.
+- [ ] Entra en `/mi-cuenta` logueado → ves la nueva sección "Contenido Exclusivo" con el bloque "Guía Privada".
+- [ ] Click en "Abrir contenido" → descarga / abre el PDF.
+- [ ] Entra en `/gracias` → ves el nuevo diseño con los dos CTAs.
+- [ ] Pedidos siguen listándose correctamente (sin regresiones de Phase 3).
+- [ ] Login / logout / registro siguen funcionando (sin regresiones de Phase 1).
+- [ ] Stripe y webhook no se han tocado → siguen operativos.
 
 ---
 
-## Seguridad — resumen
+## Copy premium usado (por si quieres ajustarlo)
 
-- ✅ RLS activa en `orders`, policy de SELECT = `auth.uid() = user_id`
-- ✅ Sin policy de INSERT → imposible crear pedidos falsos desde frontend
-- ✅ El webhook verifica la firma de Stripe antes de procesar
-- ✅ La service_role key solo vive en variables de entorno de Netlify, nunca en el cliente
-- ✅ Deduplicación por `stripe_session_id` (si Stripe reintenta el webhook, no se duplica)
+**En `mi-cuenta.html` → sección Contenido Exclusivo:**
+- Tag: *Primer Protocolo*
+- Título: *Guía Privada*
+- Descripción: *"El punto de partida. Los principios silenciosos sobre los que se construye un físico y una mente de élite. Lectura reservada para miembros de Discipline Society."*
+
+**En `gracias.html`:**
+- Eyebrow: *Acceso Concedido*
+- Título: *Estás Dentro*
+- Body 1: *"Tu guía privada ha sido enviada a tu correo. Revísalo con la misma atención con la que entrenas."*
+- Body 2: *"A partir de ahora formas parte del círculo. **Lo que viene no es para todos.**"*
+- Whisper: *— Silencio. Enfoque. Ejecución. —*
+- Firma: *Built Under Pressure*
+
+Todo sustituible sin tocar CSS ni JS.
 
 ---
 
-## Lo que NO cambia
+## Lo que NO se ha tocado
 
-- `index.html` → intacto
-- `acceder.html`, `registro.html` → intactos
-- `supabase-client.js`, `auth.js` → intactos
-- Flujo de Stripe existente → intacto (solo añades `client_reference_id`)
-- Netlify Forms → intactos
+- `index.html`
+- `acceder.html`, `registro.html`
+- `assets/js/supabase-client.js`, `auth.js`, `account.js`
+- `netlify/functions/stripe-webhook.js` y demás funciones
+- Tabla `orders` en Supabase
+- Flujo de Stripe Checkout
+
+Fase 4 es puramente **aditiva y cosmética** sobre la base ya sólida.
