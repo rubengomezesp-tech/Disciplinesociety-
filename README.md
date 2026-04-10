@@ -1,63 +1,47 @@
-# Discipline Society — Phase 1: Authentication
+# Phase 2 — Profile Page (/mi-cuenta)
 
-## Files included
+## Files
 
 ```
-acceder.html              → /acceder (login page)
-registro.html             → /registro (signup page)
-assets/js/supabase-client.js
-assets/js/auth.js
+mi-cuenta.html            → served at /mi-cuenta
+assets/js/account.js      → profile logic
 ```
+
+Nothing from Phase 1 is modified. This phase only **adds** files.
 
 ## Deploy structure
 
-Upload to your project root, keeping the folder structure:
-
 ```
 your-site/
-├── index.html                    (untouched)
-├── acceder.html                  (new)
-├── registro.html                 (new)
-└── assets/
-    └── js/
-        ├── supabase-client.js    (new)
-        └── auth.js               (new)
+├── index.html              (untouched)
+├── acceder.html            (Phase 1)
+├── registro.html           (Phase 1)
+├── mi-cuenta.html          (NEW — Phase 2)
+└── assets/js/
+    ├── supabase-client.js  (Phase 1)
+    ├── auth.js             (Phase 1)
+    └── account.js          (NEW — Phase 2)
 ```
 
-Netlify will serve `acceder.html` at `/acceder` and `registro.html` at `/registro` automatically.
+## What it does
 
-## Supabase setup (do this first)
-
-1. Go to https://supabase.com → create a new project.
-2. Wait ~2 min for provisioning.
-3. **Project Settings → API** → copy:
-   - Project URL
-   - anon public key
-4. Open `assets/js/supabase-client.js` and replace:
-   - `YOUR-PROJECT.supabase.co` → your Project URL
-   - `YOUR-ANON-PUBLIC-KEY` → your anon key
-5. **Authentication → Providers** → make sure **Email** is enabled.
-6. **Authentication → Sign In / Providers → Email** → for testing, **disable "Confirm email"**. Re-enable later when you set up SMTP.
-7. **Authentication → URL Configuration** → set **Site URL** to your Netlify domain (e.g. `https://disciplinesociety.com`).
+1. **Protected access** — on load, checks session via Supabase. No session → redirects to `/acceder`. Content stays hidden until session is confirmed (prevents flash of protected UI).
+2. **Shows profile info** — email + "Miembro desde" (formatted in Spanish, e.g. "12 de marzo, 2026").
+3. **Logout button** — signs out and redirects to `/acceder`.
+4. **Cross-tab sync** — if the user logs out in another tab, this page auto-redirects too.
+5. **Placeholders** — "Pedidos" and "Acceso Exclusivo" sections are visual placeholders, ready to be wired in Phases 3 and 4.
 
 ## Testing
 
-1. Deploy to Netlify.
-2. Visit `/registro` → create an account.
-3. Check **Supabase → Authentication → Users** — your user should appear.
-4. Visit `/acceder` → log in → you'll be redirected to `/`.
-5. DevTools → Application → Local Storage → look for `sb-xxxxx-auth-token` (this is your persisted session).
+1. Without logging in, visit `/mi-cuenta` → should redirect to `/acceder`.
+2. Log in at `/acceder` → manually go to `/mi-cuenta` → should show your email and registration date.
+3. Click **Cerrar Sesión** → should redirect to `/acceder`.
+4. Open `/mi-cuenta` in two tabs, log out in one → the other should auto-redirect.
 
-To test logout from the console (button comes in Phase 5):
-```js
-import('/assets/js/auth.js').then(m => m.handleLogout());
-```
+## What's NOT in this phase
 
-## What's NOT in Phase 1
+- Real order data (Phase 3)
+- Real exclusive content / PDF access (Phase 4)
+- Nav bar link to `/mi-cuenta` (Phase 5)
 
-- `/mi-cuenta` page → Phase 2
-- Dynamic nav (Acceder / Mi cuenta) → Phase 5
-- Stripe order linking → Phase 3
-- Protected content → Phase 4
-
-Nothing in `index.html`, Stripe, or Netlify forms has been touched.
+To reach the page for now, just type `/mi-cuenta` in the URL bar after logging in.

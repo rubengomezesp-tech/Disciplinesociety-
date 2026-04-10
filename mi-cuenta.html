@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Cuenta — Discipline Society</title>
+  <meta name="description" content="Tu espacio privado en Discipline Society." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #000;
+      color: #fff;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* Hide content until session is verified — prevents flash of protected UI */
+    body:not(.is-ready) .account-main { visibility: hidden; }
+
+    /* --- top bar --- */
+    .account-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 3rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .account-topbar .brand {
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #c9a961;
+      text-decoration: none;
+    }
+    .account-topbar .back {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .account-topbar .back:hover { color: #c9a961; }
+
+    /* --- main --- */
+    .account-main {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 6rem 3rem 8rem;
+    }
+
+    .account-header {
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+    .account-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #c9a961;
+      margin-bottom: 1.25rem;
+    }
+    .account-title {
+      font-size: 2.25rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .account-divider {
+      width: 40px;
+      height: 1px;
+      background: #c9a961;
+      margin: 2rem auto 0;
+    }
+
+    /* --- sections --- */
+    .account-section { margin-bottom: 5rem; }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #c9a961;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    /* profile rows */
+    .profile-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid #111;
+      gap: 2rem;
+    }
+    .profile-row:last-child { border-bottom: none; }
+    .profile-row .label {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #666;
+      flex-shrink: 0;
+    }
+    .profile-row .value {
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      color: #fff;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    /* placeholder sections */
+    .placeholder {
+      padding: 3.5rem 2rem;
+      border: 1px solid #1a1a1a;
+      text-align: center;
+    }
+    .placeholder p {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: #666;
+      line-height: 1.8;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .placeholder .tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #c9a961;
+      margin-bottom: 1rem;
+    }
+
+    /* logout */
+    .logout-wrap {
+      margin-top: 6rem;
+      padding-top: 3rem;
+      border-top: 1px solid #1a1a1a;
+      text-align: center;
+    }
+    .logout-btn {
+      background: transparent;
+      border: 1px solid #333;
+      color: #888;
+      padding: 1rem 3rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .logout-btn:hover:not(:disabled) {
+      border-color: #c9a961;
+      color: #c9a961;
+    }
+    .logout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* --- responsive --- */
+    @media (max-width: 640px) {
+      .account-topbar { padding: 1.5rem 1.5rem; }
+      .account-main { padding: 4rem 1.5rem 5rem; }
+      .account-title { font-size: 1.5rem; letter-spacing: 0.2em; }
+      .account-header { margin-bottom: 4rem; }
+      .account-section { margin-bottom: 3.5rem; }
+      .profile-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .profile-row .value { text-align: left; }
+      .placeholder { padding: 2.5rem 1.5rem; }
+      .logout-wrap { margin-top: 4rem; }
+      .logout-btn { width: 100%; padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="account-topbar">
+    <a href="/" class="brand">Discipline Society</a>
+    <a href="/" class="back">← Inicio</a>
+  </header>
+
+  <main class="account-main">
+
+    <div class="account-header">
+      <div class="account-eyebrow">Members Only</div>
+      <h1 class="account-title">Mi Cuenta</h1>
+      <div class="account-divider"></div>
+    </div>
+
+    <!-- PERFIL -->
+    <section class="account-section">
+      <div class="section-label">Perfil</div>
+      <div class="profile-row">
+        <span class="label">Correo</span>
+        <span class="value" id="user-email">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="label">Miembro desde</span>
+        <span class="value" id="user-created">—</span>
+      </div>
+    </section>
+
+    <!-- PEDIDOS -->
+    <section class="account-section">
+      <div class="section-label">Pedidos</div>
+      <div class="placeholder">
+        <div class="tag">Coming Soon</div>
+        <p>Tus pedidos aparecerán aquí próximamente.</p>
+      </div>
+    </section>
+
+    <!-- ACCESO EXCLUSIVO -->
+    <section class="account-section">
+      <div class="section-label">Acceso Exclusivo</div>
+      <div class="placeholder">
+        <div class="tag">Members Only</div>
+        <p>Contenido reservado para miembros de Discipline Society.</p>
+      </div>
+    </section>
+
+    <!-- LOGOUT -->
+    <div class="logout-wrap">
+      <button type="button" id="logout-btn" class="logout-btn">Cerrar Sesión</button>
+    </div>
+
+  </main>
+
+  <script type="module" src="/assets/js/account.js"></script>
+</body>
+</html>
