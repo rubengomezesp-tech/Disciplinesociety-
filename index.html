@@ -8,14 +8,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Open Graph / SEO -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://disciplinesociety.com">
+<meta property="og:title" content="Discipline Society — Esto no es para todos">
+<meta property="og:description" content="Ropa. Nutrición. Sistemas de disciplina para construir un físico y mente de élite.">
+<meta property="og:image" content="https://disciplinesociety.com/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Discipline Society — Esto no es para todos">
+<meta name="twitter:description" content="Primer Drop. Founders Edition. Edición limitada.">
+<meta name="twitter:image" content="https://disciplinesociety.com/og-cover.jpg">
+<link rel="canonical" href="https://disciplinesociety.com">
+<link rel="icon" type="image/png" href="/ds-logo.png">
 <script src="https://js.stripe.com/v3/"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-  const supabase = window.supabase.createClient(
-    'https://wqmnvmlvlpxlpucejmtz.supabase.co',
-    'sb_publishable_wvemLMfsS3XayBVS0t_sSQ_n70h2q6F'
-  );
-</script>
   <style>
   :root{
     --bg:#0a0908; --bg-2:#110f0d; --ink:#f5f2ec; --ink-dim:#a8a39a;
@@ -106,6 +111,272 @@
   .nav-links a{color:var(--ink-dim);text-decoration:none;font-size:12px;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
   .nav-links a:hover{color:var(--gold)}
   @media(max-width:768px){.nav-links{display:none}}
+
+  /* =========================================
+     HAMBURGER BUTTON
+     ========================================= */
+  .nav-hamburger{
+    display:none;
+    flex-direction:column;
+    gap:6px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px;
+    z-index:55;
+    position:relative;
+  }
+  .nav-hamburger span{
+    display:block;
+    width:26px;
+    height:1px;
+    background:var(--gold);
+    transition:all .45s cubic-bezier(.4,0,.2,1);
+    transform-origin:center;
+  }
+  .nav-hamburger span:last-child{width:18px;margin-left:auto}
+  .nav-hamburger.open span:first-child{transform:translateY(7px) rotate(45deg);width:26px}
+  .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .nav-hamburger.open span:last-child{transform:translateY(-7px) rotate(-45deg);width:26px;margin-left:0}
+  @media(max-width:768px){.nav-hamburger{display:flex}}
+
+  /* =========================================
+     MOBILE NAV OVERLAY
+     ========================================= */
+  .mobile-nav{
+    position:fixed;
+    inset:0;
+    z-index:48;
+    background:var(--bg);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:120px 40px 60px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .55s cubic-bezier(.4,0,.2,1);
+    overflow-y:auto;
+  }
+  .mobile-nav::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:60px 60px;
+    opacity:.35;
+    mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%);
+    pointer-events:none;
+  }
+  .mobile-nav::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse at 50% 40%,rgba(201,169,97,.10),transparent 60%);
+    pointer-events:none;
+  }
+  .mobile-nav.open{opacity:1;pointer-events:auto}
+  .mobile-nav-links{list-style:none;position:relative;z-index:2}
+  .mobile-nav-link{
+    display:block;
+    font-family:var(--serif);
+    font-size:clamp(36px,8vw,60px);
+    font-weight:400;
+    color:var(--ink);
+    text-decoration:none;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+    letter-spacing:-.02em;
+    line-height:1;
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .5s,transform .5s,color .3s,padding-left .3s;
+  }
+  .mobile-nav.open .mobile-nav-link{opacity:1;transform:translateY(0)}
+  .mobile-nav.open li:nth-child(1) .mobile-nav-link{transition-delay:.05s}
+  .mobile-nav.open li:nth-child(2) .mobile-nav-link{transition-delay:.10s}
+  .mobile-nav.open li:nth-child(3) .mobile-nav-link{transition-delay:.15s}
+  .mobile-nav.open li:nth-child(4) .mobile-nav-link{transition-delay:.20s}
+  .mobile-nav.open li:nth-child(5) .mobile-nav-link{transition-delay:.25s}
+  .mobile-nav.open li:nth-child(6) .mobile-nav-link{transition-delay:.30s}
+  .mobile-nav.open li:nth-child(7) .mobile-nav-link{transition-delay:.35s}
+  .mobile-nav.open li:nth-child(8) .mobile-nav-link{transition-delay:.40s}
+  .mobile-nav.open li:nth-child(9) .mobile-nav-link{transition-delay:.45s}
+  .mobile-nav-link:hover{color:var(--gold);padding-left:10px}
+  .mobile-nav-link em{font-style:italic;color:var(--gold)}
+  .mobile-nav-link--auth{
+    font-family:var(--sans);
+    font-size:13px !important;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--gold) !important;
+    padding:14px 0 !important;
+    font-style:normal;
+  }
+  .mobile-nav-link--logout{
+    font-family:var(--sans);
+    font-size:13px !important;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ink-dim) !important;
+    padding:14px 0 !important;
+    border-bottom:none !important;
+  }
+  /* Hide auth-dependent mobile items until JS resolves session (anti-flash) */
+  .mobile-nav [data-auth]{display:none}
+  .mobile-nav-footer{
+    margin-top:40px;
+    font-size:10px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    position:relative;
+    z-index:2;
+  }
+  /* Añadir los estilos de los links auth del nav desktop */
+  .nav-links .ds-nav-link{
+    color:var(--gold);
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:color .3s;
+  }
+  .nav-links .ds-nav-link:hover{color:var(--ink)}
+
+  /* =========================================
+     ACCOUNT DROPDOWN WIDGET
+     ========================================= */
+  .nav-auth-widget{display:flex;align-items:center;gap:0;flex-shrink:0}
+  @media(max-width:768px){.nav-auth-widget{display:none}}
+
+  /* Guest CTA */
+  .nav-auth-guest{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    border:1px solid var(--line);padding:10px 18px;
+    transition:all .3s;
+  }
+  .nav-auth-guest:hover{border-color:var(--gold);color:var(--gold)}
+  .nav-auth-guest[data-auth="guest"]{display:none}
+  .nav-auth-guest[data-auth="guest"].auth-visible{display:inline-flex}
+
+  /* User account button */
+  .nav-account-wrap{position:relative;display:none}
+  .nav-account-wrap[data-auth="user"].auth-visible{display:block}
+  .nav-account-btn{
+    display:flex;align-items:center;gap:8px;
+    background:none;border:1px solid var(--line);padding:8px 12px;
+    cursor:pointer;transition:border-color .3s;
+  }
+  .nav-account-btn:hover,.nav-account-btn.open{border-color:var(--gold)}
+  .nav-avatar{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--gold);color:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0;
+    flex-shrink:0;
+  }
+  .nav-chevron{color:var(--ink-dim);transition:transform .3s}
+  .nav-account-btn.open .nav-chevron{transform:rotate(180deg)}
+
+  /* Dropdown panel */
+  .nav-dropdown{
+    position:absolute;top:calc(100% + 10px);right:0;
+    min-width:220px;
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    z-index:200;
+    opacity:0;pointer-events:none;
+    transform:translateY(8px);
+    transition:opacity .25s,transform .25s;
+  }
+  .nav-dropdown.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+  .nav-dropdown-email{
+    padding:14px 18px 12px;
+    font-size:10px;letter-spacing:.06em;
+    color:var(--ink-dim);border-bottom:1px solid var(--line);
+    word-break:break-all;font-family:var(--sans);
+  }
+  .nav-dropdown a,.nav-dropdown-signout{
+    display:flex;align-items:center;gap:11px;
+    width:100%;padding:13px 18px;
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    background:none;border:none;cursor:pointer;
+    font-family:var(--sans);transition:color .25s,background .25s;
+    text-align:left;
+  }
+  .nav-dropdown a:hover,.nav-dropdown-signout:hover{
+    color:var(--gold);background:rgba(201,169,97,.04);
+  }
+  .nav-dropdown-sep{height:1px;background:var(--line);margin:4px 0}
+
+  /* =========================================
+     SOCIAL PROOF BAR
+     ========================================= */
+  .social-proof{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:40px 32px;
+    background:var(--bg-2);
+    overflow:hidden;
+    position:relative;
+  }
+  .social-proof::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,rgba(201,169,97,.06),transparent 60%);
+    pointer-events:none;
+  }
+  .social-proof-inner{
+    max-width:1280px;margin:0 auto;
+    display:flex;align-items:center;justify-content:center;
+    gap:0;flex-wrap:wrap;
+    position:relative;z-index:2;
+  }
+  .sp-stat{
+    flex:1;min-width:140px;
+    text-align:center;padding:16px 32px;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .sp-num{
+    font-family:var(--serif);font-size:clamp(32px,4vw,48px);
+    font-weight:400;color:var(--ink);letter-spacing:-.02em;line-height:1;
+  }
+  .sp-num em{font-style:italic;color:var(--gold)}
+  .sp-label{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-dim)}
+  .sp-sep{width:1px;height:60px;background:var(--line);flex-shrink:0}
+  @media(max-width:700px){
+    .sp-sep{display:none}
+    .sp-stat{min-width:120px;padding:12px 20px}
+  }
+
+  /* =========================================
+     URGENCY STRIP (product sections)
+     ========================================= */
+  .urgency-strip{
+    display:inline-flex;align-items:center;gap:10px;
+    border:1px solid rgba(201,169,97,.25);
+    padding:8px 14px;margin-bottom:24px;
+    font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+    background:rgba(201,169,97,.04);
+  }
+  .urgency-strip .pulse-dot{
+    width:5px;height:5px;background:var(--gold);
+    border-radius:50%;flex-shrink:0;animation:pulse 2s infinite;
+  }
+
+  /* =========================================
+     MEMBER BADGE (exclusive access tag)
+     ========================================= */
+  .member-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--ink-dim);border:1px solid var(--line);padding:5px 12px;
+    margin-bottom:20px;
+  }
+  .member-badge svg{color:var(--gold)}
 
   .hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:140px 32px 80px;overflow:hidden}
   .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(201,169,97,.08),transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(201,169,97,.04),transparent 50%)}
@@ -431,7 +702,63 @@
     <li><a href="#access">Acceso</a></li>
     <li><a href="#philosophy">Filosofía</a></li>
   </ul>
+
+  <!-- Account widget (desktop) -->
+  <div class="nav-auth-widget" id="nav-auth-widget">
+    <a href="/acceder" class="nav-auth-guest" data-auth="guest">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Acceder
+    </a>
+    <div class="nav-account-wrap" data-auth="user">
+      <button class="nav-account-btn" id="nav-account-btn" aria-haspopup="true" aria-expanded="false" type="button">
+        <div class="nav-avatar" id="nav-avatar" aria-hidden="true">D</div>
+        <svg class="nav-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="nav-dropdown" id="nav-dropdown" role="menu">
+        <div class="nav-dropdown-email" id="nav-dropdown-email">Cargando…</div>
+        <a href="/mi-cuenta" role="menuitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mi cuenta
+        </a>
+        <a href="/mi-cuenta" role="menuitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Mis pedidos
+        </a>
+        <div class="nav-dropdown-sep"></div>
+        <button id="nav-signout-btn" class="nav-dropdown-signout" role="menuitem" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menú" aria-expanded="false" type="button">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- =========================================
+     MOBILE NAV OVERLAY
+     ========================================= -->
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+  <ul class="mobile-nav-links">
+    <li><a href="#brand" class="mobile-nav-link">La <em>Marca</em></a></li>
+    <li><a href="#tee" class="mobile-nav-link">Core <em>Tee</em></a></li>
+    <li><a href="#tracksuit" class="mobile-nav-link">Track<em>suit</em></a></li>
+    <li><a href="#hoodie" class="mobile-nav-link">Founders <em>Hoodie</em></a></li>
+    <li><a href="#access" class="mobile-nav-link"><em>Acceso</em> Privado</a></li>
+    <li><a href="#philosophy" class="mobile-nav-link">Filo<em>sofía</em></a></li>
+    <li><a href="/acceder" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Acceder →</a></li>
+    <li><a href="/registro" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Crear cuenta →</a></li>
+    <li><a href="/mi-cuenta" data-auth="user" class="mobile-nav-link mobile-nav-link--auth">Mi cuenta →</a></li>
+    <li><a href="/mi-cuenta" data-auth="user" class="mobile-nav-link mobile-nav-link--auth">Mis pedidos →</a></li>
+    <li><a href="#" data-auth="user" data-action="logout" class="mobile-nav-link mobile-nav-link--logout">Cerrar sesión</a></li>
+  </ul>
+  <div class="mobile-nav-footer">Miami · Barcelona · MMXXVI</div>
+</div>
 
 <section class="hero">
   <div class="hero-grid-bg"></div>
@@ -452,6 +779,33 @@
     <span>N° 001 / Founders Edition</span>
   </div>
 </section>
+
+<!-- =========================================
+     SOCIAL PROOF BAR
+     ========================================= -->
+<div class="social-proof reveal">
+  <div class="social-proof-inner">
+    <div class="sp-stat">
+      <div class="sp-num">1<em>K+</em></div>
+      <div class="sp-label">Miembros fundadores</div>
+    </div>
+    <div class="sp-sep"></div>
+    <div class="sp-stat">
+      <div class="sp-num">3</div>
+      <div class="sp-label">Drops exclusivos</div>
+    </div>
+    <div class="sp-sep"></div>
+    <div class="sp-stat">
+      <div class="sp-num">48<em>h</em></div>
+      <div class="sp-label">Tiempo medio agotado</div>
+    </div>
+    <div class="sp-sep"></div>
+    <div class="sp-stat">
+      <div class="sp-num"><em>∞</em></div>
+      <div class="sp-label">Sin segundas oportunidades</div>
+    </div>
+  </div>
+</div>
 
 <section class="brand" id="brand">
   <div class="container">
@@ -480,6 +834,8 @@
   <div class="tee-inner">
     <div class="tee-content reveal">
       <div class="section-label">Founders Drop · N° 002</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>Edición limitada · Quedan pocas unidades</div>
+      <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
       <h2>DS <em>Core Tee.</em><br>Founders <em>Edition.</em></h2>
       <p class="lead strong">
         No es una camiseta.<br>
@@ -541,7 +897,7 @@
     <div class="tee-visual-wrap reveal">
       <div class="tee-visual">
         <div class="tee-badge">N° 002 · Founders</div>
-        <img src="tee-black.png" id="tee-image" alt="Discipline Society · Core Tee Founders Edition" />
+        <img src="tee-black.png" id="tee-image" loading="lazy" width="600" height="700" alt="Discipline Society · Core Tee Founders Edition" />
       </div>
     </div>
   </div>
@@ -558,10 +914,10 @@
         <div class="tracksuit-slider" id="tracksuit-slider">
           <div class="tracksuit-slides" id="tracksuit-slides">
             <div class="tracksuit-slide">
-              <img src="tracksuit.jpg" alt="Discipline Society · Core Tracksuit Founders Edition" />
+              <img src="tracksuit.jpg" loading="lazy" width="600" height="700" alt="Discipline Society · Core Tracksuit Founders Edition" />
             </div>
             <div class="tracksuit-slide">
-              <img src="tracksuit-detail.jpg" alt="Discipline Society · Core Tracksuit · Detalle bordado" />
+              <img src="tracksuit-detail.jpg" loading="lazy" width="600" height="700" alt="Discipline Society · Core Tracksuit · Detalle bordado" />
             </div>
           </div>
           <div class="tracksuit-dots" id="tracksuit-dots">
@@ -573,6 +929,8 @@
     </div>
     <div class="tracksuit-content reveal">
       <div class="section-label">Founders Drop · N° 003</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>Set completo · Stock muy limitado</div>
+      <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
       <h2>DS <em>Core Tracksuit.</em><br>Founders <em>Edition.</em></h2>
       <p class="lead strong">
         No es un chándal.<br>
@@ -625,10 +983,12 @@
   <div class="hoodie-inner">
     <div class="hoodie-visual reveal">
       <div class="hoodie-badge">N° 001 · Founders</div>
-      <img src="hoodie.jpg" alt="Discipline Society · Founders Hoodie · Earn Your Place" />
+      <img src="hoodie.jpg" loading="lazy" width="600" height="700" alt="Discipline Society · Founders Hoodie · Earn Your Place" />
     </div>
     <div class="hoodie-content reveal">
       <div class="section-label">Founders Drop</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>N° 001 · Producción bajo demanda · Sin restock</div>
+      <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
       <h2>Founders <em>Hoodie.</em><br>Earn your <em>place.</em></h2>
       <p class="lead">La primera prenda del movimiento. Algodón pesado, cortes estudiados y detalles que solo reconoce quien sabe. Producción limitada bajo demanda — cuando se acaba, se acaba.</p>
       <ul class="hoodie-specs">
@@ -751,7 +1111,129 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { supabase } from '/assets/js/supabase-client.js';
+
+  /* =========================================
+     HAMBURGER MENU
+     ========================================= */
+  const hamburger   = document.getElementById('nav-hamburger');
+  const mobileNav   = document.getElementById('mobile-nav');
+  const mobileLinks = mobileNav.querySelectorAll('a[href^="#"]');
+
+  function openMobileNav() {
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileNav.classList.add('open');
+    mobileNav.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+  function closeMobileNav() {
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileNav.classList.remove('open');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
+  });
+  mobileLinks.forEach(link => link.addEventListener('click', closeMobileNav));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) closeMobileNav();
+  });
+
+  /* =========================================
+     ACCOUNT DROPDOWN — AUTH STATE
+     ========================================= */
+  const navAccountBtn    = document.getElementById('nav-account-btn');
+  const navDropdown      = document.getElementById('nav-dropdown');
+  const navAvatar        = document.getElementById('nav-avatar');
+  const navDropdownEmail = document.getElementById('nav-dropdown-email');
+  const navSignoutBtn    = document.getElementById('nav-signout-btn');
+  const navAuthGuest     = document.querySelector('.nav-auth-guest[data-auth="guest"]');
+  const navAccountWrap   = document.querySelector('.nav-account-wrap[data-auth="user"]');
+
+  // Mobile auth elements
+  const mobileGuest   = mobileNav.querySelectorAll('[data-auth="guest"]');
+  const mobileUser    = mobileNav.querySelectorAll('[data-auth="user"]');
+
+  function applyAuthState(session) {
+    const authed = !!session;
+
+    // Desktop nav widget
+    if (navAuthGuest)   navAuthGuest.classList.toggle('auth-visible', !authed);
+    if (navAccountWrap) navAccountWrap.classList.toggle('auth-visible', authed);
+
+    // Mobile nav
+    mobileGuest.forEach(el => el.style.display = authed ? 'none' : '');
+    mobileUser.forEach(el  => el.style.display = authed ? '' : 'none');
+
+    // Populate avatar + email
+    if (authed && session.user) {
+      const email   = session.user.email || '';
+      const initial = email.charAt(0).toUpperCase() || 'D';
+      if (navAvatar)        navAvatar.textContent        = initial;
+      if (navDropdownEmail) navDropdownEmail.textContent = email;
+    }
+  }
+
+  // Toggle dropdown on button click
+  function openDropdown() {
+    navDropdown.classList.add('open');
+    navAccountBtn.classList.add('open');
+    navAccountBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeDropdown() {
+    navDropdown.classList.remove('open');
+    navAccountBtn.classList.remove('open');
+    navAccountBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  navAccountBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navDropdown.classList.contains('open') ? closeDropdown() : openDropdown();
+  });
+
+  // Close dropdown clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navDropdown?.contains(e.target) && e.target !== navAccountBtn) {
+      closeDropdown();
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDropdown();
+  });
+
+  // Sign out
+  async function doSignOut() {
+    if (navSignoutBtn) {
+      navSignoutBtn.textContent = 'Cerrando...';
+      navSignoutBtn.disabled = true;
+    }
+    await supabase.auth.signOut();
+    window.location.reload();
+  }
+  navSignoutBtn?.addEventListener('click', doSignOut);
+
+  // Mobile logout buttons (data-action="logout")
+  mobileNav.querySelectorAll('[data-action="logout"]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await doSignOut();
+    });
+  });
+
+  // Init auth state
+  const { data: { session: initSession } } = await supabase.auth.getSession();
+  applyAuthState(initSession);
+
+  // Live updates (login/logout in other tabs, token refresh)
+  supabase.auth.onAuthStateChange((_event, newSession) => {
+    applyAuthState(newSession);
+    closeDropdown();
+  });
+
   /* Reveal on scroll */
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
