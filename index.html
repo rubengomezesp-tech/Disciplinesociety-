@@ -141,97 +141,296 @@
   @media(max-width:768px){.nav-hamburger{display:flex}}
 
   /* =========================================
-     MOBILE NAV OVERLAY
+     MOBILE NAV — Premium redesign
      ========================================= */
   .mobile-nav{
-    position:fixed;
-    inset:0;
-    z-index:48;
-    background:var(--bg);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding:120px 40px 60px;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .55s cubic-bezier(.4,0,.2,1);
+    position:fixed;inset:0;z-index:48;
+    background:rgba(8,7,6,.97);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    display:flex;flex-direction:column;
+    padding:0;
+    opacity:0;pointer-events:none;
+    transition:opacity .45s cubic-bezier(.4,0,.2,1);
     overflow-y:auto;
   }
   .mobile-nav::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:linear-gradient(var(--line) 1px,transparent 1px),
-      linear-gradient(90deg,var(--line) 1px,transparent 1px);
-    background-size:60px 60px;
-    opacity:.35;
-    mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%);
-    pointer-events:none;
-  }
-  .mobile-nav::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(ellipse at 50% 40%,rgba(201,169,97,.10),transparent 60%);
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at 50% 20%,rgba(201,169,97,.07),transparent 55%);
     pointer-events:none;
   }
   .mobile-nav.open{opacity:1;pointer-events:auto}
-  .mobile-nav-links{list-style:none;position:relative;z-index:2}
-  .mobile-nav-link{
-    display:block;
-    font-family:var(--serif);
-    font-size:clamp(36px,8vw,60px);
-    font-weight:400;
-    color:var(--ink);
-    text-decoration:none;
-    padding:16px 0;
-    border-bottom:1px solid var(--line);
-    letter-spacing:-.02em;
-    line-height:1;
-    opacity:0;
-    transform:translateY(24px);
-    transition:opacity .5s,transform .5s,color .3s,padding-left .3s;
+
+  /* Top bar inside mobile nav */
+  .mobile-nav-topbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:24px 28px;border-bottom:1px solid var(--line);
+    position:relative;z-index:2;flex-shrink:0;
   }
-  .mobile-nav.open .mobile-nav-link{opacity:1;transform:translateY(0)}
-  .mobile-nav.open li:nth-child(1) .mobile-nav-link{transition-delay:.05s}
-  .mobile-nav.open li:nth-child(2) .mobile-nav-link{transition-delay:.10s}
-  .mobile-nav.open li:nth-child(3) .mobile-nav-link{transition-delay:.15s}
-  .mobile-nav.open li:nth-child(4) .mobile-nav-link{transition-delay:.20s}
-  .mobile-nav.open li:nth-child(5) .mobile-nav-link{transition-delay:.25s}
-  .mobile-nav.open li:nth-child(6) .mobile-nav-link{transition-delay:.30s}
-  .mobile-nav.open li:nth-child(7) .mobile-nav-link{transition-delay:.35s}
-  .mobile-nav.open li:nth-child(8) .mobile-nav-link{transition-delay:.40s}
-  .mobile-nav.open li:nth-child(9) .mobile-nav-link{transition-delay:.45s}
-  .mobile-nav-link:hover{color:var(--gold);padding-left:10px}
+  .mobile-nav-brand{
+    font-family:var(--serif);font-size:15px;font-weight:500;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  }
+  .mobile-nav-brand em{color:var(--gold);font-style:italic}
+  .mobile-nav-close{
+    background:none;border:1px solid var(--line);
+    color:var(--ink-dim);width:36px;height:36px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:18px;transition:all .3s;
+  }
+  .mobile-nav-close:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* Main links */
+  .mobile-nav-body{
+    flex:1;display:flex;flex-direction:column;
+    justify-content:center;padding:28px 28px 0;
+    position:relative;z-index:2;
+  }
+  .mobile-nav-links{list-style:none}
+  .mobile-nav-link{
+    display:flex;align-items:center;justify-content:space-between;
+    font-family:var(--serif);
+    font-size:clamp(28px,7vw,48px);
+    font-weight:400;color:var(--ink);
+    text-decoration:none;
+    padding:14px 0;
+    border-bottom:1px solid rgba(201,169,97,.1);
+    letter-spacing:-.02em;line-height:1;
+    opacity:0;transform:translateX(-20px);
+    transition:opacity .5s,transform .5s,color .3s;
+  }
+  .mobile-nav-link::after{
+    content:"→";font-family:var(--sans);font-size:14px;
+    color:var(--line);transition:color .3s,transform .3s;
+    transform:translateX(0);
+  }
+  .mobile-nav.open .mobile-nav-link{opacity:1;transform:translateX(0)}
+  .mobile-nav.open li:nth-child(1) .mobile-nav-link{transition-delay:.06s}
+  .mobile-nav.open li:nth-child(2) .mobile-nav-link{transition-delay:.11s}
+  .mobile-nav.open li:nth-child(3) .mobile-nav-link{transition-delay:.16s}
+  .mobile-nav.open li:nth-child(4) .mobile-nav-link{transition-delay:.21s}
+  .mobile-nav.open li:nth-child(5) .mobile-nav-link{transition-delay:.26s}
+  .mobile-nav.open li:nth-child(6) .mobile-nav-link{transition-delay:.31s}
+  .mobile-nav-link:hover{color:var(--gold)}
+  .mobile-nav-link:hover::after{color:var(--gold);transform:translateX(4px)}
   .mobile-nav-link em{font-style:italic;color:var(--gold)}
+
+  /* Auth section inside mobile nav */
+  .mobile-nav-auth{
+    padding:20px 28px;border-top:1px solid var(--line);
+    position:relative;z-index:2;flex-shrink:0;
+    display:flex;flex-direction:column;gap:0;
+  }
   .mobile-nav-link--auth{
     font-family:var(--sans);
-    font-size:13px !important;
-    letter-spacing:.22em;
-    text-transform:uppercase;
+    font-size:11px !important;
+    letter-spacing:.25em;text-transform:uppercase;
     color:var(--gold) !important;
     padding:14px 0 !important;
-    font-style:normal;
+    border-bottom:1px solid rgba(201,169,97,.12) !important;
+    display:flex !important;align-items:center;gap:10px;
+    opacity:0;transform:translateX(-20px);
+    transition:opacity .4s,transform .4s !important;
   }
+  .mobile-nav.open .mobile-nav-link--auth{opacity:1 !important;transform:translateX(0) !important}
+  .mobile-nav.open .mobile-nav-link--auth:nth-child(1){transition-delay:.36s}
+  .mobile-nav.open .mobile-nav-link--auth:nth-child(2){transition-delay:.40s}
+  .mobile-nav-link--auth::after{display:none}
+  .mobile-nav-link--auth:hover{color:var(--ink) !important}
   .mobile-nav-link--logout{
-    font-family:var(--sans);
-    font-size:13px !important;
-    letter-spacing:.22em;
-    text-transform:uppercase;
+    font-family:var(--sans);font-size:10px !important;
+    letter-spacing:.2em;text-transform:uppercase;
     color:var(--ink-dim) !important;
-    padding:14px 0 !important;
-    border-bottom:none !important;
+    padding:12px 0 !important;
+    border:none !important;
+    opacity:0;transform:translateX(-20px);
+    transition:opacity .4s,transform .4s !important;
+    display:flex !important;align-items:center;gap:8px;
   }
-  /* Hide auth-dependent mobile items until JS resolves session (anti-flash) */
-  .mobile-nav [data-auth]{display:none}
+  .mobile-nav.open .mobile-nav-link--logout{opacity:1 !important;transform:translateX(0) !important;transition-delay:.44s}
+  .mobile-nav-link--logout:hover{color:var(--gold) !important}
+
+  /* Footer inside mobile nav */
   .mobile-nav-footer{
-    margin-top:40px;
-    font-size:10px;
-    letter-spacing:.3em;
-    text-transform:uppercase;
-    color:var(--ink-dim);
-    position:relative;
-    z-index:2;
+    padding:16px 28px;
+    font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink-dim);position:relative;z-index:2;
+    border-top:1px solid var(--line);flex-shrink:0;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .mobile-nav-footer-dot{
+    width:5px;height:5px;background:var(--gold);
+    border-radius:50%;animation:pulse 2s infinite;
+  }
+  /* Hide auth items until JS */
+  .mobile-nav [data-auth]{display:none}
+
+  /* =========================================
+     QUICK-NAV STRIP (mobile only)
+     — sticky strip of product shortcuts
+     ========================================= */
+  .quick-nav{
+    display:none;
+    position:sticky;top:36px;z-index:45;
+    background:rgba(10,9,8,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;white-space:nowrap;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .quick-nav::-webkit-scrollbar{display:none}
+  .quick-nav-inner{
+    display:inline-flex;gap:0;padding:0 20px;
+  }
+  .quick-nav-link{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:12px 16px;
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    border-right:1px solid var(--line);
+    transition:color .3s,background .3s;white-space:nowrap;
+    font-family:var(--sans);
+  }
+  .quick-nav-link:first-child{border-left:none}
+  .quick-nav-link:hover,.quick-nav-link.active{color:var(--gold);background:rgba(201,169,97,.04)}
+  .quick-nav-link .qn-dot{
+    width:4px;height:4px;background:var(--gold);
+    border-radius:50%;animation:pulse 2s infinite;flex-shrink:0;
+  }
+  @media(max-width:768px){
+    .quick-nav{display:block}
+    /* Shift hero down to account for quick nav height */
+    .hero{padding-top:196px !important}
+  }
+
+  /* =========================================
+     MOBILE PRODUCT LAYOUT OVERHAUL
+     ========================================= */
+  @media(max-width:768px){
+
+    /* Tighten all product sections */
+    .tee,.tracksuit,.hoodie{padding:72px 20px 80px}
+    .brand{padding:64px 20px}
+    section{padding:64px 20px}
+
+    /* Product grids — image on top, content below, compact */
+    .tee-inner,.hoodie-inner,.tracksuit-inner{
+      grid-template-columns:1fr !important;
+      gap:28px !important;
+    }
+    /* Image always first on mobile */
+    .tee-content{order:2 !important}
+    .tee-visual-wrap{order:1 !important}
+    .hoodie-content{order:2}
+    .hoodie-visual{order:1}
+    .tracksuit-content{order:2 !important}
+    .tracksuit-visual-wrap{order:1 !important}
+
+    /* Compact image frames */
+    .tee-visual,.hoodie-visual,.tracksuit-visual{padding:16px}
+    .tee-visual img,.hoodie-visual img,.tracksuit-visual img{
+      max-height:360px;object-fit:contain;
+    }
+
+    /* Product typography — smaller, more editorial */
+    .tee-content h2,.hoodie-content h2,.tracksuit-content h2{
+      font-size:clamp(32px,9vw,48px) !important;
+      margin-bottom:14px;
+      line-height:.96;
+    }
+    .tee-content .lead,.hoodie-content .lead,.tracksuit-content .lead{
+      font-size:14px;line-height:1.65;margin-bottom:12px;
+    }
+    .tee-content .lead.strong,.tracksuit-content .lead.strong{
+      font-size:16px;margin-bottom:18px;
+    }
+
+    /* Compact specs */
+    .tee-specs,.hoodie-specs,.tracksuit-specs{margin-bottom:22px}
+    .tee-specs li,.hoodie-specs li,.tracksuit-specs li{padding:11px 0;font-size:12px}
+
+    /* Price row */
+    .tee-price,.hoodie-price,.tracksuit-price{font-size:38px}
+    .tee-price em,.hoodie-price em,.tracksuit-price em{font-size:22px}
+    .tee-price-row,.hoodie-price-row,.tracksuit-price-row{
+      margin-bottom:18px;padding-bottom:18px;
+    }
+
+    /* Size grid */
+    .size-grid{gap:8px}
+    .size-btn{min-width:44px;padding:12px 14px;font-size:10px}
+
+    /* Color grid */
+    .color-btn{padding:10px 14px 10px 10px;font-size:10px}
+
+    /* CTA buttons */
+    .btn{padding:16px 28px;font-size:10px}
+    .tee-cta,.hoodie-cta,.tracksuit-cta{gap:10px}
+    .tee-cta .btn,.hoodie-cta .btn,.tracksuit-cta .btn{flex:1;justify-content:center}
+
+    /* Trust bar */
+    .tee-trust,.hoodie-trust,.tracksuit-trust{
+      gap:14px;margin-top:18px;font-size:9px;
+    }
+
+    /* Urgency + badge */
+    .urgency-strip{font-size:8px;padding:6px 10px;margin-bottom:16px}
+    .member-badge{font-size:8px;padding:4px 10px;margin-bottom:14px}
+
+    /* Section labels */
+    .section-label{font-size:9px;margin-bottom:18px}
+
+    /* Social proof */
+    .sp-stat{min-width:90px;padding:12px 14px}
+    .sp-num{font-size:clamp(24px,6vw,32px)}
+    .sp-label{font-size:8px}
+
+    /* Hero mobile */
+    .hero{padding:120px 20px 60px !important;min-height:90vh}
+    .hero h1{font-size:clamp(44px,12vw,72px) !important;margin-bottom:28px}
+    .hero-sub{font-size:14px;margin-bottom:36px}
+    .hero-cta{gap:12px}
+    .hero-cta .btn{padding:16px 24px;font-size:10px}
+    .hero-meta{left:20px;right:20px;font-size:8px}
+
+    /* Brand section */
+    .brand-grid{gap:32px}
+    .brand-text p{font-size:15px;margin-bottom:16px}
+    .brand-text p:first-of-type::first-letter{font-size:52px}
+    .pillar{padding:20px 0;gap:16px;grid-template-columns:40px 1fr}
+    .pillar-title{font-size:18px}
+    .pillar-desc{font-size:13px}
+
+    /* Access section */
+    .access{padding:100px 20px}
+    .access h2{font-size:clamp(36px,10vw,56px)}
+    .access-form{flex-direction:column}
+    .access-form button{padding:18px}
+
+    /* Philosophy */
+    .philosophy{padding:80px 20px}
+    .philosophy blockquote{font-size:clamp(22px,5.5vw,32px)}
+
+    /* Checkout message */
+    .checkout-message{font-size:10px}
+
+    /* Tracksuit dots */
+    .tracksuit-dots{bottom:12px}
+
+    /* Announce bar already small, adjust nav offset */
+    nav{padding:16px 20px}
+    .logo img{height:32px}
+    .logo-text{font-size:15px}
+  }
+
+  @media(max-width:480px){
+    .tee,.tracksuit,.hoodie{padding:60px 16px 68px}
+    .hero{padding:110px 16px 50px !important}
+    .brand,.access,.philosophy,section{padding:56px 16px}
+    .tee-visual,.hoodie-visual,.tracksuit-visual{padding:12px}
+    .tee-visual img,.hoodie-visual img{max-height:300px}
+    .mobile-nav-body{padding:20px 20px 0}
+    .mobile-nav-topbar,.mobile-nav-auth,.mobile-nav-footer{padding-left:20px;padding-right:20px}
   }
   /* Añadir los estilos de los links auth del nav desktop */
   .nav-links .ds-nav-link{
@@ -607,6 +806,146 @@
   .tracksuit-trust span{display:inline-flex;align-items:center;gap:8px}
   .tracksuit-trust .dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
 
+  /* =========================================
+     SCALABLE PRODUCT GALLERY SYSTEM
+     — Works for any product. Use .ds-gallery wrapper.
+     — Supports: click, swipe, autoplay
+     ========================================= */
+  .ds-gallery{
+    position:relative;overflow:hidden;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(201,169,97,.04),transparent 60%);
+  }
+  .ds-gallery::before,.ds-gallery::after{
+    content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold);z-index:3;
+  }
+  .ds-gallery::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .ds-gallery::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+  .ds-gallery-track{
+    display:flex;width:100%;
+    transition:transform .6s cubic-bezier(.65,.05,.36,1);
+    will-change:transform;
+    touch-action:pan-y; /* allow vertical scroll, intercept horizontal swipe */
+  }
+  .ds-gallery-slide{
+    flex:0 0 100%;width:100%;
+    padding:20px;box-sizing:border-box;
+  }
+  .ds-gallery-slide img{
+    width:100%;height:auto;display:block;
+    filter:drop-shadow(0 24px 48px rgba(0,0,0,.55));
+    transition:transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .ds-gallery:hover .ds-gallery-slide img{transform:scale(1.012)}
+
+  /* Dots */
+  .ds-gallery-dots{
+    position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+    display:flex;gap:8px;z-index:4;
+  }
+  .ds-gallery-dot{
+    width:24px;height:2px;background:rgba(245,242,236,.22);
+    border:none;padding:0;cursor:pointer;
+    transition:background .35s,width .35s;
+  }
+  .ds-gallery-dot:hover{background:rgba(201,169,97,.45)}
+  .ds-gallery-dot.active{background:var(--gold);width:36px}
+
+  /* Prev/Next arrows (hidden by default, shown on hover on desktop) */
+  .ds-gallery-prev,.ds-gallery-next{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(10,9,8,.7);border:1px solid var(--line);
+    color:var(--ink-dim);width:38px;height:38px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;z-index:4;font-size:16px;
+    transition:border-color .3s,color .3s,opacity .3s;
+    opacity:0;
+  }
+  .ds-gallery:hover .ds-gallery-prev,
+  .ds-gallery:hover .ds-gallery-next{opacity:1}
+  .ds-gallery-prev{left:12px}
+  .ds-gallery-next{right:12px}
+  .ds-gallery-prev:hover,.ds-gallery-next:hover{
+    border-color:var(--gold);color:var(--gold);
+  }
+  @media(max-width:768px){
+    .ds-gallery-prev,.ds-gallery-next{opacity:0 !important} /* swipe on mobile */
+    .ds-gallery-slide{padding:12px}
+  }
+
+  /* Product badge overlay */
+  .ds-gallery-badge{
+    position:absolute;top:16px;right:16px;z-index:3;
+    background:var(--bg);border:1px solid var(--gold);color:var(--gold);
+    padding:7px 12px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;
+  }
+
+  /* =========================================
+     SCALABLE SIZE GUIDE TOGGLE
+     ========================================= */
+  .size-guide-toggle{
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;display:inline-flex;
+    align-items:center;gap:6px;margin-left:12px;
+    border-bottom:1px solid var(--line);padding-bottom:1px;
+    transition:color .3s,border-color .3s;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;
+  }
+  .size-guide-toggle:hover{color:var(--gold);border-bottom-color:var(--gold)}
+
+  .size-guide-panel{
+    display:none;margin-top:16px;border:1px solid var(--line);
+    padding:20px;background:rgba(201,169,97,.03);
+  }
+  .size-guide-panel.open{display:block}
+  .size-guide-panel table{width:100%;border-collapse:collapse;font-size:11px}
+  .size-guide-panel th{
+    text-align:left;padding:8px 12px;
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold);border-bottom:1px solid var(--line);font-weight:500;
+  }
+  .size-guide-panel td{
+    padding:8px 12px;color:var(--ink-dim);
+    border-bottom:1px solid rgba(201,169,97,.07);font-size:11px;
+  }
+  .size-guide-panel tr:last-child td{border-bottom:none}
+  .size-guide-panel tr.highlight td{color:var(--ink)}
+
+  /* =========================================
+     STICKY ADD-TO-CART BAR (mobile)
+     — Appears when user scrolls past CTA
+     ========================================= */
+  .sticky-buy{
+    display:none;
+    position:fixed;bottom:0;left:0;right:0;z-index:90;
+    background:rgba(8,7,6,.95);backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);
+    padding:12px 20px;
+    transform:translateY(100%);
+    transition:transform .35s cubic-bezier(.4,0,.2,1);
+  }
+  .sticky-buy.visible{transform:translateY(0)}
+  .sticky-buy-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    max-width:600px;margin:0 auto;
+  }
+  .sticky-buy-info{display:flex;flex-direction:column;gap:2px}
+  .sticky-buy-name{
+    font-family:var(--serif);font-size:15px;color:var(--ink);
+    font-style:italic;letter-spacing:-.01em;
+  }
+  .sticky-buy-price{
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);
+  }
+  .sticky-buy-btn{
+    background:var(--gold);color:var(--bg);border:none;
+    padding:13px 24px;font-family:var(--sans);font-size:10px;
+    letter-spacing:.22em;text-transform:uppercase;cursor:pointer;
+    transition:background .3s;white-space:nowrap;flex-shrink:0;
+  }
+  .sticky-buy-btn:hover{background:var(--ink)}
+  @media(max-width:768px){.sticky-buy{display:block}}
+
   .access{padding:180px 32px;text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--line)}
   .access::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,169,97,.12),transparent 60%)}
   .access-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}
@@ -707,8 +1046,8 @@
   <ul class="nav-links">
     <li><a href="#brand">La Marca</a></li>
     <li><a href="#tee">Core Tee</a></li>
-    <li><a href="#tracksuit">Tracksuit</a></li>
-    <li><a href="#hoodie">Hoodie</a></li>
+    <li><a href="#tracksuit">DS Tracksuit</a></li>
+    <li><a href="#hoodie">Hoodie EYP</a></li>
     <li><a href="#access">Acceso</a></li>
     <li><a href="#philosophy">Filosofía</a></li>
   </ul>
@@ -752,24 +1091,62 @@
 </nav>
 
 <!-- =========================================
-     MOBILE NAV OVERLAY
+     MOBILE NAV OVERLAY — Premium
      ========================================= -->
 <div class="mobile-nav" id="mobile-nav" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
-  <ul class="mobile-nav-links">
-    <li><a href="#brand" class="mobile-nav-link">La <em>Marca</em></a></li>
-    <li><a href="#tee" class="mobile-nav-link">Core <em>Tee</em></a></li>
-    <li><a href="#tracksuit" class="mobile-nav-link">Track<em>suit</em></a></li>
-    <li><a href="#hoodie" class="mobile-nav-link">Founders <em>Hoodie</em></a></li>
-    <li><a href="#access" class="mobile-nav-link"><em>Acceso</em> Privado</a></li>
-    <li><a href="#philosophy" class="mobile-nav-link">Filo<em>sofía</em></a></li>
-    <li><a href="/acceder.html" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Acceder →</a></li>
-    <li><a href="/registro.html" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Registrarse →</a></li>
-    <li><a href="/mi-cuenta" data-auth="user" class="mobile-nav-link mobile-nav-link--auth">Mi cuenta →</a></li>
-    <li><a href="/mi-cuenta" data-auth="user" class="mobile-nav-link mobile-nav-link--auth">Mis pedidos →</a></li>
-    <li><a href="#" data-auth="user" data-action="logout" class="mobile-nav-link mobile-nav-link--logout">Cerrar sesión</a></li>
-  </ul>
-  <div class="mobile-nav-footer">Miami · Barcelona · MMXXVI</div>
+  <div class="mobile-nav-topbar">
+    <div class="mobile-nav-brand">Discipline<em>/</em>Society</div>
+    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Cerrar menú" type="button">×</button>
+  </div>
+  <div class="mobile-nav-body">
+    <ul class="mobile-nav-links">
+      <li><a href="#brand" class="mobile-nav-link">La <em>Marca</em></a></li>
+      <li><a href="#tee" class="mobile-nav-link">Core <em>Tee</em></a></li>
+      <li><a href="#tracksuit" class="mobile-nav-link">DS <em>Tracksuit</em></a></li>
+      <li><a href="#hoodie" class="mobile-nav-link">Hoodie <em>EYP</em></a></li>
+      <li><a href="#access" class="mobile-nav-link"><em>Acceso</em> Privado</a></li>
+      <li><a href="#philosophy" class="mobile-nav-link">Filo<em>sofía</em></a></li>
+    </ul>
+  </div>
+  <div class="mobile-nav-auth">
+    <a href="/acceder.html" data-auth="guest" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign In
+    </a>
+    <a href="/registro.html" data-auth="guest" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M9 7a4 4 0 1 0 8 0 4 4 0 0 0-8 0"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      Create Account
+    </a>
+    <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      My Account
+    </a>
+    <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      My Orders
+    </a>
+    <a href="#" data-auth="user" data-action="logout" class="mobile-nav-link--logout">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </a>
+  </div>
+  <div class="mobile-nav-footer">
+    <span>Miami · Barcelona · MMXXVI</span>
+    <span class="mobile-nav-footer-dot"></span>
+  </div>
 </div>
+
+<!-- =========================================
+     QUICK-NAV STRIP (mobile only)
+     ========================================= -->
+<nav class="quick-nav" aria-label="Acceso rápido productos">
+  <div class="quick-nav-inner">
+    <a href="#tee" class="quick-nav-link"><span class="qn-dot"></span>Core Tee</a>
+    <a href="#tracksuit" class="quick-nav-link">DS Tracksuit</a>
+    <a href="#hoodie" class="quick-nav-link">Hoodie EYP</a>
+    <a href="#access" class="quick-nav-link">Acceso Privado</a>
+  </div>
+</nav>
 
 <section class="hero">
   <div class="hero-grid-bg"></div>
@@ -779,7 +1156,7 @@
       <span class="line">Esto no es</span>
       <span class="line">para <em>todos.</em></span>
     </h1>
-    <p class="hero-sub">El <em style="color:var(--gold);font-style:italic">primer drop</em> de Discipline Society ya está disponible. Core Tee y Founders Hoodie en producción limitada bajo pedido — cuando se acaban, se acaban. Un movimiento silencioso para quienes ya saben lo que quieren.</p>
+    <p class="hero-sub">El <em style="color:var(--gold);font-style:italic">primer drop</em> de Discipline Society ya está disponible. Core Tee, Hoodie Earn Your Place y DS Tracksuit en producción limitada bajo pedido — cuando se acaban, se acaban. Un movimiento silencioso para quienes ya saben lo que quieren.</p>
     <div class="hero-cta">
       <a href="#tee" class="btn btn-primary">Ver el Drop <span class="arrow">→</span></a>
       <a href="#access" class="btn btn-secondary">Acceso Anticipado</a>
@@ -939,10 +1316,10 @@
       </div>
     </div>
     <div class="tracksuit-content reveal">
-      <div class="section-label">Founders Drop · N° 003</div>
+      <div class="section-label">DS Discipline Society Tracksuit · N° 003</div>
       <div class="urgency-strip"><span class="pulse-dot"></span>Set completo · Stock muy limitado</div>
       <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
-      <h2>DS <em>Core Tracksuit.</em><br>Founders <em>Edition.</em></h2>
+      <h2>DS Discipline Society<br><em>Tracksuit.</em></h2>
       <p class="lead strong">
         No es un chándal.<br>
         Es la <span>armadura</span> de quien entrena en silencio y domina de día.
@@ -997,10 +1374,10 @@
       <img src="hoodie.jpg" loading="lazy" width="600" height="700" alt="Discipline Society · Founders Hoodie · Earn Your Place" />
     </div>
     <div class="hoodie-content reveal">
-      <div class="section-label">Founders Drop</div>
+      <div class="section-label">Hoodie Earn Your Place · N° 001</div>
       <div class="urgency-strip"><span class="pulse-dot"></span>N° 001 · Producción bajo demanda · Sin restock</div>
       <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
-      <h2>Founders <em>Hoodie.</em><br>Earn your <em>place.</em></h2>
+      <h2>Hoodie <em>Earn</em><br>Your <em>Place.</em></h2>
       <p class="lead">La primera prenda del movimiento. Algodón pesado, cortes estudiados y detalles que solo reconoce quien sabe. Producción limitada bajo demanda — cuando se acaba, se acaba.</p>
       <ul class="hoodie-specs">
         <li><span class="n">I.</span><div><b>Bordado frontal en alta definición</b> — logo DS en hilo dorado mate.</div></li>
@@ -1013,7 +1390,23 @@
         <div class="hoodie-price-note">Envío incluido UE · Producción limitada</div>
       </div>
       <div class="hoodie-sizes">
-        <div class="hoodie-sizes-label">Talla</div>
+        <div class="hoodie-sizes-label" style="display:flex;align-items:center;gap:0;flex-wrap:wrap">
+          Talla
+          <button class="size-guide-toggle" type="button" onclick="this.closest('.hoodie-sizes').querySelector('.size-guide-panel').classList.toggle('open')">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Guía de tallas
+          </button>
+        </div>
+        <div class="size-guide-panel">
+          <table><thead><tr><th>Talla</th><th>Pecho (cm)</th><th>Largo (cm)</th><th>Hombro (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>S</td><td>96–100</td><td>68</td><td>44</td></tr>
+            <tr><td>M</td><td>100–104</td><td>70</td><td>46</td></tr>
+            <tr class="highlight"><td>L</td><td>104–108</td><td>72</td><td>48</td></tr>
+            <tr><td>XL</td><td>108–114</td><td>74</td><td>50</td></tr>
+            <tr><td>XXL</td><td>114–122</td><td>76</td><td>52</td></tr>
+          </tbody></table>
+        </div>
         <div class="size-grid" id="size-grid">
           <button class="size-btn" data-size="S" type="button">S</button>
           <button class="size-btn" data-size="M" type="button">M</button>
@@ -1071,8 +1464,8 @@
       </div>
       <div class="footer-col"><h4>Shop</h4><ul>
         <li><a href="#tee">Core Tee</a></li>
-        <li><a href="#tracksuit">Core Tracksuit</a></li>
-        <li><a href="#hoodie">Founders Hoodie</a></li>
+        <li><a href="#tracksuit">DS Tracksuit</a></li>
+        <li><a href="#hoodie">Hoodie EYP</a></li>
         <li><a href="#">Drops <span class="soon">Soon</span></a></li>
       </ul></div>
       <div class="footer-col"><h4>Nutrition</h4><ul>
@@ -1149,10 +1542,32 @@
   hamburger.addEventListener('click', () => {
     mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
   });
+  // Close button inside the mobile nav
+  const mobileNavClose = document.getElementById('mobile-nav-close');
+  mobileNavClose?.addEventListener('click', closeMobileNav);
+
   mobileLinks.forEach(link => link.addEventListener('click', closeMobileNav));
+  // Also close when clicking auth/footer links inside mobile nav
+  mobileNav.querySelectorAll('.mobile-nav-link--auth, .mobile-nav-link--logout').forEach(el => {
+    el.addEventListener('click', closeMobileNav);
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileNav.classList.contains('open')) closeMobileNav();
   });
+
+  // Quick nav active state on scroll
+  const qnLinks = document.querySelectorAll('.quick-nav-link[href^="#"]');
+  if (qnLinks.length) {
+    const qnSections = Array.from(qnLinks).map(l => document.querySelector(l.getAttribute('href')));
+    window.addEventListener('scroll', () => {
+      const mid = window.scrollY + window.innerHeight / 2;
+      let active = null;
+      qnSections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= mid) active = i;
+      });
+      qnLinks.forEach((l, i) => l.classList.toggle('active', i === active));
+    }, { passive: true });
+  }
 
   /* =========================================
      ACCOUNT DROPDOWN — AUTH STATE
@@ -1791,6 +2206,126 @@ try {
   buyTracksuitBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
 }
   });
+</script>
+
+<!-- =========================================
+     STICKY BUY BARS (mobile)
+     ========================================= -->
+<div class="sticky-buy" id="sticky-tee" aria-hidden="true">
+  <div class="sticky-buy-inner">
+    <div class="sticky-buy-info">
+      <div class="sticky-buy-name">DS Core Tee</div>
+      <div class="sticky-buy-price">45€ · Edición limitada</div>
+    </div>
+    <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-tee-btn').click()">
+      Comprar ahora →
+    </button>
+  </div>
+</div>
+<div class="sticky-buy" id="sticky-tracksuit" aria-hidden="true">
+  <div class="sticky-buy-inner">
+    <div class="sticky-buy-info">
+      <div class="sticky-buy-name">DS Discipline Society Tracksuit</div>
+      <div class="sticky-buy-price">149€ · Set completo</div>
+    </div>
+    <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-tracksuit-btn').click()">
+      Comprar ahora →
+    </button>
+  </div>
+</div>
+<div class="sticky-buy" id="sticky-hoodie" aria-hidden="true">
+  <div class="sticky-buy-inner">
+    <div class="sticky-buy-info">
+      <div class="sticky-buy-name">Hoodie Earn Your Place</div>
+      <div class="sticky-buy-price">89€ · Producción limitada</div>
+    </div>
+    <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-hoodie-btn').click()">
+      Comprar ahora →
+    </button>
+  </div>
+</div>
+
+<script>
+/* =========================================
+   STICKY BUY BAR — show when CTA is off screen
+   ========================================= */
+(function() {
+  const pairs = [
+    { section: '#tee',       bar: '#sticky-tee',       cta: '#buy-tee-btn'       },
+    { section: '#tracksuit', bar: '#sticky-tracksuit',  cta: '#buy-tracksuit-btn' },
+    { section: '#hoodie',    bar: '#sticky-hoodie',     cta: '#buy-hoodie-btn'    },
+  ];
+
+  // Only run on mobile
+  if (window.innerWidth > 768) return;
+
+  const observers = pairs.map(({ section, bar, cta }) => {
+    const sectionEl = document.querySelector(section);
+    const barEl     = document.querySelector(bar);
+    const ctaEl     = document.querySelector(cta);
+    if (!sectionEl || !barEl || !ctaEl) return null;
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        // Show sticky bar when section is in view but CTA is not
+        const ctaRect = ctaEl.getBoundingClientRect();
+        const ctaVisible = ctaRect.top > 0 && ctaRect.bottom < window.innerHeight;
+        if (e.isIntersecting && !ctaVisible) {
+          barEl.classList.add('visible');
+          barEl.setAttribute('aria-hidden', 'false');
+        } else if (!e.isIntersecting) {
+          barEl.classList.remove('visible');
+          barEl.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }, { threshold: [0.1, 0.5] });
+
+    io.observe(sectionEl);
+
+    // Also hide when CTA scrolls back into view
+    const ctaIo = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        barEl.classList.remove('visible');
+      }
+    }, { threshold: 0.5 });
+    ctaIo.observe(ctaEl);
+
+    return io;
+  });
+})();
+
+/* =========================================
+   DS GALLERY — Swipe support for tracksuit slider
+   (extends existing tracksuit slider with touch/swipe)
+   ========================================= */
+(function() {
+  const slider = document.getElementById('tracksuit-slides');
+  if (!slider) return;
+
+  let startX = 0, startY = 0, isDragging = false;
+
+  slider.parentElement.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isDragging = true;
+  }, { passive: true });
+
+  slider.parentElement.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    // Only trigger if horizontal swipe is dominant
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      const dots = document.querySelectorAll('#tracksuit-dots .tracksuit-dot');
+      const current = Array.from(dots).findIndex(d => d.classList.contains('active'));
+      const next = dx < 0
+        ? Math.min(current + 1, dots.length - 1)
+        : Math.max(current - 1, 0);
+      dots[next]?.click();
+    }
+  }, { passive: true });
+})();
 </script>
 
 </body>
