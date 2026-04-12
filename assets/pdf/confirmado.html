@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso concedido — Discipline Society</title>
+  <meta name="description" content="Acceso privado confirmado." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0b0b;
+      --panel:#111111;
+      --gold:#b89552;
+      --text:#f5f0e6;
+      --muted:#a8a39a;
+      --line:rgba(184,149,82,.35);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top, rgba(184,149,82,.10), transparent 30%),
+        var(--bg);
+      color:var(--text);
+      font-family:Inter, Arial, sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .card{
+      width:min(100%, 640px);
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      padding:48px 28px;
+      text-align:center;
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+    }
+
+    .eyebrow{
+      color:var(--gold);
+      font-size:12px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      margin:0 0 16px;
+    }
+
+    h1{
+      margin:0 0 14px;
+      font-family:"Cormorant Garamond", serif;
+      font-size:52px;
+      line-height:1;
+      font-weight:600;
+    }
+
+    .sub{
+      margin:0 auto 28px;
+      max-width:480px;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.7;
+    }
+
+    .divider{
+      width:72px;
+      height:1px;
+      background:var(--gold);
+      margin:0 auto 28px;
+      opacity:.9;
+    }
+
+    .actions{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      align-items:center;
+    }
+
+    .btn{
+      width:min(100%, 360px);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      padding:15px 22px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:700;
+      transition:.25s ease;
+    }
+
+    .btn-primary{
+      background:var(--gold);
+      color:#0b0b0b;
+      border:1px solid var(--gold);
+    }
+
+    .btn-primary:hover{
+      filter:brightness(1.05);
+      transform:translateY(-1px);
+    }
+
+    .btn-secondary{
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+
+    .btn-secondary:hover{
+      border-color:var(--gold);
+      color:var(--gold);
+    }
+
+    .note{
+      margin:26px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:1px;
+    }
+
+    @media (max-width:640px){
+      .card{padding:38px 20px}
+      h1{font-size:40px}
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <p class="eyebrow">Discipline Society</p>
+    <h1>Acceso concedido</h1>
+    <div class="divider"></div>
+    <p class="sub">
+      Tu cuenta ha sido confirmada correctamente. Ya estás dentro del acceso privado.
+      Descarga tu guía y entra en tu cuenta.
+    </p>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="/assets/pdf/guia-privada.pdf" target="_blank" rel="noopener">
+        Descargar guía privada
+      </a>
+
+      <a class="btn btn-secondary" href="/mi-cuenta.html">
+        Entrar a mi cuenta
+      </a>
+    </div>
+
+    <p class="note">Silencio. Enfoque. Ejecución.</p>
+  </main>
+</body>
+</html>
