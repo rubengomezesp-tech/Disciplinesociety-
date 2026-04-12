@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nueva contraseña — Discipline Society</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:#000;color:#fff;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100vh;
+  }
+  .auth-wrap{
+    min-height:100vh;display:flex;align-items:center;
+    justify-content:center;padding:2rem 1.5rem;position:relative;
+  }
+  .auth-card{width:100%;max-width:420px}
+  .auth-brand{
+    text-align:center;font-size:.75rem;letter-spacing:.4em;
+    text-transform:uppercase;color:#c9a961;margin-bottom:3rem;
+  }
+  .auth-title{
+    font-size:1.5rem;font-weight:300;letter-spacing:.25em;
+    text-transform:uppercase;text-align:center;margin-bottom:.75rem;
+  }
+  .auth-subtitle{
+    text-align:center;font-size:.8rem;letter-spacing:.08em;
+    color:#666;margin-bottom:2.5rem;line-height:1.6;
+  }
+  .auth-form label{
+    display:block;font-size:.7rem;letter-spacing:.25em;
+    text-transform:uppercase;color:#888;margin-bottom:.5rem;
+  }
+  .auth-form input{
+    width:100%;background:transparent;border:none;
+    border-bottom:1px solid #333;color:#fff;padding:.75rem 0;
+    margin-bottom:1.75rem;font-size:.95rem;letter-spacing:.05em;
+    outline:none;transition:border-color .3s ease;font-family:inherit;
+  }
+  .auth-form input:focus{border-bottom-color:#c9a961}
+  .auth-hint{
+    font-size:.65rem;color:#555;letter-spacing:.1em;
+    margin-top:-1.25rem;margin-bottom:1.75rem;text-transform:uppercase;
+  }
+  .auth-form button{
+    width:100%;background:transparent;border:1px solid #c9a961;
+    color:#c9a961;padding:1rem;font-size:.75rem;letter-spacing:.3em;
+    text-transform:uppercase;cursor:pointer;transition:all .3s ease;
+    margin-top:.5rem;font-family:inherit;
+  }
+  .auth-form button:hover:not(:disabled){background:#c9a961;color:#000}
+  .auth-form button:disabled{opacity:.5;cursor:not-allowed}
+  .form-message{
+    display:none;font-size:.75rem;letter-spacing:.1em;
+    margin-bottom:1.5rem;padding:.75rem;border:1px solid;text-align:center;
+  }
+  .form-message.error{color:#c94a4a;border-color:#c94a4a}
+  .form-message.success{color:#c9a961;border-color:#c9a961}
+  /* Error state - invalid/expired link */
+  .link-error{
+    text-align:center;padding:2rem 0;
+  }
+  .link-error p{
+    font-size:.85rem;color:#666;letter-spacing:.08em;
+    line-height:1.8;margin-bottom:1.5rem;
+  }
+  .link-error a{
+    color:#c9a961;text-decoration:none;font-size:.75rem;
+    letter-spacing:.2em;text-transform:uppercase;
+    border-bottom:1px solid #c9a961;padding-bottom:2px;
+  }
+  @media(max-width:480px){.auth-back{top:1.25rem;left:1.25rem}}
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">Discipline Society</div>
+    <div id="form-container">
+      <h1 class="auth-title">Nueva contraseña</h1>
+      <p class="auth-subtitle">Elige una contraseña nueva para tu cuenta.</p>
+      <form class="auth-form" id="newpass-form" novalidate>
+        <div class="form-message" id="newpass-msg"></div>
+        <label for="password">Nueva contraseña</label>
+        <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8" />
+        <div class="auth-hint">Mínimo 8 caracteres</div>
+        <label for="confirm">Confirmar contraseña</label>
+        <input type="password" id="confirm" name="confirm" required autocomplete="new-password" minlength="8" />
+        <button type="submit" id="newpass-btn">Guardar contraseña</button>
+      </form>
+    </div>
+    <div id="link-error" style="display:none" class="link-error">
+      <p>El enlace ha expirado o no es válido.<br>Solicita uno nuevo.</p>
+      <a href="/recuperar.html">Solicitar nuevo enlace</a>
+    </div>
+  </div>
+</div>
+<script type="module">
+  import { supabase } from '/assets/js/supabase-client.js';
+
+  const form      = document.getElementById('newpass-form');
+  const msg       = document.getElementById('newpass-msg');
+  const btn       = document.getElementById('newpass-btn');
+  const container = document.getElementById('form-container');
+  const linkErr   = document.getElementById('link-error');
+
+  function showMsg(text, type = 'error') {
+    msg.textContent = text;
+    msg.className = `form-message ${type}`;
+    msg.style.display = 'block';
+  }
+
+  // Supabase detectSessionInUrl:true handles the token from the email link.
+  // We wait for the session to be ready before showing the form.
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    // No session means the link is invalid or expired
+    container.style.display = 'none';
+    linkErr.style.display = 'block';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const confirm  = document.getElementById('confirm').value;
+
+    if (password.length < 8) {
+      showMsg('La contraseña debe tener al menos 8 caracteres.');
+      return;
+    }
+    if (password !== confirm) {
+      showMsg('Las contraseñas no coinciden.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Guardando...';
+
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) {
+      showMsg(error.message || 'Error al actualizar la contraseña.');
+      btn.disabled = false;
+      btn.textContent = 'Guardar contraseña';
+      return;
+    }
+
+    showMsg('✓ Contraseña actualizada. Redirigiendo...', 'success');
+    setTimeout(() => { window.location.href = '/mi-cuenta.html'; }, 1800);
+  });
+</script>
+</body>
+</html>

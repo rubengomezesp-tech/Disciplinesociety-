@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Recuperar contraseña — Discipline Society</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:#000;color:#fff;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100vh;
+  }
+  .auth-wrap{
+    min-height:100vh;display:flex;align-items:center;
+    justify-content:center;padding:2rem 1.5rem;position:relative;
+  }
+  .auth-card{width:100%;max-width:420px}
+  .auth-brand{
+    text-align:center;font-size:.75rem;letter-spacing:.4em;
+    text-transform:uppercase;color:#c9a961;margin-bottom:3rem;
+  }
+  .auth-title{
+    font-size:1.5rem;font-weight:300;letter-spacing:.25em;
+    text-transform:uppercase;text-align:center;margin-bottom:.75rem;
+  }
+  .auth-subtitle{
+    text-align:center;font-size:.8rem;letter-spacing:.08em;
+    color:#666;margin-bottom:2.5rem;line-height:1.6;
+  }
+  .auth-form label{
+    display:block;font-size:.7rem;letter-spacing:.25em;
+    text-transform:uppercase;color:#888;margin-bottom:.5rem;
+  }
+  .auth-form input{
+    width:100%;background:transparent;border:none;
+    border-bottom:1px solid #333;color:#fff;padding:.75rem 0;
+    margin-bottom:1.75rem;font-size:.95rem;letter-spacing:.05em;
+    outline:none;transition:border-color .3s ease;font-family:inherit;
+  }
+  .auth-form input:focus{border-bottom-color:#c9a961}
+  .auth-form button{
+    width:100%;background:transparent;border:1px solid #c9a961;
+    color:#c9a961;padding:1rem;font-size:.75rem;letter-spacing:.3em;
+    text-transform:uppercase;cursor:pointer;transition:all .3s ease;
+    margin-top:.5rem;font-family:inherit;
+  }
+  .auth-form button:hover:not(:disabled){background:#c9a961;color:#000}
+  .auth-form button:disabled{opacity:.5;cursor:not-allowed}
+  .form-message{
+    display:none;font-size:.75rem;letter-spacing:.1em;
+    margin-bottom:1.5rem;padding:.75rem;border:1px solid;text-align:center;
+  }
+  .form-message.error{color:#c94a4a;border-color:#c94a4a}
+  .form-message.success{color:#c9a961;border-color:#c9a961}
+  .auth-footer{
+    text-align:center;margin-top:2.5rem;font-size:.75rem;
+    letter-spacing:.15em;color:#666;
+  }
+  .auth-footer a{
+    color:#c9a961;text-decoration:none;
+    border-bottom:1px solid transparent;transition:border-color .3s ease;
+  }
+  .auth-footer a:hover{border-bottom-color:#c9a961}
+  .auth-back{
+    position:absolute;top:2rem;left:2rem;color:#666;text-decoration:none;
+    font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+    transition:color .3s ease;
+  }
+  .auth-back:hover{color:#c9a961}
+  @media(max-width:480px){.auth-back{top:1.25rem;left:1.25rem}}
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <a href="/acceder.html" class="auth-back">← Volver</a>
+  <div class="auth-card">
+    <div class="auth-brand">Discipline Society</div>
+    <h1 class="auth-title">Recuperar acceso</h1>
+    <p class="auth-subtitle">Introduce tu correo y te enviamos un enlace para restablecer tu contraseña.</p>
+    <form class="auth-form" id="recover-form" novalidate>
+      <div class="form-message" id="recover-msg"></div>
+      <label for="email">Correo</label>
+      <input type="email" id="email" name="email" required autocomplete="email" />
+      <button type="submit" id="recover-btn">Enviar enlace</button>
+    </form>
+    <div class="auth-footer">
+      ¿Recuerdas la contraseña? <a href="/acceder.html">Acceder</a>
+    </div>
+  </div>
+</div>
+<script type="module">
+  import { handleForgotPassword } from '/assets/js/auth.js';
+  document.getElementById('recover-form').addEventListener('submit', handleForgotPassword);
+</script>
+</body>
+</html>
