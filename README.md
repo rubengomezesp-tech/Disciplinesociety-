@@ -1,104 +1,102 @@
-# Phase 4 — Contenido Exclusivo + Gracias Premium
+# Phase 5 — Navegación Dinámica (Acceder / Mi cuenta)
 
-## Archivos a sustituir / crear
+## Archivos
 
 ```
-mi-cuenta.html                        ← REEMPLAZAR (versión Phase 3 → Phase 4)
-gracias.html                          ← REEMPLAZAR
-assets/pdf/discipline-protocol.pdf    ← NUEVO (tu PDF existente, renombrado o movido aquí)
+assets/js/nav.js          ← NUEVO (lógica del nav dinámico)
+nav-snippets.html         ← REFERENCIA (snippets que tú pegas manualmente)
 ```
 
-**Eso es todo.** No se toca nada de JS, Stripe, webhook, Supabase, autenticación ni pedidos. Solo HTML y un archivo estático.
+Tú decides exactamente dónde va cada enlace dentro de tu nav. Yo solo te doy las piezas.
 
 ---
 
-## Qué he cambiado
+## Cómo funciona
 
-### 1. `mi-cuenta.html`
-- Añadida la sección **"Contenido Exclusivo"** debajo de Pedidos.
-- Nuevo bloque visual `.vault-item` (borde fino, hover dorado, CTA editorial) que se integra con las fichas existentes sin parecer un dashboard.
-- Enlace al PDF vía `/assets/pdf/discipline-protocol.pdf`.
-- Todo lo demás (perfil, pedidos, logout, `account.js`) sigue exactamente igual.
+Cualquier elemento con `data-auth="guest"` se muestra **solo si NO hay sesión**.
+Cualquier elemento con `data-auth="user"` se muestra **solo si SÍ hay sesión**.
+Cualquier elemento con `data-action="logout"` ejecuta logout al hacer click.
 
-### 2. `gracias.html`
-- Rediseñada por completo manteniendo el lenguaje black/gold.
-- Estructura editorial: eyebrow dorado → título "Estás Dentro" → divisor → copy premium → whisper line → 2 CTAs.
-- CTA primario dorado sólido: **"Ir a mi cuenta"**.
-- CTA secundario ghost: **"Explorar la colección"**.
-- Firma inferior: **"Built Under Pressure"** (de tu identidad de marca).
-- Animación `fadeUp` sutil al cargar.
+El script lee la sesión de Supabase, oculta lo que no toca, y actualiza automáticamente si:
+- el usuario hace login en otra pestaña
+- el usuario hace logout en otra pestaña
+- la sesión expira / se refresca
+
+**Anti-flash:** todos los `[data-auth]` se ocultan al cargar hasta que sabemos el estado real. Así el usuario logueado nunca ve "Acceder" parpadear, y viceversa.
 
 ---
 
-## Por qué PDF estático y no Supabase Storage
+## Pasos
 
-Para esta fase he elegido **archivo estático** dentro del proyecto porque:
+### 1. Sube `nav.js`
 
-1. **Simplicidad máxima** — subes el PDF una vez, Netlify lo sirve desde su CDN global. Cero infraestructura nueva.
-2. **Sin latencia** — carga instantánea, sin llamadas a API.
-3. **La página `/mi-cuenta` ya está protegida** por la lógica de sesión en `account.js` (sin login → redirect a `/acceder`). El enlace al PDF solo es visible para usuarios autenticados.
-4. **Mantenimiento trivial** — si actualizas la guía, reemplazas el archivo y haces deploy.
+```
+tu-sitio/
+└── assets/
+    └── js/
+        └── nav.js   ← NUEVO
+```
 
-**Tradeoff honesto:** alguien con la URL directa (`tudominio.com/assets/pdf/discipline-protocol.pdf`) podría acceder sin estar logueado. Para Fase 4 con una guía gratuita de captación esto es aceptable (de hecho la mandas por email, que es el mismo nivel de apertura).
+### 2. Añade el CSS a tu hoja de estilos
 
-Si en el futuro quieres **PDFs realmente privados** (p. ej. ebooks premium de pago), se migra a **Supabase Storage con signed URLs** generadas desde una Netlify Function. Esa migración es sencilla y no rompe nada de esta fase.
+Copia el bloque `<style>` de `nav-snippets.html` y pégalo en tu CSS principal, o dentro de un `<style>` en `index.html`. Ajusta márgenes / tamaños si no encajan con tu nav actual — las clases `ds-nav-link` están aisladas con prefijo para no chocar con nada tuyo.
 
----
+### 3. Añade los enlaces a tu nav existente
 
-## Pasos exactos
+**Desktop nav** — pega dentro de tu contenedor de nav (al final, después de tus links actuales):
 
-1. **Sube tu PDF actual** a la carpeta `assets/pdf/` de tu proyecto. Renómbralo a `discipline-protocol.pdf` (o cambia el `href` del `vault-cta` en `mi-cuenta.html` al nombre real).
+```html
+<a href="/acceder"    data-auth="guest" class="ds-nav-link">Acceder</a>
+<a href="/mi-cuenta"  data-auth="user"  class="ds-nav-link">Mi cuenta</a>
+<a href="#"           data-auth="user"  class="ds-nav-link ds-nav-link--muted" data-action="logout">Cerrar sesión</a>
+```
 
-   ```
-   tu-sitio/
-   └── assets/
-       └── pdf/
-           └── discipline-protocol.pdf
-   ```
+**Menú hamburguesa** — pega dentro de tu lista móvil existente:
 
-2. **Reemplaza** `mi-cuenta.html` por la versión de Phase 4.
-3. **Reemplaza** `gracias.html` por la versión de Phase 4.
-4. Commit + push → Netlify despliega.
+```html
+<a href="/acceder"    data-auth="guest" class="ds-mobile-link">Acceder</a>
+<a href="/mi-cuenta"  data-auth="user"  class="ds-mobile-link">Mi cuenta</a>
+<a href="#"           data-auth="user"  class="ds-mobile-link ds-mobile-link--muted" data-action="logout">Cerrar sesión</a>
+```
+
+### 4. Carga el script en cada página que tenga nav
+
+Justo antes de `</body>`:
+
+```html
+<script type="module" src="/assets/js/nav.js"></script>
+```
+
+Ponlo en `index.html` y cualquier otra página donde exista el nav. No hace falta en `/mi-cuenta`, `/acceder`, `/registro` (esas ya tienen su propia lógica de sesión).
 
 ---
 
 ## Verificación
 
-- [ ] Entra en `/mi-cuenta` logueado → ves la nueva sección "Contenido Exclusivo" con el bloque "Guía Privada".
-- [ ] Click en "Abrir contenido" → descarga / abre el PDF.
-- [ ] Entra en `/gracias` → ves el nuevo diseño con los dos CTAs.
-- [ ] Pedidos siguen listándose correctamente (sin regresiones de Phase 3).
-- [ ] Login / logout / registro siguen funcionando (sin regresiones de Phase 1).
-- [ ] Stripe y webhook no se han tocado → siguen operativos.
+- [ ] **Sin sesión** en `index.html` → ves "Acceder", no ves "Mi cuenta" ni "Cerrar sesión"
+- [ ] **Con sesión** en `index.html` → ves "Mi cuenta" + "Cerrar sesión", no ves "Acceder"
+- [ ] Click en "Cerrar sesión" → te desloguea y el nav vuelve a mostrar "Acceder"
+- [ ] Abres 2 pestañas de home → logueas en una → la otra actualiza el nav automáticamente
+- [ ] Menú hamburguesa móvil → mismo comportamiento dentro del menú
+- [ ] Al recargar no hay flash de enlaces incorrectos
 
 ---
 
-## Copy premium usado (por si quieres ajustarlo)
+## Ajuste fino del estilo
 
-**En `mi-cuenta.html` → sección Contenido Exclusivo:**
-- Tag: *Primer Protocolo*
-- Título: *Guía Privada*
-- Descripción: *"El punto de partida. Los principios silenciosos sobre los que se construye un físico y una mente de élite. Lectura reservada para miembros de Discipline Society."*
+Si las clases `ds-nav-link` no encajan perfectamente con tu nav actual (espaciado, tamaño, color), puedes:
 
-**En `gracias.html`:**
-- Eyebrow: *Acceso Concedido*
-- Título: *Estás Dentro*
-- Body 1: *"Tu guía privada ha sido enviada a tu correo. Revísalo con la misma atención con la que entrenas."*
-- Body 2: *"A partir de ahora formas parte del círculo. **Lo que viene no es para todos.**"*
-- Whisper: *— Silencio. Enfoque. Ejecución. —*
-- Firma: *Built Under Pressure*
+1. **Opción A** — quitar las clases `ds-nav-link` de los `<a>` y usar las mismas clases que tus links existentes. Los atributos `data-auth` y `data-action` seguirán funcionando igual.
+2. **Opción B** — editar los valores en el CSS del snippet para que coincidan con tu tipografía y espaciado actuales.
 
-Todo sustituible sin tocar CSS ni JS.
+Lo importante son los **atributos `data-*`**, no las clases — esos son los que el JS lee.
 
 ---
 
 ## Lo que NO se ha tocado
 
-- `index.html`
-- `acceder.html`, `registro.html`
-- `assets/js/supabase-client.js`, `auth.js`, `account.js`
-- `netlify/functions/stripe-webhook.js` y demás funciones
-- Tabla `orders` en Supabase
-- Flujo de Stripe Checkout
+- `index.html` → tú decides exactamente qué pegar y dónde
+- Autenticación, registro, login, `/mi-cuenta`, pedidos, Stripe, webhook, PDF → intactos
+- Ningún archivo de Fases 1-4 modificado
 
-Fase 4 es puramente **aditiva y cosmética** sobre la base ya sólida.
+Con esto se cierra el ciclo: el usuario llega, se registra, recibe su guía, la encuentra también en su cuenta, compra, ve sus pedidos, y navega con un nav que reconoce quién es. Premium, silencioso, funcional.

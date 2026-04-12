@@ -1,0 +1,79 @@
+<!--
+  ========================================================================
+  PHASE 5 — DYNAMIC NAV SNIPPETS
+  ========================================================================
+
+  Copia SOLO lo que necesites. Pega dentro de tu <nav> existente
+  (tanto en el nav de desktop como dentro del menú hamburguesa).
+
+  No reemplaces tu nav actual. SOLO añade estos <a>/<button> dentro.
+  ======================================================================== -->
+
+
+<!-- ============================================
+     1) NAV DE DESKTOP — añade estos 3 enlaces
+     dentro del contenedor de tu nav existente
+     ============================================ -->
+
+<a href="/acceder"    data-auth="guest" class="ds-nav-link">Acceder</a>
+<a href="/mi-cuenta"  data-auth="user"  class="ds-nav-link">Mi cuenta</a>
+<a href="#"           data-auth="user"  class="ds-nav-link ds-nav-link--muted" data-action="logout">Cerrar sesión</a>
+
+
+<!-- ============================================
+     2) MENÚ HAMBURGUESA (móvil) — mismos enlaces
+     dentro de tu lista móvil existente
+     ============================================ -->
+
+<a href="/acceder"    data-auth="guest" class="ds-mobile-link">Acceder</a>
+<a href="/mi-cuenta"  data-auth="user"  class="ds-mobile-link">Mi cuenta</a>
+<a href="#"           data-auth="user"  class="ds-mobile-link ds-mobile-link--muted" data-action="logout">Cerrar sesión</a>
+
+
+<!-- ============================================
+     3) CSS — pega esto en tu hoja de estilos
+     (o dentro de <style> en index.html)
+     ============================================ -->
+
+<style>
+  /* Discipline Society — nav links (luxury black/gold) */
+  .ds-nav-link {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #c9a961;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    margin-left: 2rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  .ds-nav-link:hover { border-bottom-color: #c9a961; }
+  .ds-nav-link--muted { color: #666; }
+  .ds-nav-link--muted:hover { color: #c9a961; }
+
+  /* Mobile / hamburger links */
+  .ds-mobile-link {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #c9a961;
+    text-decoration: none;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #1a1a1a;
+    transition: color 0.3s ease;
+  }
+  .ds-mobile-link:hover { color: #fff; }
+  .ds-mobile-link--muted { color: #666; }
+  .ds-mobile-link--muted:hover { color: #c9a961; }
+</style>
+
+
+<!-- ============================================
+     4) SCRIPT — pega justo antes de </body>
+     en TODAS las páginas donde exista el nav
+     (index.html y cualquier otra con menú)
+     ============================================ -->
+
+<script type="module" src="/assets/js/nav.js"></script>
