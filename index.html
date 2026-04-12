@@ -1306,9 +1306,21 @@
 
   let dismissed = false;
   try { dismissed = sessionStorage.getItem(MODAL_KEY) === '1'; } catch(e) {}
-  if (!dismissed) {
-    window.addEventListener('load', () => setTimeout(openModal, 1200));
+  // Show modal after user has scrolled 40% of the page — not immediately on load
+  // This lets the user see the products first before asking for their email
+  let modalShown = false;
+  function maybeShowModal() {
+    if (modalShown || dismissed) return;
+    const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    if (scrolled > 0.40) {
+      modalShown = true;
+      window.removeEventListener('scroll', maybeShowModal);
+      setTimeout(openModal, 400);
+    }
   }
+  window.addEventListener('scroll', maybeShowModal, { passive: true });
+  // Fallback: show after 25s if user hasn't scrolled
+  if (!dismissed) setTimeout(() => { if (!modalShown) { modalShown = true; openModal(); } }, 25000);
 
   modalCloseBtn.addEventListener('click', closeModal);
   modalSkip.addEventListener('click', closeModal);
