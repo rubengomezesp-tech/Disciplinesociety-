@@ -262,6 +262,16 @@
   .nav-auth-guest[data-auth="guest"]{display:none}
   .nav-auth-guest[data-auth="guest"].auth-visible{display:inline-flex}
 
+  /* Registrarse — link secundario junto a Acceder */
+  .nav-auth-register{
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    padding:10px 14px;transition:color .3s;
+    display:none;
+  }
+  .nav-auth-register:hover{color:var(--gold)}
+  .nav-auth-register[data-auth="guest"].auth-visible{display:inline-flex}
+
   /* User account button */
   .nav-account-wrap{position:relative;display:none}
   .nav-account-wrap[data-auth="user"].auth-visible{display:block}
@@ -705,7 +715,8 @@
 
   <!-- Account widget (desktop) -->
   <div class="nav-auth-widget" id="nav-auth-widget">
-    <a href="/acceder" class="nav-auth-guest" data-auth="guest">
+    <a href="/registro.html" class="nav-auth-register" data-auth="guest">Registrarse</a>
+    <a href="/acceder.html" class="nav-auth-guest" data-auth="guest">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Acceder
     </a>
@@ -751,8 +762,8 @@
     <li><a href="#hoodie" class="mobile-nav-link">Founders <em>Hoodie</em></a></li>
     <li><a href="#access" class="mobile-nav-link"><em>Acceso</em> Privado</a></li>
     <li><a href="#philosophy" class="mobile-nav-link">Filo<em>sofía</em></a></li>
-    <li><a href="/acceder" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Acceder →</a></li>
-    <li><a href="/registro" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Crear cuenta →</a></li>
+    <li><a href="/acceder.html" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Acceder →</a></li>
+    <li><a href="/registro.html" data-auth="guest" class="mobile-nav-link mobile-nav-link--auth">Registrarse →</a></li>
     <li><a href="/mi-cuenta" data-auth="user" class="mobile-nav-link mobile-nav-link--auth">Mi cuenta →</a></li>
     <li><a href="/mi-cuenta" data-auth="user" class="mobile-nav-link mobile-nav-link--auth">Mis pedidos →</a></li>
     <li><a href="#" data-auth="user" data-action="logout" class="mobile-nav-link mobile-nav-link--logout">Cerrar sesión</a></li>
@@ -1164,6 +1175,10 @@
     // Desktop nav widget
     if (navAuthGuest)   navAuthGuest.classList.toggle('auth-visible', !authed);
     if (navAccountWrap) navAccountWrap.classList.toggle('auth-visible', authed);
+
+    // Register link (same guest state as Acceder)
+    const navRegister = document.querySelector('.nav-auth-register[data-auth="guest"]');
+    if (navRegister) navRegister.classList.toggle('auth-visible', !authed);
 
     // Mobile nav
     mobileGuest.forEach(el => el.style.display = authed ? 'none' : '');
