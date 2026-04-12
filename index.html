@@ -11,7 +11,7 @@
 <script src="https://js.stripe.com/v3/"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-  const supabase = supabase.createClient(
+  const supabase = window.supabase.createClient(
     'https://wqmnvmlvlpxlpucejmtz.supabase.co',
     'sb_publishable_wvemLMfsS3XayBVS0t_sSQ_n70h2q6F'
   );
@@ -1109,75 +1109,44 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     }
 
     buyTeeBtn.disabled = true;
-buyTeeBtn.innerHTML = 'Redirigiendo...';
+    buyTeeBtn.innerHTML = 'Redirigiendo...';
 
-try {
-  // 👇 Obtener sesión
-  const { data: { session } } = await supabase.auth.getSession();
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
 
-  if (!session) {
-    window.location.href = '/acceder';
-    return;
-  }
+      if (!session) {
+        window.location.href = '/acceder';
+        return;
+      }
 
-  const userId = session.user.id;
+      const userId = session.user.id;
 
-  // 👇 Crear checkout
-  buyTeeBtn.disabled = true;
-buyTeeBtn.innerHTML = 'Redirigiendo...';
+      const res = await fetch('/.netlify/functions/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId,
+          size: teeSize,
+          color: teeColor,
+          product: 'ds-core-tee',
+          userId
+        })
+      });
 
-try {
-  // 👇 Obtener sesión
-  const { data: { session } } = await supabase.auth.getSession();
+      const data = await res.json();
+      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
 
-  if (!session) {
-    window.location.href = '/acceder';
-    return;
-  }
+      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+      if (error) throw error;
 
-  const userId = session.user.id;
-
-  // 👇 Crear checkout
-buyTeeBtn.disabled = true;
-buyTeeBtn.innerHTML = 'Redirigiendo...';
-
-try {
-  // 👇 Obtener sesión
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session) {
-    window.location.href = '/acceder';
-    return;
-  }
-
-  const userId = session.user.id;
-
-  // 👇 Crear checkout
-  const res = await fetch('/.netlify/functions/create-checkout', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      priceId,
-      size: teeSize,
-      color: teeColor,
-      product: 'ds-core-tee',
-      userId // 🔥 CLAVE
-    })
+    } catch (err) {
+      console.error(err);
+      teeCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+      teeCheckoutMsg.className = 'checkout-message error';
+      buyTeeBtn.disabled = false;
+      buyTeeBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+    }
   });
-
-  const data = await res.json();
-  if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
-
-  const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
-  if (error) throw error;
-
-} catch (err) {
-  console.error(err);
-  teeCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
-  teeCheckoutMsg.className = 'checkout-message error';
-  buyTeeBtn.disabled = false;
-  buyTeeBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
-}
 
   /* =========================================
      DS CORE TRACKSUIT · STRIPE CHECKOUT
