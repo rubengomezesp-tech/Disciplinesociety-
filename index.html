@@ -1,0 +1,2514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discipline Society — Esto no es para todos</title>
+<meta name="description" content="Ropa. Nutrición. Sistemas de disciplina para construir un físico y mente de élite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Open Graph / SEO -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://disciplinesociety.com">
+<meta property="og:title" content="Discipline Society — Esto no es para todos">
+<meta property="og:description" content="Ropa. Nutrición. Sistemas de disciplina para construir un físico y mente de élite.">
+<meta property="og:image" content="https://disciplinesociety.com/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Discipline Society — Esto no es para todos">
+<meta name="twitter:description" content="Primer Drop. Founders Edition. Edición limitada.">
+<meta name="twitter:image" content="https://disciplinesociety.com/og-cover.jpg">
+<link rel="canonical" href="https://disciplinesociety.com">
+<link rel="icon" type="image/png" href="/ds-logo.png">
+<script src="https://js.stripe.com/v3/"></script>
+  <style>
+  :root{
+    --bg:#0a0908; --bg-2:#110f0d; --ink:#f5f2ec; --ink-dim:#a8a39a;
+    --gold:#c9a961; --gold-deep:#8a7239; --beige:#e8e4dc;
+    --line:rgba(201,169,97,.18);
+    --serif:"Cormorant Garamond","Times New Roman",serif;
+    --sans:"Inter Tight",-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body.modal-open{overflow:hidden}
+
+  /* =========================================
+     ANNOUNCEMENT BAR (drop announcement)
+     ========================================= */
+  .announce-bar{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:60;
+    background:linear-gradient(90deg,#0a0908 0%,#1a1410 50%,#0a0908 100%);
+    border-bottom:1px solid rgba(201,169,97,.35);
+    overflow:hidden;
+    height:36px;
+    display:flex;
+    align-items:center;
+  }
+  .announce-bar::before,
+  .announce-bar::after{
+    content:"";
+    position:absolute;
+    top:0;bottom:0;
+    width:80px;
+    z-index:2;
+    pointer-events:none;
+  }
+  .announce-bar::before{left:0;background:linear-gradient(90deg,#0a0908 0%,transparent 100%)}
+  .announce-bar::after{right:0;background:linear-gradient(90deg,transparent 0%,#0a0908 100%)}
+  .announce-track{
+    display:flex;
+    white-space:nowrap;
+    animation:announce-scroll 38s linear infinite;
+    will-change:transform;
+  }
+  .announce-track span{
+    display:inline-flex;
+    align-items:center;
+    gap:18px;
+    padding:0 24px;
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:500;
+  }
+  .announce-track .dot{
+    display:inline-block;
+    width:5px;
+    height:5px;
+    background:var(--gold);
+    border-radius:50%;
+    flex-shrink:0;
+    box-shadow:0 0 8px rgba(201,169,97,.6);
+  }
+  .announce-track .sep{color:rgba(201,169,97,.35)}
+  @keyframes announce-scroll{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .announce-track{animation:none;justify-content:center;width:100%}
+  }
+
+  /* Ajustar nav y hero para el bar */
+  nav{top:36px !important}
+  .hero{padding-top:176px !important}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+  .container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(12px);background:rgba(10,9,8,.6);border-bottom:1px solid var(--line)}
+  .logo{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:.08em;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:14px}
+  .logo img{height:38px;width:auto;display:block;filter:drop-shadow(0 2px 8px rgba(201,169,97,.25));transition:transform .4s}
+  .logo:hover img{transform:scale(1.05)}
+  .logo-text{font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+  .logo-text em{color:var(--gold);font-style:italic;font-weight:400;margin:0 4px}
+  .nav-links{display:flex;gap:36px;list-style:none}
+  .nav-links a{color:var(--ink-dim);text-decoration:none;font-size:12px;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+  .nav-links a:hover{color:var(--gold)}
+  @media(max-width:768px){.nav-links{display:none}}
+
+  /* =========================================
+     HAMBURGER BUTTON
+     ========================================= */
+  .nav-hamburger{
+    display:none;
+    flex-direction:column;
+    gap:6px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px;
+    z-index:55;
+    position:relative;
+  }
+  .nav-hamburger span{
+    display:block;
+    width:26px;
+    height:1px;
+    background:var(--gold);
+    transition:all .45s cubic-bezier(.4,0,.2,1);
+    transform-origin:center;
+  }
+  .nav-hamburger span:last-child{width:18px;margin-left:auto}
+  .nav-hamburger.open span:first-child{transform:translateY(7px) rotate(45deg);width:26px}
+  .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .nav-hamburger.open span:last-child{transform:translateY(-7px) rotate(-45deg);width:26px;margin-left:0}
+  @media(max-width:768px){.nav-hamburger{display:flex}}
+
+  /* =========================================
+     MOBILE NAV — Premium redesign
+     ========================================= */
+  .mobile-nav{
+    position:fixed;inset:0;z-index:48;
+    background:rgba(8,7,6,.97);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    display:flex;flex-direction:column;
+    padding:0;
+    opacity:0;pointer-events:none;
+    transition:opacity .45s cubic-bezier(.4,0,.2,1);
+    overflow-y:auto;
+  }
+  .mobile-nav::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at 50% 20%,rgba(201,169,97,.07),transparent 55%);
+    pointer-events:none;
+  }
+  .mobile-nav.open{opacity:1;pointer-events:auto}
+
+  /* Top bar inside mobile nav */
+  .mobile-nav-topbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:24px 28px;border-bottom:1px solid var(--line);
+    position:relative;z-index:2;flex-shrink:0;
+  }
+  .mobile-nav-brand{
+    font-family:var(--serif);font-size:15px;font-weight:500;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  }
+  .mobile-nav-brand em{color:var(--gold);font-style:italic}
+  .mobile-nav-close{
+    background:none;border:1px solid var(--line);
+    color:var(--ink-dim);width:36px;height:36px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:18px;transition:all .3s;
+  }
+  .mobile-nav-close:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* Main links */
+  .mobile-nav-body{
+    flex:1;display:flex;flex-direction:column;
+    justify-content:center;padding:28px 28px 0;
+    position:relative;z-index:2;
+  }
+  .mobile-nav-links{list-style:none}
+  .mobile-nav-link{
+    display:flex;align-items:center;justify-content:space-between;
+    font-family:var(--serif);
+    font-size:clamp(28px,7vw,48px);
+    font-weight:400;color:var(--ink);
+    text-decoration:none;
+    padding:14px 0;
+    border-bottom:1px solid rgba(201,169,97,.1);
+    letter-spacing:-.02em;line-height:1;
+    opacity:0;transform:translateX(-20px);
+    transition:opacity .5s,transform .5s,color .3s;
+  }
+  .mobile-nav-link::after{
+    content:"→";font-family:var(--sans);font-size:14px;
+    color:var(--line);transition:color .3s,transform .3s;
+    transform:translateX(0);
+  }
+  .mobile-nav.open .mobile-nav-link{opacity:1;transform:translateX(0)}
+  .mobile-nav.open li:nth-child(1) .mobile-nav-link{transition-delay:.06s}
+  .mobile-nav.open li:nth-child(2) .mobile-nav-link{transition-delay:.11s}
+  .mobile-nav.open li:nth-child(3) .mobile-nav-link{transition-delay:.16s}
+  .mobile-nav.open li:nth-child(4) .mobile-nav-link{transition-delay:.21s}
+  .mobile-nav.open li:nth-child(5) .mobile-nav-link{transition-delay:.26s}
+  .mobile-nav.open li:nth-child(6) .mobile-nav-link{transition-delay:.31s}
+  .mobile-nav-link:hover{color:var(--gold)}
+  .mobile-nav-link:hover::after{color:var(--gold);transform:translateX(4px)}
+  .mobile-nav-link em{font-style:italic;color:var(--gold)}
+
+  /* Auth section inside mobile nav */
+  .mobile-nav-auth{
+    padding:20px 28px;border-top:1px solid var(--line);
+    position:relative;z-index:2;flex-shrink:0;
+    display:flex;flex-direction:column;gap:0;
+  }
+  .mobile-nav-link--auth{
+    font-family:var(--sans);
+    font-size:11px !important;
+    letter-spacing:.25em;text-transform:uppercase;
+    color:var(--gold) !important;
+    padding:14px 0 !important;
+    border-bottom:1px solid rgba(201,169,97,.12) !important;
+    display:flex !important;align-items:center;gap:10px;
+    opacity:0;transform:translateX(-20px);
+    transition:opacity .4s,transform .4s !important;
+  }
+  .mobile-nav.open .mobile-nav-link--auth{opacity:1 !important;transform:translateX(0) !important}
+  .mobile-nav.open .mobile-nav-link--auth:nth-child(1){transition-delay:.36s}
+  .mobile-nav.open .mobile-nav-link--auth:nth-child(2){transition-delay:.40s}
+  .mobile-nav-link--auth::after{display:none}
+  .mobile-nav-link--auth:hover{color:var(--ink) !important}
+  .mobile-nav-link--logout{
+    font-family:var(--sans);font-size:10px !important;
+    letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim) !important;
+    padding:12px 0 !important;
+    border:none !important;
+    opacity:0;transform:translateX(-20px);
+    transition:opacity .4s,transform .4s !important;
+    display:flex !important;align-items:center;gap:8px;
+  }
+  .mobile-nav.open .mobile-nav-link--logout{opacity:1 !important;transform:translateX(0) !important;transition-delay:.44s}
+  .mobile-nav-link--logout:hover{color:var(--gold) !important}
+
+  /* Footer inside mobile nav */
+  .mobile-nav-footer{
+    padding:16px 28px;
+    font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink-dim);position:relative;z-index:2;
+    border-top:1px solid var(--line);flex-shrink:0;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .mobile-nav-footer-dot{
+    width:5px;height:5px;background:var(--gold);
+    border-radius:50%;animation:pulse 2s infinite;
+  }
+  /* Hide auth items until JS */
+  .mobile-nav [data-auth]{display:none}
+
+  /* =========================================
+     QUICK-NAV STRIP (mobile only)
+     — sticky strip of product shortcuts
+     ========================================= */
+  .quick-nav{
+    display:none;
+    position:sticky;top:36px;z-index:45;
+    background:rgba(10,9,8,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;white-space:nowrap;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .quick-nav::-webkit-scrollbar{display:none}
+  .quick-nav-inner{
+    display:inline-flex;gap:0;padding:0 20px;
+  }
+  .quick-nav-link{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:12px 16px;
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    border-right:1px solid var(--line);
+    transition:color .3s,background .3s;white-space:nowrap;
+    font-family:var(--sans);
+  }
+  .quick-nav-link:first-child{border-left:none}
+  .quick-nav-link:hover,.quick-nav-link.active{color:var(--gold);background:rgba(201,169,97,.04)}
+  .quick-nav-link .qn-dot{
+    width:4px;height:4px;background:var(--gold);
+    border-radius:50%;animation:pulse 2s infinite;flex-shrink:0;
+  }
+  @media(max-width:768px){
+    .quick-nav{display:block}
+    /* Shift hero down to account for quick nav height */
+    .hero{padding-top:196px !important}
+  }
+
+  /* =========================================
+     MOBILE PRODUCT LAYOUT OVERHAUL
+     ========================================= */
+  @media(max-width:768px){
+
+    /* Tighten all product sections */
+    .tee,.tracksuit,.hoodie{padding:72px 20px 80px}
+    .brand{padding:64px 20px}
+    section{padding:64px 20px}
+
+    /* Product grids — image on top, content below, compact */
+    .tee-inner,.hoodie-inner,.tracksuit-inner{
+      grid-template-columns:1fr !important;
+      gap:28px !important;
+    }
+    /* Image always first on mobile */
+    .tee-content{order:2 !important}
+    .tee-visual-wrap{order:1 !important}
+    .hoodie-content{order:2}
+    .hoodie-visual{order:1}
+    .tracksuit-content{order:2 !important}
+    .tracksuit-visual-wrap{order:1 !important}
+
+    /* Compact image frames */
+    .tee-visual,.hoodie-visual,.tracksuit-visual{padding:16px}
+    .tee-visual img,.hoodie-visual img,.tracksuit-visual img{
+      max-height:360px;object-fit:contain;
+    }
+
+    /* Product typography — smaller, more editorial */
+    .tee-content h2,.hoodie-content h2,.tracksuit-content h2{
+      font-size:clamp(32px,9vw,48px) !important;
+      margin-bottom:14px;
+      line-height:.96;
+    }
+    .tee-content .lead,.hoodie-content .lead,.tracksuit-content .lead{
+      font-size:14px;line-height:1.65;margin-bottom:12px;
+    }
+    .tee-content .lead.strong,.tracksuit-content .lead.strong{
+      font-size:16px;margin-bottom:18px;
+    }
+
+    /* Compact specs */
+    .tee-specs,.hoodie-specs,.tracksuit-specs{margin-bottom:22px}
+    .tee-specs li,.hoodie-specs li,.tracksuit-specs li{padding:11px 0;font-size:12px}
+
+    /* Price row */
+    .tee-price,.hoodie-price,.tracksuit-price{font-size:38px}
+    .tee-price em,.hoodie-price em,.tracksuit-price em{font-size:22px}
+    .tee-price-row,.hoodie-price-row,.tracksuit-price-row{
+      margin-bottom:18px;padding-bottom:18px;
+    }
+
+    /* Size grid */
+    .size-grid{gap:8px}
+    .size-btn{min-width:44px;padding:12px 14px;font-size:10px}
+
+    /* Color grid */
+    .color-btn{padding:10px 14px 10px 10px;font-size:10px}
+
+    /* CTA buttons */
+    .btn{padding:16px 28px;font-size:10px}
+    .tee-cta,.hoodie-cta,.tracksuit-cta{gap:10px}
+    .tee-cta .btn,.hoodie-cta .btn,.tracksuit-cta .btn{flex:1;justify-content:center}
+
+    /* Trust bar */
+    .tee-trust,.hoodie-trust,.tracksuit-trust{
+      gap:14px;margin-top:18px;font-size:9px;
+    }
+
+    /* Urgency + badge */
+    .urgency-strip{font-size:8px;padding:6px 10px;margin-bottom:16px}
+    .member-badge{font-size:8px;padding:4px 10px;margin-bottom:14px}
+
+    /* Section labels */
+    .section-label{font-size:9px;margin-bottom:18px}
+
+    /* Social proof */
+    .sp-stat{min-width:90px;padding:12px 14px}
+    .sp-num{font-size:clamp(24px,6vw,32px)}
+    .sp-label{font-size:8px}
+
+    /* Hero mobile */
+    .hero{padding:120px 20px 60px !important;min-height:90vh}
+    .hero h1{font-size:clamp(44px,12vw,72px) !important;margin-bottom:28px}
+    .hero-sub{font-size:14px;margin-bottom:36px}
+    .hero-cta{gap:12px}
+    .hero-cta .btn{padding:16px 24px;font-size:10px}
+    .hero-meta{left:20px;right:20px;font-size:8px}
+
+    /* Brand section */
+    .brand-grid{gap:32px}
+    .brand-text p{font-size:15px;margin-bottom:16px}
+    .brand-text p:first-of-type::first-letter{font-size:52px}
+    .pillar{padding:20px 0;gap:16px;grid-template-columns:40px 1fr}
+    .pillar-title{font-size:18px}
+    .pillar-desc{font-size:13px}
+
+    /* Access section */
+    .access{padding:100px 20px}
+    .access h2{font-size:clamp(36px,10vw,56px)}
+    .access-form{flex-direction:column}
+    .access-form button{padding:18px}
+
+    /* Philosophy */
+    .philosophy{padding:80px 20px}
+    .philosophy blockquote{font-size:clamp(22px,5.5vw,32px)}
+
+    /* Checkout message */
+    .checkout-message{font-size:10px}
+
+    /* Tracksuit dots */
+    .tracksuit-dots{bottom:12px}
+
+    /* Announce bar already small, adjust nav offset */
+    nav{padding:16px 20px}
+    .logo img{height:32px}
+    .logo-text{font-size:15px}
+  }
+
+  @media(max-width:480px){
+    .tee,.tracksuit,.hoodie{padding:60px 16px 68px}
+    .hero{padding:110px 16px 50px !important}
+    .brand,.access,.philosophy,section{padding:56px 16px}
+    .tee-visual,.hoodie-visual,.tracksuit-visual{padding:12px}
+    .tee-visual img,.hoodie-visual img{max-height:300px}
+    .mobile-nav-body{padding:20px 20px 0}
+    .mobile-nav-topbar,.mobile-nav-auth,.mobile-nav-footer{padding-left:20px;padding-right:20px}
+  }
+  /* Añadir los estilos de los links auth del nav desktop */
+  .nav-links .ds-nav-link{
+    color:var(--gold);
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:color .3s;
+  }
+  .nav-links .ds-nav-link:hover{color:var(--ink)}
+
+  /* =========================================
+     ACCOUNT DROPDOWN WIDGET
+     ========================================= */
+  .nav-auth-widget{display:flex;align-items:center;gap:0;flex-shrink:0}
+  @media(max-width:768px){.nav-auth-widget{display:none}}
+
+  /* Guest CTA */
+  .nav-auth-guest{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    border:1px solid var(--line);padding:10px 18px;
+    transition:all .3s;
+  }
+  .nav-auth-guest:hover{border-color:var(--gold);color:var(--gold)}
+  .nav-auth-guest[data-auth="guest"]{display:none}
+  .nav-auth-guest[data-auth="guest"].auth-visible{display:inline-flex}
+
+  /* Registrarse — link secundario junto a Acceder */
+  .nav-auth-register{
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    padding:10px 14px;transition:color .3s;
+    display:none;
+  }
+  .nav-auth-register:hover{color:var(--gold)}
+  .nav-auth-register[data-auth="guest"].auth-visible{display:inline-flex}
+
+  /* User account button */
+  .nav-account-wrap{position:relative;display:none}
+  .nav-account-wrap[data-auth="user"].auth-visible{display:block}
+  .nav-account-btn{
+    display:flex;align-items:center;gap:8px;
+    background:none;border:1px solid var(--line);padding:8px 12px;
+    cursor:pointer;transition:border-color .3s;
+  }
+  .nav-account-btn:hover,.nav-account-btn.open{border-color:var(--gold)}
+  .nav-avatar{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--gold);color:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0;
+    flex-shrink:0;
+  }
+  .nav-chevron{color:var(--ink-dim);transition:transform .3s}
+  .nav-account-btn.open .nav-chevron{transform:rotate(180deg)}
+
+  /* Dropdown panel */
+  .nav-dropdown{
+    position:absolute;top:calc(100% + 10px);right:0;
+    min-width:220px;
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    z-index:200;
+    opacity:0;pointer-events:none;
+    transform:translateY(8px);
+    transition:opacity .25s,transform .25s;
+  }
+  .nav-dropdown.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+  .nav-dropdown-email{
+    padding:14px 18px 12px;
+    font-size:10px;letter-spacing:.06em;
+    color:var(--ink-dim);border-bottom:1px solid var(--line);
+    word-break:break-all;font-family:var(--sans);
+  }
+  .nav-dropdown a,.nav-dropdown-signout{
+    display:flex;align-items:center;gap:11px;
+    width:100%;padding:13px 18px;
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;
+    background:none;border:none;cursor:pointer;
+    font-family:var(--sans);transition:color .25s,background .25s;
+    text-align:left;
+  }
+  .nav-dropdown a:hover,.nav-dropdown-signout:hover{
+    color:var(--gold);background:rgba(201,169,97,.04);
+  }
+  .nav-dropdown-sep{height:1px;background:var(--line);margin:4px 0}
+
+  /* =========================================
+     SOCIAL PROOF BAR
+     ========================================= */
+  .social-proof{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:40px 32px;
+    background:var(--bg-2);
+    overflow:hidden;
+    position:relative;
+  }
+  .social-proof::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,rgba(201,169,97,.06),transparent 60%);
+    pointer-events:none;
+  }
+  .social-proof-inner{
+    max-width:1280px;margin:0 auto;
+    display:flex;align-items:center;justify-content:center;
+    gap:0;flex-wrap:wrap;
+    position:relative;z-index:2;
+  }
+  .sp-stat{
+    flex:1;min-width:140px;
+    text-align:center;padding:16px 32px;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .sp-num{
+    font-family:var(--serif);font-size:clamp(32px,4vw,48px);
+    font-weight:400;color:var(--ink);letter-spacing:-.02em;line-height:1;
+  }
+  .sp-num em{font-style:italic;color:var(--gold)}
+  .sp-label{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-dim)}
+  .sp-sep{width:1px;height:60px;background:var(--line);flex-shrink:0}
+  @media(max-width:700px){
+    .sp-sep{display:none}
+    .sp-stat{min-width:120px;padding:12px 20px}
+  }
+
+  /* =========================================
+     URGENCY STRIP (product sections)
+     ========================================= */
+  .urgency-strip{
+    display:inline-flex;align-items:center;gap:10px;
+    border:1px solid rgba(201,169,97,.25);
+    padding:8px 14px;margin-bottom:24px;
+    font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+    background:rgba(201,169,97,.04);
+  }
+  .urgency-strip .pulse-dot{
+    width:5px;height:5px;background:var(--gold);
+    border-radius:50%;flex-shrink:0;animation:pulse 2s infinite;
+  }
+
+  /* =========================================
+     MEMBER BADGE (exclusive access tag)
+     ========================================= */
+  .member-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--ink-dim);border:1px solid var(--line);padding:5px 12px;
+    margin-bottom:20px;
+  }
+  .member-badge svg{color:var(--gold)}
+
+  .hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:140px 32px 80px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(201,169,97,.08),transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(201,169,97,.04),transparent 50%)}
+  .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;opacity:.4;mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%)}
+  .hero-content{position:relative;z-index:2;max-width:1100px;margin:0 auto;width:100%}
+  .hero-tag{display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:40px;opacity:0;animation:fadeUp 1s .2s forwards}
+  .hero-tag::before{content:"";width:40px;height:1px;background:var(--gold)}
+  .hero h1{font-family:var(--serif);font-size:clamp(56px,10vw,140px);font-weight:400;line-height:.92;letter-spacing:-.02em;margin-bottom:48px;opacity:0;animation:fadeUp 1.2s .4s forwards}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:300}
+  .hero h1 .line{display:block}
+  .hero-sub{font-size:clamp(15px,1.4vw,18px);color:var(--ink-dim);max-width:560px;margin-bottom:56px;line-height:1.7;opacity:0;animation:fadeUp 1.2s .6s forwards}
+  .hero-cta{display:flex;gap:20px;flex-wrap:wrap;opacity:0;animation:fadeUp 1.2s .8s forwards}
+
+  .btn{display:inline-flex;align-items:center;gap:14px;padding:20px 40px;font-family:var(--sans);font-size:11px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;font-weight:500;cursor:pointer;border:none;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative}
+  .btn-primary{background:var(--gold);color:var(--bg)}
+  .btn-primary:hover{background:var(--ink);transform:translateY(-2px)}
+  .btn-secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+  .btn .arrow{display:inline-block;transition:transform .3s}
+  .btn:hover .arrow{transform:translateX(6px)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+
+  .hero-meta{position:absolute;bottom:40px;left:32px;right:32px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);z-index:2}
+  .hero-meta span{display:flex;align-items:center;gap:10px}
+  .hero-meta .dot{width:6px;height:6px;background:var(--gold);border-radius:50%}
+  @media(max-width:600px){.hero-meta{font-size:9px;gap:12px;flex-wrap:wrap}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+  section{padding:140px 32px;position:relative}
+  .section-label{display:flex;align-items:center;gap:16px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:32px}
+  .section-label::before{content:"";width:32px;height:1px;background:var(--gold)}
+  .section-title{font-family:var(--serif);font-size:clamp(40px,6vw,80px);font-weight:400;line-height:1;letter-spacing:-.015em;margin-bottom:40px;max-width:900px}
+  .section-title em{font-style:italic;color:var(--gold);font-weight:300}
+
+  .brand{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1280px;margin:0 auto}
+  @media(max-width:900px){.brand-grid{grid-template-columns:1fr;gap:48px}}
+  .brand-text p{font-size:17px;color:var(--ink-dim);margin-bottom:24px;line-height:1.8}
+  .brand-text p:first-of-type::first-letter{font-family:var(--serif);font-size:72px;float:left;line-height:.85;padding:8px 12px 0 0;color:var(--gold);font-style:italic}
+  .brand-pillars{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+  .pillar{padding:32px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:60px 1fr;gap:24px;align-items:start}
+  .pillar-num{font-family:var(--serif);font-size:14px;color:var(--gold);font-style:italic}
+  .pillar-title{font-family:var(--serif);font-size:24px;margin-bottom:8px;font-weight:500}
+  .pillar-desc{font-size:14px;color:var(--ink-dim);line-height:1.6}
+
+  .products{background:var(--bg-2)}
+  .products-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:80px;max-width:1280px;margin-left:auto;margin-right:auto;flex-wrap:wrap;gap:24px}
+  .products-count{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink-dim)}
+  .products-count span{color:var(--gold)}
+  .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1280px;margin:0 auto;background:var(--line);border:1px solid var(--line)}
+  @media(max-width:900px){.product-grid{grid-template-columns:1fr}}
+  .product-card{background:var(--bg);padding:48px 40px 56px;position:relative;transition:background .5s;min-height:440px;display:flex;flex-direction:column;cursor:pointer;overflow:hidden}
+  .product-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(201,169,97,.08),transparent 60%);opacity:0;transition:opacity .6s}
+  .product-card:hover::before{opacity:1}
+  .product-card:hover .product-visual{transform:scale(1.05)}
+  .product-index{font-family:var(--serif);font-size:12px;font-style:italic;color:var(--gold);letter-spacing:.1em;margin-bottom:32px;position:relative}
+  .product-visual{width:100%;height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:32px;transition:transform .8s cubic-bezier(.2,.8,.2,1);position:relative}
+  .product-visual svg{width:100%;height:100%;max-width:200px}
+  .product-category{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;position:relative}
+  .product-title{font-family:var(--serif);font-size:32px;font-weight:500;line-height:1.05;margin-bottom:16px;position:relative}
+  .product-title em{font-style:italic;color:var(--gold);font-weight:400}
+  .product-desc{font-size:13px;color:var(--ink-dim);line-height:1.7;margin-bottom:24px;flex:1;position:relative}
+  .product-status{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);padding-top:20px;border-top:1px solid var(--line);position:relative}
+  .product-status .pulse{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+
+  .hoodie{border-top:1px solid var(--line);padding:160px 32px;background:var(--bg);position:relative;overflow:hidden}
+  .hoodie::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 10% 50%,rgba(201,169,97,.10),transparent 55%),radial-gradient(ellipse at 90% 40%,rgba(201,169,97,.05),transparent 55%);pointer-events:none}
+  .hoodie-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2}
+  @media(max-width:960px){.hoodie-inner{grid-template-columns:1fr;gap:56px}}
+  .hoodie-visual{position:relative;border:1px solid var(--line);padding:24px;background:linear-gradient(180deg,rgba(201,169,97,.04),transparent 60%)}
+  .hoodie-visual::before,.hoodie-visual::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold)}
+  .hoodie-visual::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .hoodie-visual::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .hoodie-visual img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .hoodie-visual:hover img{transform:scale(1.015)}
+  .hoodie-badge{position:absolute;top:18px;right:18px;background:var(--bg);border:1px solid var(--gold);color:var(--gold);padding:8px 14px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;z-index:3}
+  .hoodie-content h2{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);font-weight:400;line-height:.98;letter-spacing:-.015em;margin-bottom:28px}
+  .hoodie-content h2 em{font-style:italic;color:var(--gold);font-weight:300}
+  .hoodie-content .lead{font-size:16px;color:var(--ink-dim);line-height:1.8;margin-bottom:36px;max-width:480px}
+  .hoodie-specs{list-style:none;margin-bottom:44px;border-top:1px solid var(--line)}
+  .hoodie-specs li{display:grid;grid-template-columns:28px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-dim)}
+  .hoodie-specs li b{color:var(--ink);font-weight:500}
+  .hoodie-specs .n{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:13px}
+  .hoodie-price-row{display:flex;align-items:baseline;gap:18px;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .hoodie-price{font-family:var(--serif);font-size:52px;color:var(--ink);letter-spacing:-.01em;line-height:1}
+  .hoodie-price em{font-style:italic;color:var(--gold);font-size:28px;margin-left:6px;font-weight:400}
+  .hoodie-price-note{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .hoodie-sizes{margin-bottom:28px}
+  .hoodie-sizes-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .size-grid{display:flex;gap:10px;flex-wrap:wrap}
+  .size-btn{min-width:54px;padding:14px 18px;background:transparent;border:1px solid var(--line);color:var(--ink-dim);font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+  .size-btn:hover{border-color:var(--gold);color:var(--ink)}
+  .size-btn.active{border-color:var(--gold);background:var(--gold);color:var(--bg)}
+  .hoodie-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .checkout-message{margin-top:18px;min-height:20px;font-size:11px;letter-spacing:.08em;line-height:1.5}
+  .checkout-message.error{color:#d98989}
+  .checkout-message.info{color:var(--ink-dim)}
+  .hoodie-trust{margin-top:32px;display:flex;gap:24px;flex-wrap:wrap;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .hoodie-trust span{display:inline-flex;align-items:center;gap:8px}
+  .hoodie-trust .dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
+
+  /* =========================================
+     CORE TEE — Founders Edition
+     ========================================= */
+  .tee{border-top:1px solid var(--line);padding:160px 32px;background:var(--bg-2);position:relative;overflow:hidden}
+  .tee::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 85% 30%,rgba(201,169,97,.10),transparent 55%),radial-gradient(ellipse at 15% 70%,rgba(201,169,97,.05),transparent 55%);pointer-events:none}
+  .tee-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center;position:relative;z-index:2}
+  @media(max-width:960px){.tee-inner{grid-template-columns:1fr;gap:56px}}
+  /* Content a la izquierda, imagen a la derecha (invertido respecto al hoodie) */
+  .tee-content{order:1}
+  .tee-visual-wrap{order:2;position:relative}
+  @media(max-width:960px){.tee-content{order:2}.tee-visual-wrap{order:1}}
+
+  .tee-visual{position:relative;border:1px solid var(--line);padding:24px;background:linear-gradient(180deg,rgba(201,169,97,.04),transparent 60%)}
+  .tee-visual::before,.tee-visual::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold)}
+  .tee-visual::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .tee-visual::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .tee-visual img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+
+  /* =========================================
+     UNIFIED PRODUCT SLIDER — .ps-*
+     Reutilizable en todos los productos.
+     ========================================= */
+  .ps-wrap{position:relative;overflow:hidden;width:100%}
+
+  /* Track: flex container que se desplaza */
+  .ps-track{
+    display:flex;
+    transition:transform .6s cubic-bezier(.65,.05,.36,1);
+    will-change:transform;
+    touch-action:pan-y; /* vertical scroll libre, swipe horizontal interceptado */
+  }
+  .ps-slide{
+    flex:0 0 100%;width:100%;
+  }
+  .ps-slide img{
+    width:100%;height:auto;display:block;
+    filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));
+    transition:transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .ps-wrap:hover .ps-slide img{transform:scale(1.012)}
+
+  /* Dots */
+  .ps-dots{
+    position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+    display:flex;gap:8px;z-index:4;
+  }
+  .ps-dot{
+    width:26px;height:2px;background:rgba(245,242,236,.22);
+    border:none;padding:0;cursor:pointer;
+    transition:background .35s,width .35s;
+  }
+  .ps-dot:hover{background:rgba(201,169,97,.45)}
+  .ps-dot.active{background:var(--gold);width:40px}
+
+  /* Prev / Next arrows — visibles en hover desktop */
+  .ps-prev,.ps-next{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(10,9,8,.72);border:1px solid var(--line);
+    color:var(--ink-dim);width:38px;height:38px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;z-index:4;font-size:15px;
+    transition:border-color .3s,color .3s,opacity .3s;
+    opacity:0;
+  }
+  .ps-wrap:hover .ps-prev,.ps-wrap:hover .ps-next{opacity:1}
+  .ps-prev{left:10px}.ps-next{right:10px}
+  .ps-prev:hover,.ps-next:hover{border-color:var(--gold);color:var(--gold)}
+  @media(max-width:768px){.ps-prev,.ps-next{display:none}} /* swipe en mobile */
+
+  /* ─── Color swatches ─────────────────────────────
+     .ps-color-row  → contenedor (reemplaza .tee-colors, etc.)
+     .ps-swatch     → botón individual de color
+  ──────────────────────────────────────────────── */
+  .ps-color-row{margin-bottom:26px}
+  .ps-color-label{
+    font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .ps-color-label .ps-color-name{
+    color:var(--ink-dim);font-size:10px;letter-spacing:.15em;
+  }
+  .ps-swatches{display:flex;gap:10px;flex-wrap:wrap}
+  .ps-swatch{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 16px 10px 10px;
+    background:transparent;border:1px solid var(--line);
+    color:var(--ink-dim);font-family:var(--sans);
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    cursor:pointer;transition:all .3s;
+  }
+  .ps-swatch-dot{
+    width:20px;height:20px;border:1px solid var(--line);
+    flex-shrink:0;transition:border-color .3s,box-shadow .3s;
+  }
+  /* Colores de swatches — añadir aquí para cada color nuevo */
+  .ps-swatch[data-color="black"] .ps-swatch-dot{background:#0f0e0c}
+  .ps-swatch[data-color="sand"]  .ps-swatch-dot{background:#c8b896}
+  .ps-swatch[data-color="beige"] .ps-swatch-dot{background:#e8e0d0}
+  .ps-swatch[data-color="grey"]  .ps-swatch-dot{background:#5a5a5a}
+  .ps-swatch[data-color="navy"]  .ps-swatch-dot{background:#1a2040}
+  .ps-swatch[data-color="cream"] .ps-swatch-dot{background:#e8dfc8}
+  /* ↑ Añade aquí más colores cuando los necesites */
+  .ps-swatch:hover{border-color:var(--gold);color:var(--ink)}
+  .ps-swatch:hover .ps-swatch-dot{border-color:var(--gold)}
+  .ps-swatch.active{border-color:var(--gold);color:var(--ink)}
+  .ps-swatch.active .ps-swatch-dot{
+    border-color:var(--gold);
+    box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--gold);
+  }
+  .tee-badge{position:absolute;top:18px;right:18px;background:var(--bg);border:1px solid var(--gold);color:var(--gold);padding:8px 14px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;z-index:3}
+
+  .tee-content h2{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);font-weight:400;line-height:.98;letter-spacing:-.015em;margin-bottom:22px}
+  .tee-content h2 em{font-style:italic;color:var(--gold);font-weight:300}
+  .tee-content .lead{font-size:16px;color:var(--ink-dim);line-height:1.8;margin-bottom:18px;max-width:500px}
+  .tee-content .lead.strong{color:var(--ink);font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;margin-bottom:28px;max-width:520px}
+  .tee-content .lead.strong span{color:var(--gold)}
+
+  .tee-specs{list-style:none;margin-bottom:36px;border-top:1px solid var(--line)}
+  .tee-specs li{display:grid;grid-template-columns:28px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-dim)}
+  .tee-specs li b{color:var(--ink);font-weight:500}
+  .tee-specs .n{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:13px}
+
+  .tee-price-row{display:flex;align-items:baseline;gap:18px;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tee-price{font-family:var(--serif);font-size:52px;color:var(--ink);letter-spacing:-.01em;line-height:1}
+  .tee-price em{font-style:italic;color:var(--gold);font-size:28px;margin-left:6px;font-weight:400}
+  .tee-price-note{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+
+  /* Selector de COLOR — ver sistema .ps-swatch más abajo */
+  .tee-colors{margin-bottom:26px}
+  .tee-colors-label,.tee-sizes-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .tee-colors-label .current,.tee-sizes-label .current{color:var(--ink-dim);font-size:10px;letter-spacing:.15em}
+  /* Legacy .color-btn kept for backwards compat, sistema nuevo usa .ps-swatch */
+  .color-grid{display:flex;gap:10px;flex-wrap:wrap}
+
+  .tee-sizes{margin-bottom:28px}
+  .tee-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .tee-trust{margin-top:32px;display:flex;gap:24px;flex-wrap:wrap;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .tee-trust span{display:inline-flex;align-items:center;gap:8px}
+  .tee-trust .dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
+
+  /* =========================================
+     CORE TRACKSUIT — Founders Edition
+     ========================================= */
+  .tracksuit{border-top:1px solid var(--line);padding:160px 32px;background:var(--bg);position:relative;overflow:hidden}
+  .tracksuit::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 10% 40%,rgba(201,169,97,.10),transparent 55%),radial-gradient(ellipse at 90% 60%,rgba(201,169,97,.05),transparent 55%);pointer-events:none}
+  .tracksuit-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2}
+  @media(max-width:960px){.tracksuit-inner{grid-template-columns:1fr;gap:56px}}
+  .tracksuit-visual{position:relative;border:1px solid var(--line);padding:24px;background:linear-gradient(180deg,rgba(201,169,97,.04),transparent 60%)}
+  .tracksuit-visual::before,.tracksuit-visual::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold)}
+  .tracksuit-visual::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .tracksuit-visual::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .tracksuit-visual img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .tracksuit-visual:hover img{transform:scale(1.015)}
+  .tracksuit-badge{position:absolute;top:18px;right:18px;background:var(--bg);border:1px solid var(--gold);color:var(--gold);padding:8px 14px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;z-index:3}
+  .tracksuit-content h2{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);font-weight:400;line-height:.98;letter-spacing:-.015em;margin-bottom:22px}
+  .tracksuit-content h2 em{font-style:italic;color:var(--gold);font-weight:300}
+  .tracksuit-content .lead{font-size:16px;color:var(--ink-dim);line-height:1.8;margin-bottom:18px;max-width:500px}
+  .tracksuit-content .lead.strong{color:var(--ink);font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;margin-bottom:28px;max-width:520px}
+  .tracksuit-content .lead.strong span{color:var(--gold)}
+  .tracksuit-specs{list-style:none;margin-bottom:36px;border-top:1px solid var(--line)}
+  .tracksuit-specs li{display:grid;grid-template-columns:28px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-dim)}
+  .tracksuit-specs li b{color:var(--ink);font-weight:500}
+  .tracksuit-specs .n{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:13px}
+  .tracksuit-price-row{display:flex;align-items:baseline;gap:18px;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tracksuit-price{font-family:var(--serif);font-size:52px;color:var(--ink);letter-spacing:-.01em;line-height:1}
+  .tracksuit-price em{font-style:italic;color:var(--gold);font-size:28px;margin-left:6px;font-weight:400}
+  .tracksuit-price-note{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .tracksuit-sizes{margin-bottom:28px}
+  .tracksuit-sizes-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .tracksuit-sizes-label .current{color:var(--ink-dim);font-size:10px;letter-spacing:.15em}
+  .tracksuit-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .tracksuit-trust{margin-top:32px;display:flex;gap:24px;flex-wrap:wrap;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .tracksuit-trust span{display:inline-flex;align-items:center;gap:8px}
+  .tracksuit-trust .dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
+
+  /* =========================================
+     SCALABLE PRODUCT GALLERY SYSTEM
+     — Works for any product. Use .ds-gallery wrapper.
+     — Supports: click, swipe, autoplay
+     ========================================= */
+  .ds-gallery{
+    position:relative;overflow:hidden;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(201,169,97,.04),transparent 60%);
+  }
+  .ds-gallery::before,.ds-gallery::after{
+    content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold);z-index:3;
+  }
+  .ds-gallery::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .ds-gallery::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+  .ds-gallery-track{
+    display:flex;width:100%;
+    transition:transform .6s cubic-bezier(.65,.05,.36,1);
+    will-change:transform;
+    touch-action:pan-y; /* allow vertical scroll, intercept horizontal swipe */
+  }
+  .ds-gallery-slide{
+    flex:0 0 100%;width:100%;
+    padding:20px;box-sizing:border-box;
+  }
+  .ds-gallery-slide img{
+    width:100%;height:auto;display:block;
+    filter:drop-shadow(0 24px 48px rgba(0,0,0,.55));
+    transition:transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .ds-gallery:hover .ds-gallery-slide img{transform:scale(1.012)}
+
+  /* Dots */
+  .ds-gallery-dots{
+    position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+    display:flex;gap:8px;z-index:4;
+  }
+  .ds-gallery-dot{
+    width:24px;height:2px;background:rgba(245,242,236,.22);
+    border:none;padding:0;cursor:pointer;
+    transition:background .35s,width .35s;
+  }
+  .ds-gallery-dot:hover{background:rgba(201,169,97,.45)}
+  .ds-gallery-dot.active{background:var(--gold);width:36px}
+
+  /* Prev/Next arrows (hidden by default, shown on hover on desktop) */
+  .ds-gallery-prev,.ds-gallery-next{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(10,9,8,.7);border:1px solid var(--line);
+    color:var(--ink-dim);width:38px;height:38px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;z-index:4;font-size:16px;
+    transition:border-color .3s,color .3s,opacity .3s;
+    opacity:0;
+  }
+  .ds-gallery:hover .ds-gallery-prev,
+  .ds-gallery:hover .ds-gallery-next{opacity:1}
+  .ds-gallery-prev{left:12px}
+  .ds-gallery-next{right:12px}
+  .ds-gallery-prev:hover,.ds-gallery-next:hover{
+    border-color:var(--gold);color:var(--gold);
+  }
+  @media(max-width:768px){
+    .ds-gallery-prev,.ds-gallery-next{opacity:0 !important} /* swipe on mobile */
+    .ds-gallery-slide{padding:12px}
+  }
+
+  /* Product badge overlay */
+  .ds-gallery-badge{
+    position:absolute;top:16px;right:16px;z-index:3;
+    background:var(--bg);border:1px solid var(--gold);color:var(--gold);
+    padding:7px 12px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;
+  }
+
+  /* =========================================
+     SCALABLE SIZE GUIDE TOGGLE
+     ========================================= */
+  .size-guide-toggle{
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;display:inline-flex;
+    align-items:center;gap:6px;margin-left:12px;
+    border-bottom:1px solid var(--line);padding-bottom:1px;
+    transition:color .3s,border-color .3s;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;
+  }
+  .size-guide-toggle:hover{color:var(--gold);border-bottom-color:var(--gold)}
+
+  .size-guide-panel{
+    display:none;margin-top:16px;border:1px solid var(--line);
+    padding:20px;background:rgba(201,169,97,.03);
+  }
+  .size-guide-panel.open{display:block}
+  .size-guide-panel table{width:100%;border-collapse:collapse;font-size:11px}
+  .size-guide-panel th{
+    text-align:left;padding:8px 12px;
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold);border-bottom:1px solid var(--line);font-weight:500;
+  }
+  .size-guide-panel td{
+    padding:8px 12px;color:var(--ink-dim);
+    border-bottom:1px solid rgba(201,169,97,.07);font-size:11px;
+  }
+  .size-guide-panel tr:last-child td{border-bottom:none}
+  .size-guide-panel tr.highlight td{color:var(--ink)}
+
+  /* =========================================
+     STICKY ADD-TO-CART BAR (mobile)
+     — Appears when user scrolls past CTA
+     ========================================= */
+  .sticky-buy{
+    display:none;
+    position:fixed;bottom:0;left:0;right:0;z-index:90;
+    background:rgba(8,7,6,.95);backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);
+    padding:12px 20px;
+    transform:translateY(100%);
+    transition:transform .35s cubic-bezier(.4,0,.2,1);
+  }
+  .sticky-buy.visible{transform:translateY(0)}
+  .sticky-buy-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    max-width:600px;margin:0 auto;
+  }
+  .sticky-buy-info{display:flex;flex-direction:column;gap:2px}
+  .sticky-buy-name{
+    font-family:var(--serif);font-size:15px;color:var(--ink);
+    font-style:italic;letter-spacing:-.01em;
+  }
+  .sticky-buy-price{
+    font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);
+  }
+  .sticky-buy-btn{
+    background:var(--gold);color:var(--bg);border:none;
+    padding:13px 24px;font-family:var(--sans);font-size:10px;
+    letter-spacing:.22em;text-transform:uppercase;cursor:pointer;
+    transition:background .3s;white-space:nowrap;flex-shrink:0;
+  }
+  .sticky-buy-btn:hover{background:var(--ink)}
+  @media(max-width:768px){.sticky-buy{display:block}}
+
+  .access{padding:180px 32px;text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+  .access::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,169,97,.12),transparent 60%)}
+  .access-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}
+  .access h2{font-family:var(--serif);font-size:clamp(44px,6vw,84px);font-weight:400;line-height:1;letter-spacing:-.015em;margin-bottom:32px}
+  .access h2 em{font-style:italic;color:var(--gold);font-weight:300}
+  .access-sub{font-size:16px;color:var(--ink-dim);margin-bottom:56px;max-width:480px;margin-left:auto;margin-right:auto}
+  .access-form{display:flex;gap:0;max-width:560px;margin:0 auto;border:1px solid var(--line);transition:border-color .4s}
+  .access-form:focus-within{border-color:var(--gold)}
+  .access-form input{flex:1;background:transparent;border:none;color:var(--ink);padding:22px 28px;font-family:var(--sans);font-size:14px;outline:none}
+  .access-form input::placeholder{color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase;font-size:11px}
+  .access-form button{background:var(--gold);color:var(--bg);border:none;padding:0 36px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background .3s;font-family:var(--sans)}
+  .access-form button:hover{background:var(--ink)}
+  @media(max-width:600px){.access-form{flex-direction:column}.access-form button{padding:20px}}
+  .access-meta{margin-top:32px;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim)}
+  .access-meta span{color:var(--gold)}
+  .form-message{margin-top:18px;min-height:24px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .form-message.success{color:var(--beige)}
+  .form-message.error{color:#d98989}
+
+  .philosophy{border-top:1px solid var(--line);padding:180px 32px;background:var(--bg-2)}
+  .philosophy-inner{max-width:900px;margin:0 auto;text-align:center}
+  .philosophy blockquote{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:400;line-height:1.25;letter-spacing:-.01em;margin-bottom:48px}
+  .philosophy blockquote em{font-style:italic;color:var(--gold);font-weight:300}
+  .philosophy-sig{display:inline-flex;align-items:center;gap:16px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim)}
+  .philosophy-sig::before,.philosophy-sig::after{content:"";width:40px;height:1px;background:var(--gold)}
+
+  footer{border-top:1px solid var(--line);padding:80px 32px 40px}
+  .footer-inner{max-width:1280px;margin:0 auto}
+  .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:80px}
+  @media(max-width:800px){.footer-top{grid-template-columns:1fr 1fr;gap:48px}}
+  @media(max-width:500px){.footer-top{grid-template-columns:1fr}}
+  .footer-brand .logo{font-size:28px;display:inline-flex;margin-bottom:20px}
+  .footer-brand .logo img{height:54px}
+  .footer-brand .logo .logo-text{font-size:20px}
+  .footer-brand p{color:var(--ink-dim);font-size:13px;max-width:320px;line-height:1.7}
+  .footer-col h4{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);margin-bottom:20px;font-weight:400}
+  .footer-col ul{list-style:none}
+  .footer-col ul li{margin-bottom:12px}
+  .footer-col a{color:var(--ink-dim);text-decoration:none;font-size:13px;transition:color .3s;display:inline-flex;align-items:center;gap:8px}
+  .footer-col a:hover{color:var(--ink)}
+  .footer-col .soon{font-size:9px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;border:1px solid var(--line);padding:2px 6px}
+  .footer-bottom{padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-dim);flex-wrap:wrap;gap:16px}
+  .footer-bottom a{color:var(--ink-dim);text-decoration:none}
+  .footer-bottom a:hover{color:var(--gold)}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* ENTRY MODAL */
+  .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(5,4,3,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .5s cubic-bezier(.4,0,.2,1)}
+  .modal-backdrop.open{opacity:1;pointer-events:auto}
+  .modal-card{position:relative;max-width:520px;width:100%;background:var(--bg);border:1px solid var(--gold);padding:56px 44px 48px;text-align:center;transform:translateY(30px) scale(.98);transition:transform .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 40px 120px rgba(0,0,0,.8),0 0 0 1px rgba(201,169,97,.15),inset 0 0 80px rgba(201,169,97,.04)}
+  .modal-backdrop.open .modal-card{transform:translateY(0) scale(1)}
+  .modal-card::before,.modal-card::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--gold)}
+  .modal-card::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .modal-card::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;background:transparent;border:1px solid var(--line);color:var(--ink-dim);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:18px;transition:all .3s;line-height:1}
+  .modal-close:hover{border-color:var(--gold);color:var(--gold)}
+  .modal-tag{display:inline-flex;align-items:center;gap:12px;color:var(--gold);font-size:10px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:22px}
+  .modal-tag::before,.modal-tag::after{content:"";width:24px;height:1px;background:var(--gold)}
+  .modal-card h3{font-family:var(--serif);font-size:clamp(32px,5.5vw,46px);font-weight:400;line-height:1;margin-bottom:18px;letter-spacing:-.01em}
+  .modal-card h3 em{font-style:italic;color:var(--gold);font-weight:300}
+  .modal-card p{color:var(--ink-dim);font-size:13px;line-height:1.7;margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto}
+  .modal-form{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);transition:border-color .4s;max-width:420px;margin:0 auto}
+  .modal-form:focus-within{border-color:var(--gold)}
+  .modal-form input{background:transparent;border:none;color:var(--ink);padding:20px 24px;font-family:var(--sans);font-size:14px;outline:none;text-align:center}
+  .modal-form input::placeholder{color:var(--ink-dim);letter-spacing:.15em;text-transform:uppercase;font-size:11px}
+  .modal-form button{background:var(--gold);color:var(--bg);border:none;padding:20px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background .3s;font-family:var(--sans)}
+  .modal-form button:hover{background:var(--ink)}
+  .modal-form button:disabled{opacity:.6;cursor:not-allowed}
+  .modal-msg{margin-top:16px;min-height:18px;font-size:11px;letter-spacing:.06em}
+  .modal-msg.error{color:#d98989}
+  .modal-msg.success{color:var(--beige)}
+  .modal-meta{margin-top:28px;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim)}
+  .modal-meta span{color:var(--gold)}
+  .modal-skip{margin-top:18px;background:none;border:none;color:var(--ink-dim);font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:4px;opacity:.6;transition:opacity .3s}
+  .modal-skip:hover{opacity:1;color:var(--gold)}
+  @media(max-width:500px){.modal-card{padding:48px 24px 36px}}
+</style>
+</head>
+<body>
+
+<!-- Announcement bar · Drop live -->
+<div class="announce-bar" role="banner" aria-label="Drop announcement">
+  <div class="announce-track">
+    <span><span class="dot"></span>First Drop · Live Now<span class="sep">·</span>Made to Order<span class="sep">·</span>Founders Edition · N° 001</span>
+    <span><span class="dot"></span>First Drop · Live Now<span class="sep">·</span>Made to Order<span class="sep">·</span>Founders Edition · N° 001</span>
+    <span><span class="dot"></span>First Drop · Live Now<span class="sep">·</span>Made to Order<span class="sep">·</span>Founders Edition · N° 001</span>
+    <span><span class="dot"></span>First Drop · Live Now<span class="sep">·</span>Made to Order<span class="sep">·</span>Founders Edition · N° 001</span>
+  </div>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <img src="ds-logo.png" alt="Discipline Society">
+    <span class="logo-text">Discipline<em>/</em>Society</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#brand">La Marca</a></li>
+    <li><a href="#tee">Core Tee</a></li>
+    <li><a href="#tracksuit">DS Tracksuit</a></li>
+    <li><a href="#hoodie">Hoodie EYP</a></li>
+    <li><a href="#access">Acceso</a></li>
+    <li><a href="#philosophy">Filosofía</a></li>
+  </ul>
+
+  <!-- Account widget (desktop) -->
+  <div class="nav-auth-widget" id="nav-auth-widget">
+    <a href="/registro.html" class="nav-auth-register" data-auth="guest">Registrarse</a>
+    <a href="/acceder.html" class="nav-auth-guest" data-auth="guest">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Acceder
+    </a>
+    <div class="nav-account-wrap" data-auth="user">
+      <button class="nav-account-btn" id="nav-account-btn" aria-haspopup="true" aria-expanded="false" type="button">
+        <div class="nav-avatar" id="nav-avatar" aria-hidden="true">D</div>
+        <svg class="nav-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="nav-dropdown" id="nav-dropdown" role="menu">
+        <div class="nav-dropdown-email" id="nav-dropdown-email">Cargando…</div>
+        <a href="/mi-cuenta" role="menuitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mi cuenta
+        </a>
+        <a href="/mi-cuenta" role="menuitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Mis pedidos
+        </a>
+        <div class="nav-dropdown-sep"></div>
+        <button id="nav-signout-btn" class="nav-dropdown-signout" role="menuitem" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menú" aria-expanded="false" type="button">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- =========================================
+     MOBILE NAV OVERLAY — Premium
+     ========================================= -->
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+  <div class="mobile-nav-topbar">
+    <div class="mobile-nav-brand">Discipline<em>/</em>Society</div>
+    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Cerrar menú" type="button">×</button>
+  </div>
+  <div class="mobile-nav-body">
+    <ul class="mobile-nav-links">
+      <li><a href="#brand" class="mobile-nav-link">La <em>Marca</em></a></li>
+      <li><a href="#tee" class="mobile-nav-link">Core <em>Tee</em></a></li>
+      <li><a href="#tracksuit" class="mobile-nav-link">DS <em>Tracksuit</em></a></li>
+      <li><a href="#hoodie" class="mobile-nav-link">Hoodie <em>EYP</em></a></li>
+      <li><a href="#access" class="mobile-nav-link"><em>Acceso</em> Privado</a></li>
+      <li><a href="#philosophy" class="mobile-nav-link">Filo<em>sofía</em></a></li>
+    </ul>
+  </div>
+  <div class="mobile-nav-auth">
+    <a href="/acceder.html" data-auth="guest" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign In
+    </a>
+    <a href="/registro.html" data-auth="guest" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M9 7a4 4 0 1 0 8 0 4 4 0 0 0-8 0"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      Create Account
+    </a>
+    <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      My Account
+    </a>
+    <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      My Orders
+    </a>
+    <a href="#" data-auth="user" data-action="logout" class="mobile-nav-link--logout">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </a>
+  </div>
+  <div class="mobile-nav-footer">
+    <span>Miami · Barcelona · MMXXVI</span>
+    <span class="mobile-nav-footer-dot"></span>
+  </div>
+</div>
+
+<!-- =========================================
+     QUICK-NAV STRIP (mobile only)
+     ========================================= -->
+<nav class="quick-nav" aria-label="Acceso rápido productos">
+  <div class="quick-nav-inner">
+    <a href="#tee" class="quick-nav-link"><span class="qn-dot"></span>Core Tee</a>
+    <a href="#tracksuit" class="quick-nav-link">DS Tracksuit</a>
+    <a href="#hoodie" class="quick-nav-link">Hoodie EYP</a>
+    <a href="#access" class="quick-nav-link">Acceso Privado</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Primer Drop — Ya disponible · Bajo pedido</div>
+    <h1>
+      <span class="line">Esto no es</span>
+      <span class="line">para <em>todos.</em></span>
+    </h1>
+    <p class="hero-sub">El <em style="color:var(--gold);font-style:italic">primer drop</em> de Discipline Society ya está disponible. Core Tee, Hoodie Earn Your Place y DS Tracksuit en producción limitada bajo pedido — cuando se acaban, se acaban. Un movimiento silencioso para quienes ya saben lo que quieren.</p>
+    <div class="hero-cta">
+      <a href="#tee" class="btn btn-primary">Ver el Drop <span class="arrow">→</span></a>
+      <a href="#access" class="btn btn-secondary">Acceso Anticipado</a>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <span><span class="dot"></span>Live · MMXXVI · Miami · Barcelona</span>
+    <span>N° 001 / Founders Edition</span>
+  </div>
+</section>
+
+<!-- =========================================
+     SOCIAL PROOF BAR
+     ========================================= -->
+<div class="social-proof reveal">
+  <div class="social-proof-inner">
+    <div class="sp-stat">
+      <div class="sp-num">1<em>K+</em></div>
+      <div class="sp-label">Miembros fundadores</div>
+    </div>
+    <div class="sp-sep"></div>
+    <div class="sp-stat">
+      <div class="sp-num">3</div>
+      <div class="sp-label">Drops exclusivos</div>
+    </div>
+    <div class="sp-sep"></div>
+    <div class="sp-stat">
+      <div class="sp-num">48<em>h</em></div>
+      <div class="sp-label">Tiempo medio agotado</div>
+    </div>
+    <div class="sp-sep"></div>
+    <div class="sp-stat">
+      <div class="sp-num"><em>∞</em></div>
+      <div class="sp-label">Sin segundas oportunidades</div>
+    </div>
+  </div>
+</div>
+
+<section class="brand" id="brand">
+  <div class="container">
+    <div class="section-label reveal">La Marca</div>
+    <h2 class="section-title reveal">Un movimiento <em>silencioso.</em><br>Una identidad <em>exacta.</em></h2>
+    <div class="brand-grid" style="margin-top:60px">
+      <div class="brand-text reveal">
+        <p>Discipline Society no se vende. Se entiende. Nació de una obsesión: que la disciplina deje de ser un castigo y se convierta en un estilo de vida visible, deseable y aspiracional.</p>
+        <p>No somos una marca de gimnasio. No somos streetwear genérico. Somos el uniforme de quienes han decidido construirse en silencio mientras los demás hablan. Quienes eligen el esfuerzo por encima del aplauso.</p>
+        <p>Cada prenda, cada fórmula, cada sistema está diseñado para una sola cosa: reflejar el nivel de quien lo lleva.</p>
+      </div>
+      <div class="brand-pillars reveal">
+        <div class="pillar"><div class="pillar-num">I.</div><div><div class="pillar-title">Silencio</div><div class="pillar-desc">Trabajamos sin ruido. El resultado habla solo.</div></div></div>
+        <div class="pillar"><div class="pillar-num">II.</div><div><div class="pillar-title">Exclusividad</div><div class="pillar-desc">Producción bajo demanda. Drops limitados. Nada masivo.</div></div></div>
+        <div class="pillar"><div class="pillar-num">III.</div><div><div class="pillar-title">Precisión</div><div class="pillar-desc">Cada detalle decidido. Nada improvisado.</div></div></div>
+        <div class="pillar"><div class="pillar-num">IV.</div><div><div class="pillar-title">Superioridad</div><div class="pillar-desc">No competimos. Establecemos el estándar.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     DS CORE TEE — Founders Edition
+     ========================================= -->
+<section class="tee" id="tee">
+  <div class="tee-inner">
+    <div class="tee-content reveal">
+      <div class="section-label">Founders Drop · N° 002</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>Edición limitada · Quedan pocas unidades</div>
+      <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
+      <h2>DS <em>Core Tee.</em><br>Founders <em>Edition.</em></h2>
+      <p class="lead strong">
+        No es una camiseta.<br>
+        Es el <span>uniforme</span> de quien ya ha decidido ir en serio.
+      </p>
+      <p class="lead">
+        Diseñada para ajustarse al cuerpo con precisión, resaltar la estructura física y mantenerse firme bajo cualquier entrenamiento. Minimalista. Técnica. Silenciosa. Porque no necesitas hablar cuando tu físico ya lo hace por ti.
+      </p>
+
+      <ul class="tee-specs">
+        <li><span class="n">I.</span><div><b>Ajuste compresivo premium</b> — estructura que respeta la forma.</div></li>
+        <li><span class="n">II.</span><div><b>Tejido técnico transpirable</b> — entreno o calle, nunca cede.</div></li>
+        <li><span class="n">III.</span><div><b>Logo DS bordado frontal</b> — detalle silencioso, acabado premium.</div></li>
+        <li><span class="n">IV.</span><div><b>"Earn Your Place" en espalda</b> — firma vertical discreta.</div></li>
+        <li><span class="n">V.</span><div><b>Edición limitada — no restock</b>. Cuando se acaba, se acaba.</div></li>
+      </ul>
+
+      <div class="tee-price-row">
+        <div class="tee-price">45<em>€</em></div>
+        <div class="tee-price-note">Envío incluido UE · Edición limitada</div>
+      </div>
+
+      <!-- Selector de color — usa ps-swatch para conectar al slider -->
+      <div class="tee-colors">
+        <div class="tee-colors-label ps-color-label" id="tee-color-label">
+          Color <span class="current ps-color-name" id="tee-color-current">— Negro</span>
+        </div>
+        <div class="ps-swatches" id="tee-color-grid">
+          <!-- ↓ AÑADE NUEVOS COLORES AQUÍ (también en PRODUCT_CATALOG en el JS) -->
+          <button class="ps-swatch active" data-color="black" type="button" aria-label="Color negro">
+            <span class="ps-swatch-dot"></span>Negro
+          </button>
+          <button class="ps-swatch" data-color="sand" type="button" aria-label="Color arena">
+            <span class="ps-swatch-dot"></span>Arena
+          </button>
+        </div>
+      </div>
+
+      <div class="tee-sizes">
+        <div class="tee-sizes-label">Talla <span class="current" id="tee-size-current">— L</span></div>
+        <div class="size-grid" id="tee-size-grid">
+          <button class="size-btn" data-size="S" type="button">S</button>
+          <button class="size-btn" data-size="M" type="button">M</button>
+          <button class="size-btn active" data-size="L" type="button">L</button>
+          <button class="size-btn" data-size="XL" type="button">XL</button>
+          <button class="size-btn" data-size="XXL" type="button">XXL</button>
+        </div>
+      </div>
+
+      <div class="tee-cta">
+        <button id="buy-tee-btn" class="btn btn-primary" type="button">Comprar ahora <span class="arrow">→</span></button>
+        <a href="#access" class="btn btn-secondary">Acceso Anticipado</a>
+      </div>
+      <div id="tee-checkout-message" class="checkout-message" aria-live="polite"></div>
+
+      <div class="tee-trust">
+        <span><span class="dot"></span>Pago seguro vía Stripe</span>
+        <span><span class="dot"></span>Envío en 5–7 días</span>
+        <span><span class="dot"></span>Devolución 14 días</span>
+      </div>
+    </div>
+
+    <!-- SLIDER TEE — slides se inyectan desde PRODUCT_CATALOG en JS -->
+    <div class="tee-visual-wrap reveal">
+      <div class="tee-visual">
+        <div class="tee-badge">N° 002 · Founders</div>
+        <div class="ps-wrap" data-product="tee">
+          <div class="ps-track"></div>
+          <div class="ps-dots"></div>
+          <button class="ps-prev" aria-label="Imagen anterior">‹</button>
+          <button class="ps-next" aria-label="Imagen siguiente">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     DS CORE TRACKSUIT — Founders Edition
+     ========================================= -->
+<section class="tracksuit" id="tracksuit">
+  <div class="tracksuit-inner">
+    <!-- SLIDER TRACKSUIT — slides se inyectan desde PRODUCT_CATALOG en JS -->
+    <div class="tracksuit-visual-wrap reveal">
+      <div class="tracksuit-visual">
+        <div class="tracksuit-badge">N° 003 · Founders</div>
+        <div class="ps-wrap" data-product="tracksuit">
+          <div class="ps-track"></div>
+          <div class="ps-dots"></div>
+          <button class="ps-prev" aria-label="Imagen anterior">‹</button>
+          <button class="ps-next" aria-label="Imagen siguiente">›</button>
+        </div>
+      </div>
+    </div>
+    <div class="tracksuit-content reveal">
+      <div class="section-label">DS Discipline Society Tracksuit · N° 003</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>Set completo · Stock muy limitado</div>
+      <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
+      <h2>DS Discipline Society<br><em>Tracksuit.</em></h2>
+      <p class="lead strong">
+        No es un chándal.<br>
+        Es la <span>armadura</span> de quien entrena en silencio y domina de día.
+      </p>
+      <p class="lead">
+        Nylon técnico con caída estructurada, bordados "Discipline Society" en manga y pierna, y logo DS sobre el pecho. Zips laterales en el bajo del pantalón para ajuste exacto sobre la zapatilla. Diseñado para el gimnasio, construido para la calle.
+      </p>
+
+      <ul class="tracksuit-specs">
+        <li><span class="n">I.</span><div><b>Nylon técnico arrugado premium</b> — textura que respira carácter.</div></li>
+        <li><span class="n">II.</span><div><b>Bordado "Discipline Society"</b> — manga y pierna, hilo blanco sobre navy.</div></li>
+        <li><span class="n">III.</span><div><b>Logo DS sobre el pecho</b> — monograma bordado con estrellas.</div></li>
+        <li><span class="n">IV.</span><div><b>Zip lateral en el bajo</b> — ajuste exacto sobre la zapatilla.</div></li>
+        <li><span class="n">V.</span><div><b>Set completo · 2 piezas</b> — chaqueta + pantalón · producción limitada.</div></li>
+      </ul>
+
+      <div class="tracksuit-price-row">
+        <div class="tracksuit-price">149<em>€</em></div>
+        <div class="tracksuit-price-note">Envío incluido UE · Set completo · Edición limitada</div>
+      </div>
+
+      <div class="tracksuit-sizes">
+        <div class="tracksuit-sizes-label">Talla <span class="current" id="tracksuit-size-current">— L</span></div>
+        <div class="size-grid" id="tracksuit-size-grid">
+          <button class="size-btn" data-size="S" type="button">S</button>
+          <button class="size-btn" data-size="M" type="button">M</button>
+          <button class="size-btn active" data-size="L" type="button">L</button>
+          <button class="size-btn" data-size="XL" type="button">XL</button>
+          <button class="size-btn" data-size="XXL" type="button">XXL</button>
+        </div>
+      </div>
+
+      <div class="tracksuit-cta">
+        <button id="buy-tracksuit-btn" class="btn btn-primary" type="button">Comprar ahora <span class="arrow">→</span></button>
+        <a href="#access" class="btn btn-secondary">Acceso Anticipado</a>
+      </div>
+      <div id="tracksuit-checkout-message" class="checkout-message" aria-live="polite"></div>
+
+      <div class="tracksuit-trust">
+        <span><span class="dot"></span>Pago seguro vía Stripe</span>
+        <span><span class="dot"></span>Envío en 5–7 días</span>
+        <span><span class="dot"></span>Devolución 14 días</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hoodie" id="hoodie">
+  <div class="hoodie-inner">
+    <!-- SLIDER HOODIE — slides se inyectan desde PRODUCT_CATALOG en JS -->
+    <div class="hoodie-visual reveal">
+      <div class="hoodie-badge">N° 001 · Founders</div>
+      <div class="ps-wrap" data-product="hoodie">
+        <div class="ps-track"></div>
+        <div class="ps-dots"></div>
+        <button class="ps-prev" aria-label="Imagen anterior">‹</button>
+        <button class="ps-next" aria-label="Imagen siguiente">›</button>
+      </div>
+    </div>
+    <div class="hoodie-content reveal">
+      <div class="section-label">Hoodie Earn Your Place · N° 001</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>N° 001 · Producción bajo demanda · Sin restock</div>
+      <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
+      <h2>Hoodie <em>Earn</em><br>Your <em>Place.</em></h2>
+      <p class="lead">La primera prenda del movimiento. Algodón pesado, cortes estudiados y detalles que solo reconoce quien sabe. Producción limitada bajo demanda — cuando se acaba, se acaba.</p>
+      <ul class="hoodie-specs">
+        <li><span class="n">I.</span><div><b>Bordado frontal en alta definición</b> — logo DS en hilo dorado mate.</div></li>
+        <li><span class="n">II.</span><div><b>Cordones gruesos con agujetas grabadas</b> — herrajes metálicos sellados.</div></li>
+        <li><span class="n">III.</span><div><b>Parche lateral "EST. 2026"</b> — piel PU cosida a mano.</div></li>
+        <li><span class="n">IV.</span><div><b>Bordado en manga "Earn Your Place"</b> — firma silenciosa.</div></li>
+      </ul>
+      <div class="hoodie-price-row">
+        <div class="hoodie-price">89<em>€</em></div>
+        <div class="hoodie-price-note">Envío incluido UE · Producción limitada</div>
+      </div>
+      <div class="hoodie-sizes">
+        <div class="hoodie-sizes-label" style="display:flex;align-items:center;gap:0;flex-wrap:wrap">
+          Talla
+          <button class="size-guide-toggle" type="button" onclick="this.closest('.hoodie-sizes').querySelector('.size-guide-panel').classList.toggle('open')">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Guía de tallas
+          </button>
+        </div>
+        <div class="size-guide-panel">
+          <table><thead><tr><th>Talla</th><th>Pecho (cm)</th><th>Largo (cm)</th><th>Hombro (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>S</td><td>96–100</td><td>68</td><td>44</td></tr>
+            <tr><td>M</td><td>100–104</td><td>70</td><td>46</td></tr>
+            <tr class="highlight"><td>L</td><td>104–108</td><td>72</td><td>48</td></tr>
+            <tr><td>XL</td><td>108–114</td><td>74</td><td>50</td></tr>
+            <tr><td>XXL</td><td>114–122</td><td>76</td><td>52</td></tr>
+          </tbody></table>
+        </div>
+        <div class="size-grid" id="size-grid">
+          <button class="size-btn" data-size="S" type="button">S</button>
+          <button class="size-btn" data-size="M" type="button">M</button>
+          <button class="size-btn active" data-size="L" type="button">L</button>
+          <button class="size-btn" data-size="XL" type="button">XL</button>
+          <button class="size-btn" data-size="XXL" type="button">XXL</button>
+        </div>
+      </div>
+      <div class="hoodie-cta">
+        <button id="buy-hoodie-btn" class="btn btn-primary" type="button">Comprar ahora <span class="arrow">→</span></button>
+        <a href="#access" class="btn btn-secondary">Acceso Anticipado</a>
+      </div>
+      <div id="checkout-message" class="checkout-message" aria-live="polite"></div>
+      <div class="hoodie-trust">
+        <span><span class="dot"></span>Pago seguro vía Stripe</span>
+        <span><span class="dot"></span>Envío en 5–7 días</span>
+        <span><span class="dot"></span>Devolución 14 días</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="access" id="access">
+  <div class="access-inner">
+    <div class="section-label reveal" style="justify-content:center">Acceso Anticipado</div>
+    <h2 class="reveal">Accede <em>antes</em><br>que el resto.</h2>
+    <p class="access-sub reveal">Solo los que entienden esto entran primero. Lanzamientos, drops privados y guías antes de que existan para el resto.</p>
+    <form class="access-form reveal" id="lead-form" name="early-access" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="early-access">
+      <input type="email" id="email" name="email" placeholder="TU EMAIL" required>
+      <button type="submit" id="submit-btn">Entrar en la lista</button>
+    </form>
+    <div id="form-message" class="form-message reveal" aria-live="polite"></div>
+    <div class="access-meta reveal"><span>●</span> Lista privada · Cero spam · Solo lo que importa</div>
+  </div>
+</section>
+
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-inner">
+    <div class="section-label reveal" style="justify-content:center">Filosofía</div>
+    <blockquote class="reveal">"Mientras todos buscan <em>aplausos</em>, nosotros buscamos <em>resultados</em>. Mientras todos hablan, nosotros construimos. La disciplina no se enseña en un día, pero se nota en cada uno de ellos."</blockquote>
+    <div class="philosophy-sig reveal">Discipline Society</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo footer-logo">
+          <img src="ds-logo.png" alt="Discipline Society">
+          <span class="logo-text">Discipline<em>/</em>Society</span>
+        </a>
+        <p>Un movimiento para quienes eligen construirse en silencio. Ropa, nutrición y sistemas de disciplina de nivel élite.</p>
+      </div>
+      <div class="footer-col"><h4>Shop</h4><ul>
+        <li><a href="#tee">Core Tee</a></li>
+        <li><a href="#tracksuit">DS Tracksuit</a></li>
+        <li><a href="#hoodie">Hoodie EYP</a></li>
+        <li><a href="#">Drops <span class="soon">Soon</span></a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Nutrition</h4><ul>
+        <li><a href="#">Cream of Rice <span class="soon">Soon</span></a></li>
+        <li><a href="#">Protein <span class="soon">Soon</span></a></li>
+        <li><a href="#">Stack <span class="soon">Soon</span></a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Systems</h4><ul>
+        <li><a href="#">Free Guide <span class="soon">Soon</span></a></li>
+        <li><a href="#">Ebooks <span class="soon">Soon</span></a></li>
+        <li><a href="#">Programs <span class="soon">Soon</span></a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© MMXXVI · Discipline Society</div>
+      <div>Miami · Barcelona</div>
+      <div><a href="#">Instagram</a> · <a href="#">Contact</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- Formularios ocultos para que Netlify Forms los detecte en build time -->
+<form name="early-access" method="POST" data-netlify="true" hidden>
+  <input type="hidden" name="form-name" value="early-access">
+  <input type="email" name="email">
+</form>
+<form name="early-access-modal" method="POST" data-netlify="true" hidden>
+  <input type="hidden" name="form-name" value="early-access-modal">
+  <input type="email" name="email">
+</form>
+
+<!-- ENTRY MODAL -->
+<div class="modal-backdrop" id="entry-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+  <div class="modal-card" role="document">
+    <button class="modal-close" id="modal-close-btn" aria-label="Cerrar" type="button">×</button>
+    <div class="modal-tag">Acceso Privado</div>
+    <h3 id="modal-title">Esto no es<br><em>para todos.</em></h3>
+    <p>Drops limitados, guías privadas y lanzamientos antes que el resto. Si lo entiendes, entra.</p>
+    <form class="modal-form" id="modal-form" name="early-access-modal" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="early-access-modal">
+      <input type="email" id="modal-email" name="email" placeholder="Tu email" required autocomplete="email">
+      <button type="submit" id="modal-submit">Entrar en la lista</button>
+    </form>
+    <div class="modal-msg" id="modal-msg" aria-live="polite"></div>
+    <div class="modal-meta"><span>●</span> Cero spam · Solo lo que importa</div>
+    <button class="modal-skip" id="modal-skip" type="button">No, gracias — solo mirar</button>
+  </div>
+</div>
+
+<script type="module">
+  import { supabase } from '/assets/js/supabase-client.js';
+
+  /* =========================================
+     HAMBURGER MENU
+     ========================================= */
+  const hamburger   = document.getElementById('nav-hamburger');
+  const mobileNav   = document.getElementById('mobile-nav');
+  const mobileLinks = mobileNav.querySelectorAll('a[href^="#"]');
+
+  function openMobileNav() {
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileNav.classList.add('open');
+    mobileNav.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+  function closeMobileNav() {
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileNav.classList.remove('open');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
+  });
+  // Close button inside the mobile nav
+  const mobileNavClose = document.getElementById('mobile-nav-close');
+  mobileNavClose?.addEventListener('click', closeMobileNav);
+
+  mobileLinks.forEach(link => link.addEventListener('click', closeMobileNav));
+  // Also close when clicking auth/footer links inside mobile nav
+  mobileNav.querySelectorAll('.mobile-nav-link--auth, .mobile-nav-link--logout').forEach(el => {
+    el.addEventListener('click', closeMobileNav);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) closeMobileNav();
+  });
+
+  // Quick nav active state on scroll
+  const qnLinks = document.querySelectorAll('.quick-nav-link[href^="#"]');
+  if (qnLinks.length) {
+    const qnSections = Array.from(qnLinks).map(l => document.querySelector(l.getAttribute('href')));
+    window.addEventListener('scroll', () => {
+      const mid = window.scrollY + window.innerHeight / 2;
+      let active = null;
+      qnSections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= mid) active = i;
+      });
+      qnLinks.forEach((l, i) => l.classList.toggle('active', i === active));
+    }, { passive: true });
+  }
+
+  /* =========================================
+     ACCOUNT DROPDOWN — AUTH STATE
+     ========================================= */
+  const navAccountBtn    = document.getElementById('nav-account-btn');
+  const navDropdown      = document.getElementById('nav-dropdown');
+  const navAvatar        = document.getElementById('nav-avatar');
+  const navDropdownEmail = document.getElementById('nav-dropdown-email');
+  const navSignoutBtn    = document.getElementById('nav-signout-btn');
+  const navAuthGuest     = document.querySelector('.nav-auth-guest[data-auth="guest"]');
+  const navAccountWrap   = document.querySelector('.nav-account-wrap[data-auth="user"]');
+
+  // Mobile auth elements
+  const mobileGuest   = mobileNav.querySelectorAll('[data-auth="guest"]');
+  const mobileUser    = mobileNav.querySelectorAll('[data-auth="user"]');
+
+  function applyAuthState(session) {
+    const authed = !!session;
+
+    // Desktop nav widget
+    if (navAuthGuest)   navAuthGuest.classList.toggle('auth-visible', !authed);
+    if (navAccountWrap) navAccountWrap.classList.toggle('auth-visible', authed);
+
+    // Register link (same guest state as Acceder)
+    const navRegister = document.querySelector('.nav-auth-register[data-auth="guest"]');
+    if (navRegister) navRegister.classList.toggle('auth-visible', !authed);
+
+    // Mobile nav
+    mobileGuest.forEach(el => el.style.display = authed ? 'none' : '');
+    mobileUser.forEach(el  => el.style.display = authed ? '' : 'none');
+
+    // Populate avatar + email
+    if (authed && session.user) {
+      const email   = session.user.email || '';
+      const initial = email.charAt(0).toUpperCase() || 'D';
+      if (navAvatar)        navAvatar.textContent        = initial;
+      if (navDropdownEmail) navDropdownEmail.textContent = email;
+    }
+  }
+
+  // Toggle dropdown on button click
+  function openDropdown() {
+    navDropdown.classList.add('open');
+    navAccountBtn.classList.add('open');
+    navAccountBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeDropdown() {
+    navDropdown.classList.remove('open');
+    navAccountBtn.classList.remove('open');
+    navAccountBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  navAccountBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navDropdown.classList.contains('open') ? closeDropdown() : openDropdown();
+  });
+
+  // Close dropdown clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navDropdown?.contains(e.target) && e.target !== navAccountBtn) {
+      closeDropdown();
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDropdown();
+  });
+
+  // Sign out
+  async function doSignOut() {
+    if (navSignoutBtn) {
+      navSignoutBtn.textContent = 'Cerrando...';
+      navSignoutBtn.disabled = true;
+    }
+    await supabase.auth.signOut();
+    window.location.reload();
+  }
+  navSignoutBtn?.addEventListener('click', doSignOut);
+
+  // Mobile logout buttons (data-action="logout")
+  mobileNav.querySelectorAll('[data-action="logout"]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await doSignOut();
+    });
+  });
+
+  // Init auth state
+  const { data: { session: initSession } } = await supabase.auth.getSession();
+  applyAuthState(initSession);
+
+  // Live updates (login/logout in other tabs, token refresh)
+  supabase.auth.onAuthStateChange((_event, newSession) => {
+    applyAuthState(newSession);
+    closeDropdown();
+  });
+
+  /* Reveal on scroll */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* Shared email submission */
+  async function submitEmail(email, formName) {
+    // 1. Netlify Forms (captura nativa — funciona siempre)
+    await fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({'form-name': formName, email})
+    });
+    // 2. Función subscribe.js (email provider — opcional)
+    try {
+      const res = await fetch('/.netlify/functions/subscribe', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, source: formName })
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        console.warn('subscribe.js:', data.error || res.statusText);
+      }
+    } catch (err) {
+      console.warn('subscribe.js error (lead seguro en Netlify Forms):', err);
+    }
+  }
+
+  /* ENTRY MODAL */
+  const modal = document.getElementById('entry-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalSkip = document.getElementById('modal-skip');
+  const modalForm = document.getElementById('modal-form');
+  const modalEmail = document.getElementById('modal-email');
+  const modalSubmit = document.getElementById('modal-submit');
+  const modalMsg = document.getElementById('modal-msg');
+  const MODAL_KEY = 'ds_modal_dismissed_v1';
+
+  function openModal() {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    setTimeout(() => { try { modalEmail.focus(); } catch(e){} }, 600);
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    try { sessionStorage.setItem(MODAL_KEY, '1'); } catch(e) {}
+  }
+
+  let dismissed = false;
+  try { dismissed = sessionStorage.getItem(MODAL_KEY) === '1'; } catch(e) {}
+  // Show modal after user has scrolled 40% of the page — not immediately on load
+  // This lets the user see the products first before asking for their email
+  let modalShown = false;
+  function maybeShowModal() {
+    if (modalShown || dismissed) return;
+    const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    if (scrolled > 0.40) {
+      modalShown = true;
+      window.removeEventListener('scroll', maybeShowModal);
+      setTimeout(openModal, 400);
+    }
+  }
+  window.addEventListener('scroll', maybeShowModal, { passive: true });
+  // Fallback: show after 25s if user hasn't scrolled
+  if (!dismissed) setTimeout(() => { if (!modalShown) { modalShown = true; openModal(); } }, 25000);
+
+  modalCloseBtn.addEventListener('click', closeModal);
+  modalSkip.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  modalForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = modalEmail.value.trim();
+    if (!email) return;
+    modalSubmit.disabled = true;
+    modalSubmit.textContent = 'Enviando...';
+    modalMsg.textContent = '';
+    modalMsg.className = 'modal-msg';
+    try {
+      await submitEmail(email, 'early-access-modal');
+      modalMsg.textContent = 'Perfecto. Redirigiendo...';
+      modalMsg.className = 'modal-msg success';
+      try { sessionStorage.setItem(MODAL_KEY, '1'); } catch(e) {}
+      setTimeout(() => { window.location.href = '/gracias.html'; }, 900);
+    } catch (err) {
+      modalMsg.textContent = 'Error al enviar. Prueba de nuevo.';
+      modalMsg.className = 'modal-msg error';
+      modalSubmit.disabled = false;
+      modalSubmit.textContent = 'Entrar en la lista';
+    }
+  });
+
+  /* ACCESS form inline */
+  const form = document.getElementById('lead-form');
+  const emailInput = document.getElementById('email');
+  const submitBtn = document.getElementById('submit-btn');
+  const formMessage = document.getElementById('form-message');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!email) {
+      formMessage.textContent = 'Introduce un email válido';
+      formMessage.className = 'form-message error in';
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    formMessage.textContent = '';
+    formMessage.className = 'form-message';
+    try {
+      await submitEmail(email, 'early-access');
+      formMessage.textContent = 'Perfecto. Redirigiendo...';
+      formMessage.className = 'form-message success in';
+      emailInput.value = '';
+      setTimeout(() => { window.location.href = '/gracias.html'; }, 900);
+    } catch (error) {
+      formMessage.textContent = 'Error al enviar. Prueba de nuevo.';
+      formMessage.className = 'form-message error in';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Entrar en la lista';
+    }
+  });
+
+  /* =========================================
+     HOODIE · STRIPE CHECKOUT
+     =========================================
+
+     🔑 EDITA ESTAS 2 CONSTANTES:
+
+     1. STRIPE_PUBLISHABLE_KEY — tu clave pública
+        Stripe Dashboard → Developers → API keys → "Publishable key"
+        Formato REAL: pk_live_51AbCdEf... (o pk_test_...)
+        ⚠️ Debe tener mínimo 20 caracteres después de "pk_test_" o "pk_live_"
+
+     2. HOODIE_PRICES — un Price ID por talla
+        Stripe Dashboard → Products → Founders Hoodie → + Add another price
+        Formato REAL: price_1AbCdEfGhIjKlMnOp...
+        Si solo tienes 1 precio, pon el mismo en las 5 tallas.
+  */
+
+  const STRIPE_PUBLISHABLE_KEY = 'pk_live_51TJfb1HIYJhSnGO2XwmvmDkNyPpo2z4K5XgbuxD3OiYpBVbEsCzW3nDMCVRAHqys859T4ZE96TUAOyTlsGlBwWYs00uJaCySip';
+  const HOODIE_PRICES = {
+    S:   'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
+    M:   'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
+    L:   'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
+    XL:  'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
+    XXL: 'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
+  };
+
+  // Validadores estrictos (evitan crash de Stripe.js con placeholders)
+  const PK_REGEX    = /^pk_(test|live)_[A-Za-z0-9]{20,}$/;
+  const PRICE_REGEX = /^price_[A-Za-z0-9]{10,}$/;
+
+  // Init de Stripe diferido: solo se llama cuando las claves son válidas
+  let _stripe = null;
+  function getStripe() {
+    if (_stripe) return _stripe;
+    if (typeof Stripe === 'undefined') return null;
+    if (!PK_REGEX.test(STRIPE_PUBLISHABLE_KEY)) return null;
+    try {
+      _stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+      return _stripe;
+    } catch (e) {
+      console.error('Stripe init error:', e);
+      return null;
+    }
+  }
+
+  let selectedSize = 'L';
+  const sizeGrid = document.getElementById('size-grid');
+  const buyBtn = document.getElementById('buy-hoodie-btn');
+  const checkoutMsg = document.getElementById('checkout-message');
+
+  sizeGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.size-btn');
+    if (!btn) return;
+    sizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedSize = btn.dataset.size;
+    checkoutMsg.textContent = '';
+    checkoutMsg.className = 'checkout-message';
+  });
+
+  buyBtn.addEventListener('click', async () => {
+    checkoutMsg.textContent = '';
+    checkoutMsg.className = 'checkout-message';
+
+    // 1. Validar claves antes de tocar Stripe
+    if (!PK_REGEX.test(STRIPE_PUBLISHABLE_KEY)) {
+      checkoutMsg.textContent = 'Checkout en configuración. Vuelve pronto.';
+      checkoutMsg.className = 'checkout-message info';
+      console.warn('[Stripe] Edita STRIPE_PUBLISHABLE_KEY en index.html');
+      return;
+    }
+    const priceId = HOODIE_PRICES[selectedSize];
+    if (!PRICE_REGEX.test(priceId)) {
+      checkoutMsg.textContent = 'Esta talla todavía no está disponible.';
+      checkoutMsg.className = 'checkout-message info';
+      console.warn('[Stripe] Edita HOODIE_PRICES[' + selectedSize + '] en index.html');
+      return;
+    }
+
+    // 2. Init Stripe
+    const stripe = getStripe();
+    if (!stripe) {
+      checkoutMsg.textContent = 'No se pudo inicializar el pago. Recarga la página.';
+      checkoutMsg.className = 'checkout-message error';
+      return;
+    }
+
+    // 3. Crear Checkout Session en backend
+    buyBtn.disabled = true;
+    buyBtn.innerHTML = 'Redirigiendo...';
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+if (!session) {
+  window.location.href = '/acceder';
+  return;
+}
+
+const userId = session.user.id;
+
+const res = await fetch('/.netlify/functions/create-checkout', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    priceId,
+    size: selectedSize,
+    product: 'founders-hoodie',
+    userId
+  })
+});
+      const data = await res.json();
+      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+
+      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+      if (error) throw error;
+    } catch (err) {
+      console.error(err);
+      checkoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+      checkoutMsg.className = 'checkout-message error';
+      buyBtn.disabled = false;
+      buyBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+    }
+  });
+
+  /* =========================================
+     PRODUCT CATALOG
+     ─────────────────────────────────────────
+     Aquí defines las imágenes de cada producto por color.
+
+     Para añadir un nuevo color a un producto:
+       1. Añade la clave al objeto `colors` del producto
+       2. Añade el botón .ps-swatch en el HTML con data-color="tucolor"
+       3. Añade el CSS del swatch-dot en .ps-swatch[data-color="tucolor"]
+
+     Para añadir un nuevo producto:
+       1. Añade una nueva clave aquí con su defaultColor y colors
+       2. Añade <div class="ps-wrap" data-product="tuproducto"> en el HTML
+       3. Si tiene colores, añade los .ps-swatch en el HTML
+     ========================================= */
+  const PRODUCT_CATALOG = {
+    tee: {
+      defaultColor: 'black',
+      colors: {
+        black: {
+          label: '— Negro',
+          images: [
+            { src: 'tee-black.png', alt: 'DS Core Tee · Negro' },
+            // Añade más imágenes del color negro aquí:
+            // { src: 'tee-black-2.png', alt: 'DS Core Tee · Negro · Detalle' },
+          ]
+        },
+        sand: {
+          label: '— Arena',
+          images: [
+            { src: 'tee-sand.png', alt: 'DS Core Tee · Arena' },
+            // Añade más imágenes del color arena aquí:
+            // { src: 'tee-sand-2.png', alt: 'DS Core Tee · Arena · Detalle' },
+          ]
+        },
+        // Para añadir un nuevo color (ejemplo):
+        // grey: {
+        //   label: '— Gris',
+        //   images: [
+        //     { src: 'tee-grey-1.png', alt: 'DS Core Tee · Gris' },
+        //     { src: 'tee-grey-2.png', alt: 'DS Core Tee · Gris · Detalle' },
+        //   ]
+        // },
+      }
+    },
+    tracksuit: {
+      defaultColor: 'black',
+      colors: {
+        black: {
+          label: '— Negro',
+          images: [
+            { src: 'tracksuit.jpg',        alt: 'DS Tracksuit · Conjunto completo' },
+            { src: 'tracksuit-detail.jpg', alt: 'DS Tracksuit · Detalle bordado'   },
+            // Añade más imágenes aquí:
+          ]
+        },
+        // Ejemplo de nuevo color:
+        // navy: {
+        //   label: '— Navy',
+        //   images: [
+        //     { src: 'tracksuit-navy-1.jpg', alt: 'DS Tracksuit · Navy' },
+        //     { src: 'tracksuit-navy-2.jpg', alt: 'DS Tracksuit · Navy · Detalle' },
+        //   ]
+        // },
+      }
+    },
+    hoodie: {
+      defaultColor: 'black',
+      colors: {
+        black: {
+          label: '— Negro',
+          images: [
+            { src: 'hoodie.jpg', alt: 'Hoodie Earn Your Place' },
+            // Añade más imágenes aquí:
+          ]
+        },
+        // Ejemplo:
+        // beige: {
+        //   label: '— Beige',
+        //   images: [
+        //     { src: 'hoodie-beige-1.jpg', alt: 'Hoodie EYP · Beige' },
+        //   ]
+        // },
+      }
+    }
+  };
+
+  /* =========================================
+     ProductSlider — clase reutilizable
+     Una instancia por producto, misma lógica.
+     ========================================= */
+  class ProductSlider {
+    constructor(wrap) {
+      this.wrap       = wrap;
+      this.productId  = wrap.dataset.product;
+      this.catalog    = PRODUCT_CATALOG[this.productId];
+      if (!this.catalog) return;
+
+      this.track      = wrap.querySelector('.ps-track');
+      this.dotsWrap   = wrap.querySelector('.ps-dots');
+      this.prevBtn    = wrap.querySelector('.ps-prev');
+      this.nextBtn    = wrap.querySelector('.ps-next');
+      this.current    = 0;
+      this.activeColor = this.catalog.defaultColor;
+
+      // Conectar swatches de color en el DOM (fuera del wrap)
+      const section = wrap.closest('section') || document;
+      this.swatches = section.querySelectorAll(`.ps-swatches .ps-swatch`);
+      this.colorLabel = section.querySelector('.ps-color-name');
+
+      this._bindSwatches();
+      this._bindArrows();
+      this._bindSwipe();
+      this.loadColor(this.activeColor);
+    }
+
+    /* Renderiza los slides del color dado y resetea a 0 */
+    loadColor(colorKey) {
+      const colorData = this.catalog.colors[colorKey];
+      if (!colorData) return;
+      this.activeColor = colorKey;
+      this.current = 0;
+
+      // Renderizar slides
+      this.track.innerHTML = colorData.images.map(img =>
+        `<div class="ps-slide"><img src="${img.src}" alt="${img.alt}" loading="lazy"></div>`
+      ).join('');
+
+      // Renderizar dots (solo si hay más de 1 imagen)
+      if (colorData.images.length > 1) {
+        this.dotsWrap.innerHTML = colorData.images.map((_, i) =>
+          `<button class="ps-dot${i === 0 ? ' active' : ''}" data-i="${i}" type="button" aria-label="Imagen ${i+1}"></button>`
+        ).join('');
+        this.dotsWrap.querySelectorAll('.ps-dot').forEach(dot => {
+          dot.addEventListener('click', () => this.goTo(parseInt(dot.dataset.i)));
+        });
+        this.dotsWrap.style.display = '';
+      } else {
+        this.dotsWrap.innerHTML = '';
+        this.dotsWrap.style.display = 'none';
+      }
+
+      this._applyPosition();
+    }
+
+    goTo(i) {
+      const total = this.track.querySelectorAll('.ps-slide').length;
+      this.current = Math.max(0, Math.min(i, total - 1));
+      this._applyPosition();
+      this._updateDots();
+    }
+
+    next() { this.goTo(this.current + 1); }
+    prev() { this.goTo(this.current - 1); }
+
+    _applyPosition() {
+      this.track.style.transform = `translateX(-${this.current * 100}%)`;
+    }
+
+    _updateDots() {
+      this.dotsWrap.querySelectorAll('.ps-dot').forEach((d, i) =>
+        d.classList.toggle('active', i === this.current)
+      );
+    }
+
+    _bindSwatches() {
+      this.swatches.forEach(sw => {
+        sw.addEventListener('click', () => {
+          const color = sw.dataset.color;
+          if (!this.catalog.colors[color]) return;
+          // Actualizar estado visual del swatch
+          this.swatches.forEach(s => s.classList.remove('active'));
+          sw.classList.add('active');
+          // Actualizar label de color
+          if (this.colorLabel) {
+            this.colorLabel.textContent = this.catalog.colors[color].label;
+          }
+          this.loadColor(color);
+          // Notificar al sistema de Stripe para que use el color correcto
+        this.wrap.dispatchEvent(new CustomEvent('ps:colorchange', {
+            bubbles: true,
+            detail: { product: this.productId, color }
+          }));
+        });
+      });
+    }
+
+    _bindArrows() {
+      this.prevBtn?.addEventListener('click', () => this.prev());
+      this.nextBtn?.addEventListener('click', () => this.next());
+    }
+
+    _bindSwipe() {
+      let startX = 0, startY = 0;
+      this.wrap.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+      this.wrap.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+          dx < 0 ? this.next() : this.prev();
+        }
+      }, { passive: true });
+    }
+  }
+
+  /* ─── Inicializar todos los sliders del DOM ──────────────────────────── */
+  const sliders = {};
+  document.querySelectorAll('.ps-wrap[data-product]').forEach(wrap => {
+    sliders[wrap.dataset.product] = new ProductSlider(wrap);
+  });
+
+  /* ─── TEE: variables para Stripe (mantener estos IDs) ───────────────── */
+  let teeColor = 'black'; // actualizado por ps:colorchange
+  let teeSize  = 'L';
+
+  const teeSizeGrid    = document.getElementById('tee-size-grid');
+  const teeSizeLabel   = document.getElementById('tee-size-current');
+  const buyTeeBtn      = document.getElementById('buy-tee-btn');
+  const teeCheckoutMsg = document.getElementById('tee-checkout-message');
+
+  /* 🔑 TEE — Price IDs por color y talla
+     Stripe Dashboard → Products → DS Core Tee → Prices
+     Estructura: TEE_PRICES[color][talla] = 'price_...'
+  */
+  const TEE_PRICES = {
+    black: {
+      S:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
+      M:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
+      L:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
+      XL:  'price_1TKLmFHIYJhSnGO2z3l8ajPy',
+      XXL: 'price_1TKLmFHIYJhSnGO2z3l8ajPy',
+    },
+    sand: {
+      S:   'price_1TKMmgHIYJhSnGO2zfMYCuaj',
+      M:   'price_1TKMmgHIYJhSnGO2zfMYCuaj',
+      L:   'price_1TKMmgHIYJhSnGO2zfMYCuaj',
+      XL:  'price_1TKMmgHIYJhSnGO2zfMYCuaj',
+      XXL: 'price_1TKMmgHIYJhSnGO2zfMYCuaj',
+    },
+  };
+
+  /* ─── Sincronizar color con Stripe cuando el usuario cambia swatch ──── */
+  document.addEventListener('ps:colorchange', (e) => {
+    if (e.detail.product === 'tee') {
+      teeColor = e.detail.color;
+      teeCheckoutMsg.textContent = '';
+      teeCheckoutMsg.className = 'checkout-message';
+    }
+  });
+
+  /* ─── Talla Tee ──────────────────────────────────────────────────────── */
+  teeSizeGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.size-btn');
+    if (!btn) return;
+    teeSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    teeSize = btn.dataset.size;
+    teeSizeLabel.textContent = '— ' + teeSize;
+    teeCheckoutMsg.textContent = '';
+    teeCheckoutMsg.className = 'checkout-message';
+  });
+
+  /* ─── Comprar Tee ────────────────────────────────────────────────────── */
+  buyTeeBtn.addEventListener('click', async () => {
+    teeCheckoutMsg.textContent = '';
+    teeCheckoutMsg.className = 'checkout-message';
+
+    if (!PK_REGEX.test(STRIPE_PUBLISHABLE_KEY)) {
+      teeCheckoutMsg.textContent = 'Checkout en configuración. Vuelve pronto.';
+      teeCheckoutMsg.className = 'checkout-message info';
+      return;
+    }
+    const priceId = TEE_PRICES[teeColor] && TEE_PRICES[teeColor][teeSize];
+    if (!PRICE_REGEX.test(priceId)) {
+      teeCheckoutMsg.textContent = 'Esta combinación todavía no está disponible.';
+      teeCheckoutMsg.className = 'checkout-message info';
+      console.warn('[Stripe] Edita TEE_PRICES.' + teeColor + '.' + teeSize + ' en index.html');
+      return;
+    }
+
+    const stripe = getStripe();
+    if (!stripe) {
+      teeCheckoutMsg.textContent = 'No se pudo inicializar el pago. Recarga la página.';
+      teeCheckoutMsg.className = 'checkout-message error';
+      return;
+    }
+
+    buyTeeBtn.disabled = true;
+    buyTeeBtn.innerHTML = 'Redirigiendo...';
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session) {
+        window.location.href = '/acceder';
+        return;
+      }
+
+      const userId = session.user.id;
+
+      const res = await fetch('/.netlify/functions/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId,
+          size: teeSize,
+          color: teeColor,
+          product: 'ds-core-tee',
+          userId
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+
+      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+      if (error) throw error;
+
+    } catch (err) {
+      console.error(err);
+      teeCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+      teeCheckoutMsg.className = 'checkout-message error';
+      buyTeeBtn.disabled = false;
+      buyTeeBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+    }
+  });
+
+  /* =========================================
+     DS CORE TRACKSUIT · STRIPE CHECKOUT
+     =========================================
+
+     🔑 RELLENA LOS PRICE IDs DEL TRACKSUIT
+     Stripe Dashboard → Products → DS Core Tracksuit → Prices
+
+     Estructura: TRACKSUIT_PRICES[talla] = 'price_...'
+     Si tu producto tiene un único precio (el mismo para todas las tallas),
+     pon el mismo price_... en las 5 tallas.
+     La talla queda registrada en los metadatos del pedido.
+  */
+  const TRACKSUIT_PRICES = {
+    S:   'price_1TKUFiHIYJhSnGO20HdJmG3P',
+    M:   'price_1TKUFiHIYJhSnGO20HdJmG3P',
+    L:   'price_1TKUFiHIYJhSnGO20HdJmG3P',
+    XL:  'price_1TKUFiHIYJhSnGO20HdJmG3P',
+    XXL: 'price_1TKUFiHIYJhSnGO20HdJmG3P',
+  };
+
+  let tracksuitSize = 'L';
+  const tracksuitSizeGrid    = document.getElementById('tracksuit-size-grid');
+  const tracksuitSizeLabel   = document.getElementById('tracksuit-size-current');
+  const buyTracksuitBtn      = document.getElementById('buy-tracksuit-btn');
+  const tracksuitCheckoutMsg = document.getElementById('tracksuit-checkout-message');
+
+  // Cambiar talla
+  tracksuitSizeGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.size-btn');
+    if (!btn) return;
+    tracksuitSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    tracksuitSize = btn.dataset.size;
+    tracksuitSizeLabel.textContent = '— ' + tracksuitSize;
+    tracksuitCheckoutMsg.textContent = '';
+    tracksuitCheckoutMsg.className = 'checkout-message';
+  });
+
+  // Comprar
+  buyTracksuitBtn.addEventListener('click', async () => {
+    tracksuitCheckoutMsg.textContent = '';
+    tracksuitCheckoutMsg.className = 'checkout-message';
+
+    if (!PK_REGEX.test(STRIPE_PUBLISHABLE_KEY)) {
+      tracksuitCheckoutMsg.textContent = 'Checkout en configuración. Vuelve pronto.';
+      tracksuitCheckoutMsg.className = 'checkout-message info';
+      return;
+    }
+    const priceId = TRACKSUIT_PRICES[tracksuitSize];
+    if (!PRICE_REGEX.test(priceId)) {
+      tracksuitCheckoutMsg.textContent = 'Esta talla todavía no está disponible.';
+      tracksuitCheckoutMsg.className = 'checkout-message info';
+      console.warn('[Stripe] Edita TRACKSUIT_PRICES[' + tracksuitSize + '] en index.html');
+      return;
+    }
+
+    const stripe = getStripe();
+    if (!stripe) {
+      tracksuitCheckoutMsg.textContent = 'No se pudo inicializar el pago. Recarga la página.';
+      tracksuitCheckoutMsg.className = 'checkout-message error';
+      return;
+    }
+
+    buyTracksuitBtn.disabled = true;
+buyTracksuitBtn.innerHTML = 'Redirigiendo...';
+
+try {
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = '/acceder';
+    return;
+  }
+
+  const userId = session.user.id;
+
+  const res = await fetch('/.netlify/functions/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      priceId,
+      size: tracksuitSize,
+      product: 'ds-core-tracksuit',
+      userId
+    })
+  });
+
+  const data = await res.json();
+  if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+
+  const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+  if (error) throw error;
+
+} catch (err) {
+  console.error(err);
+  tracksuitCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+  tracksuitCheckoutMsg.className = 'checkout-message error';
+  buyTracksuitBtn.disabled = false;
+  buyTracksuitBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+}
+  });
+</script>
+
+<!-- =========================================
+     STICKY BUY BARS (mobile)
+     ========================================= -->
+<div class="sticky-buy" id="sticky-tee" aria-hidden="true">
+  <div class="sticky-buy-inner">
+    <div class="sticky-buy-info">
+      <div class="sticky-buy-name">DS Core Tee</div>
+      <div class="sticky-buy-price">45€ · Edición limitada</div>
+    </div>
+    <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-tee-btn').click()">
+      Comprar ahora →
+    </button>
+  </div>
+</div>
+<div class="sticky-buy" id="sticky-tracksuit" aria-hidden="true">
+  <div class="sticky-buy-inner">
+    <div class="sticky-buy-info">
+      <div class="sticky-buy-name">DS Discipline Society Tracksuit</div>
+      <div class="sticky-buy-price">149€ · Set completo</div>
+    </div>
+    <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-tracksuit-btn').click()">
+      Comprar ahora →
+    </button>
+  </div>
+</div>
+<div class="sticky-buy" id="sticky-hoodie" aria-hidden="true">
+  <div class="sticky-buy-inner">
+    <div class="sticky-buy-info">
+      <div class="sticky-buy-name">Hoodie Earn Your Place</div>
+      <div class="sticky-buy-price">89€ · Producción limitada</div>
+    </div>
+    <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-hoodie-btn').click()">
+      Comprar ahora →
+    </button>
+  </div>
+</div>
+
+<script>
+/* =========================================
+   STICKY BUY BAR — show when CTA is off screen
+   ========================================= */
+(function() {
+  const pairs = [
+    { section: '#tee',       bar: '#sticky-tee',       cta: '#buy-tee-btn'       },
+    { section: '#tracksuit', bar: '#sticky-tracksuit',  cta: '#buy-tracksuit-btn' },
+    { section: '#hoodie',    bar: '#sticky-hoodie',     cta: '#buy-hoodie-btn'    },
+  ];
+
+  // Only run on mobile
+  if (window.innerWidth > 768) return;
+
+  const observers = pairs.map(({ section, bar, cta }) => {
+    const sectionEl = document.querySelector(section);
+    const barEl     = document.querySelector(bar);
+    const ctaEl     = document.querySelector(cta);
+    if (!sectionEl || !barEl || !ctaEl) return null;
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        // Show sticky bar when section is in view but CTA is not
+        const ctaRect = ctaEl.getBoundingClientRect();
+        const ctaVisible = ctaRect.top > 0 && ctaRect.bottom < window.innerHeight;
+        if (e.isIntersecting && !ctaVisible) {
+          barEl.classList.add('visible');
+          barEl.setAttribute('aria-hidden', 'false');
+        } else if (!e.isIntersecting) {
+          barEl.classList.remove('visible');
+          barEl.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }, { threshold: [0.1, 0.5] });
+
+    io.observe(sectionEl);
+
+    // Also hide when CTA scrolls back into view
+    const ctaIo = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        barEl.classList.remove('visible');
+      }
+    }, { threshold: 0.5 });
+    ctaIo.observe(ctaEl);
+
+    return io;
+  });
+})();
+</script>
+
+</body>
+</html>
