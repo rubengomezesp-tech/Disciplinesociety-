@@ -704,9 +704,100 @@
   .tee-visual::before,.tee-visual::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold)}
   .tee-visual::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
   .tee-visual::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
-  .tee-visual img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));transition:opacity .5s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
-  .tee-visual img.fading{opacity:0}
-  .tee-visual:hover img{transform:scale(1.015)}
+  .tee-visual img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+
+  /* =========================================
+     UNIFIED PRODUCT SLIDER — .ps-*
+     Reutilizable en todos los productos.
+     ========================================= */
+  .ps-wrap{position:relative;overflow:hidden;width:100%}
+
+  /* Track: flex container que se desplaza */
+  .ps-track{
+    display:flex;
+    transition:transform .6s cubic-bezier(.65,.05,.36,1);
+    will-change:transform;
+    touch-action:pan-y; /* vertical scroll libre, swipe horizontal interceptado */
+  }
+  .ps-slide{
+    flex:0 0 100%;width:100%;
+  }
+  .ps-slide img{
+    width:100%;height:auto;display:block;
+    filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));
+    transition:transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .ps-wrap:hover .ps-slide img{transform:scale(1.012)}
+
+  /* Dots */
+  .ps-dots{
+    position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+    display:flex;gap:8px;z-index:4;
+  }
+  .ps-dot{
+    width:26px;height:2px;background:rgba(245,242,236,.22);
+    border:none;padding:0;cursor:pointer;
+    transition:background .35s,width .35s;
+  }
+  .ps-dot:hover{background:rgba(201,169,97,.45)}
+  .ps-dot.active{background:var(--gold);width:40px}
+
+  /* Prev / Next arrows — visibles en hover desktop */
+  .ps-prev,.ps-next{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(10,9,8,.72);border:1px solid var(--line);
+    color:var(--ink-dim);width:38px;height:38px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;z-index:4;font-size:15px;
+    transition:border-color .3s,color .3s,opacity .3s;
+    opacity:0;
+  }
+  .ps-wrap:hover .ps-prev,.ps-wrap:hover .ps-next{opacity:1}
+  .ps-prev{left:10px}.ps-next{right:10px}
+  .ps-prev:hover,.ps-next:hover{border-color:var(--gold);color:var(--gold)}
+  @media(max-width:768px){.ps-prev,.ps-next{display:none}} /* swipe en mobile */
+
+  /* ─── Color swatches ─────────────────────────────
+     .ps-color-row  → contenedor (reemplaza .tee-colors, etc.)
+     .ps-swatch     → botón individual de color
+  ──────────────────────────────────────────────── */
+  .ps-color-row{margin-bottom:26px}
+  .ps-color-label{
+    font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .ps-color-label .ps-color-name{
+    color:var(--ink-dim);font-size:10px;letter-spacing:.15em;
+  }
+  .ps-swatches{display:flex;gap:10px;flex-wrap:wrap}
+  .ps-swatch{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 16px 10px 10px;
+    background:transparent;border:1px solid var(--line);
+    color:var(--ink-dim);font-family:var(--sans);
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    cursor:pointer;transition:all .3s;
+  }
+  .ps-swatch-dot{
+    width:20px;height:20px;border:1px solid var(--line);
+    flex-shrink:0;transition:border-color .3s,box-shadow .3s;
+  }
+  /* Colores de swatches — añadir aquí para cada color nuevo */
+  .ps-swatch[data-color="black"] .ps-swatch-dot{background:#0f0e0c}
+  .ps-swatch[data-color="sand"]  .ps-swatch-dot{background:#c8b896}
+  .ps-swatch[data-color="beige"] .ps-swatch-dot{background:#e8e0d0}
+  .ps-swatch[data-color="grey"]  .ps-swatch-dot{background:#5a5a5a}
+  .ps-swatch[data-color="navy"]  .ps-swatch-dot{background:#1a2040}
+  .ps-swatch[data-color="cream"] .ps-swatch-dot{background:#e8dfc8}
+  /* ↑ Añade aquí más colores cuando los necesites */
+  .ps-swatch:hover{border-color:var(--gold);color:var(--ink)}
+  .ps-swatch:hover .ps-swatch-dot{border-color:var(--gold)}
+  .ps-swatch.active{border-color:var(--gold);color:var(--ink)}
+  .ps-swatch.active .ps-swatch-dot{
+    border-color:var(--gold);
+    box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--gold);
+  }
   .tee-badge{position:absolute;top:18px;right:18px;background:var(--bg);border:1px solid var(--gold);color:var(--gold);padding:8px 14px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;z-index:3}
 
   .tee-content h2{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);font-weight:400;line-height:.98;letter-spacing:-.015em;margin-bottom:22px}
@@ -725,36 +816,12 @@
   .tee-price em{font-style:italic;color:var(--gold);font-size:28px;margin-left:6px;font-weight:400}
   .tee-price-note{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
 
-  /* Selector de COLOR */
+  /* Selector de COLOR — ver sistema .ps-swatch más abajo */
   .tee-colors{margin-bottom:26px}
   .tee-colors-label,.tee-sizes-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
   .tee-colors-label .current,.tee-sizes-label .current{color:var(--ink-dim);font-size:10px;letter-spacing:.15em}
-  .color-grid{display:flex;gap:14px;flex-wrap:wrap}
-  .color-btn{
-    display:flex;align-items:center;gap:12px;
-    padding:12px 18px 12px 12px;
-    background:transparent;
-    border:1px solid var(--line);
-    color:var(--ink-dim);
-    font-family:var(--sans);
-    font-size:11px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    cursor:pointer;
-    transition:all .3s;
-  }
-  .color-btn .swatch{
-    width:22px;height:22px;
-    border:1px solid var(--line);
-    position:relative;
-    flex-shrink:0;
-  }
-  .color-btn[data-color="black"] .swatch{background:#0f0e0c}
-  .color-btn[data-color="sand"]  .swatch{background:#c8b896}
-  .color-btn:hover{border-color:var(--gold);color:var(--ink)}
-  .color-btn:hover .swatch{border-color:var(--gold)}
-  .color-btn.active{border-color:var(--gold);color:var(--ink)}
-  .color-btn.active .swatch{border-color:var(--gold);box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--gold)}
+  /* Legacy .color-btn kept for backwards compat, sistema nuevo usa .ps-swatch */
+  .color-grid{display:flex;gap:10px;flex-wrap:wrap}
 
   .tee-sizes{margin-bottom:28px}
   .tee-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
@@ -776,15 +843,6 @@
   .tracksuit-visual img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
   .tracksuit-visual:hover img{transform:scale(1.015)}
   .tracksuit-badge{position:absolute;top:18px;right:18px;background:var(--bg);border:1px solid var(--gold);color:var(--gold);padding:8px 14px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;z-index:3}
-  /* Slider */
-  .tracksuit-slider{position:relative;overflow:hidden;width:100%}
-  .tracksuit-slides{display:flex;width:100%;transition:transform .7s cubic-bezier(.65,.05,.36,1);will-change:transform}
-  .tracksuit-slide{flex:0 0 100%;width:100%}
-  .tracksuit-slide img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
-  .tracksuit-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:4}
-  .tracksuit-dot{width:28px;height:2px;background:rgba(245,242,236,.25);border:none;padding:0;cursor:pointer;transition:background .4s,width .4s}
-  .tracksuit-dot:hover{background:rgba(201,169,97,.5)}
-  .tracksuit-dot.active{background:var(--gold);width:40px}
   .tracksuit-content h2{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);font-weight:400;line-height:.98;letter-spacing:-.015em;margin-bottom:22px}
   .tracksuit-content h2 em{font-style:italic;color:var(--gold);font-weight:300}
   .tracksuit-content .lead{font-size:16px;color:var(--ink-dim);line-height:1.8;margin-bottom:18px;max-width:500px}
@@ -1246,14 +1304,18 @@
         <div class="tee-price-note">Envío incluido UE · Edición limitada</div>
       </div>
 
+      <!-- Selector de color — usa ps-swatch para conectar al slider -->
       <div class="tee-colors">
-        <div class="tee-colors-label">Color <span class="current" id="tee-color-current">— Negro</span></div>
-        <div class="color-grid" id="tee-color-grid">
-          <button class="color-btn active" data-color="black" type="button" aria-label="Color negro">
-            <span class="swatch"></span>Negro
+        <div class="tee-colors-label ps-color-label" id="tee-color-label">
+          Color <span class="current ps-color-name" id="tee-color-current">— Negro</span>
+        </div>
+        <div class="ps-swatches" id="tee-color-grid">
+          <!-- ↓ AÑADE NUEVOS COLORES AQUÍ (también en PRODUCT_CATALOG en el JS) -->
+          <button class="ps-swatch active" data-color="black" type="button" aria-label="Color negro">
+            <span class="ps-swatch-dot"></span>Negro
           </button>
-          <button class="color-btn" data-color="sand" type="button" aria-label="Color arena">
-            <span class="swatch"></span>Arena
+          <button class="ps-swatch" data-color="sand" type="button" aria-label="Color arena">
+            <span class="ps-swatch-dot"></span>Arena
           </button>
         </div>
       </div>
@@ -1282,10 +1344,16 @@
       </div>
     </div>
 
+    <!-- SLIDER TEE — slides se inyectan desde PRODUCT_CATALOG en JS -->
     <div class="tee-visual-wrap reveal">
       <div class="tee-visual">
         <div class="tee-badge">N° 002 · Founders</div>
-        <img src="tee-black.png" id="tee-image" loading="lazy" width="600" height="700" alt="Discipline Society · Core Tee Founders Edition" />
+        <div class="ps-wrap" data-product="tee">
+          <div class="ps-track"></div>
+          <div class="ps-dots"></div>
+          <button class="ps-prev" aria-label="Imagen anterior">‹</button>
+          <button class="ps-next" aria-label="Imagen siguiente">›</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1296,22 +1364,15 @@
      ========================================= -->
 <section class="tracksuit" id="tracksuit">
   <div class="tracksuit-inner">
+    <!-- SLIDER TRACKSUIT — slides se inyectan desde PRODUCT_CATALOG en JS -->
     <div class="tracksuit-visual-wrap reveal">
       <div class="tracksuit-visual">
         <div class="tracksuit-badge">N° 003 · Founders</div>
-        <div class="tracksuit-slider" id="tracksuit-slider">
-          <div class="tracksuit-slides" id="tracksuit-slides">
-            <div class="tracksuit-slide">
-              <img src="tracksuit.jpg" loading="lazy" width="600" height="700" alt="Discipline Society · Core Tracksuit Founders Edition" />
-            </div>
-            <div class="tracksuit-slide">
-              <img src="tracksuit-detail.jpg" loading="lazy" width="600" height="700" alt="Discipline Society · Core Tracksuit · Detalle bordado" />
-            </div>
-          </div>
-          <div class="tracksuit-dots" id="tracksuit-dots">
-            <button class="tracksuit-dot active" data-slide="0" type="button" aria-label="Vista conjunto"></button>
-            <button class="tracksuit-dot" data-slide="1" type="button" aria-label="Vista detalle"></button>
-          </div>
+        <div class="ps-wrap" data-product="tracksuit">
+          <div class="ps-track"></div>
+          <div class="ps-dots"></div>
+          <button class="ps-prev" aria-label="Imagen anterior">‹</button>
+          <button class="ps-next" aria-label="Imagen siguiente">›</button>
         </div>
       </div>
     </div>
@@ -1369,9 +1430,15 @@
 
 <section class="hoodie" id="hoodie">
   <div class="hoodie-inner">
+    <!-- SLIDER HOODIE — slides se inyectan desde PRODUCT_CATALOG en JS -->
     <div class="hoodie-visual reveal">
       <div class="hoodie-badge">N° 001 · Founders</div>
-      <img src="hoodie.jpg" loading="lazy" width="600" height="700" alt="Discipline Society · Founders Hoodie · Earn Your Place" />
+      <div class="ps-wrap" data-product="hoodie">
+        <div class="ps-track"></div>
+        <div class="ps-dots"></div>
+        <button class="ps-prev" aria-label="Imagen anterior">‹</button>
+        <button class="ps-next" aria-label="Imagen siguiente">›</button>
+      </div>
     </div>
     <div class="hoodie-content reveal">
       <div class="section-label">Hoodie Earn Your Place · N° 001</div>
@@ -1924,18 +1991,240 @@ const res = await fetch('/.netlify/functions/create-checkout', {
   });
 
   /* =========================================
-     DS CORE TEE · STRIPE CHECKOUT
-     =========================================
+     PRODUCT CATALOG
+     ─────────────────────────────────────────
+     Aquí defines las imágenes de cada producto por color.
 
-     🔑 RELLENA LOS PRICE IDs DE LA CAMISETA
-     Stripe Dashboard → Products → DS Core Tee → Prices
+     Para añadir un nuevo color a un producto:
+       1. Añade la clave al objeto `colors` del producto
+       2. Añade el botón .ps-swatch en el HTML con data-color="tucolor"
+       3. Añade el CSS del swatch-dot en .ps-swatch[data-color="tucolor"]
 
-     Estructura: TEE_PRICES[color][talla] = 'price_...'
-     Si tu producto tiene un único precio (el mismo para todas las tallas),
-     pon el mismo price_... en las 5 tallas del color correspondiente.
-     La talla y el color quedan registrados en los metadatos del pedido.
-  */
-  const TEE_PRICES = {
+     Para añadir un nuevo producto:
+       1. Añade una nueva clave aquí con su defaultColor y colors
+       2. Añade <div class="ps-wrap" data-product="tuproducto"> en el HTML
+       3. Si tiene colores, añade los .ps-swatch en el HTML
+     ========================================= */
+  const PRODUCT_CATALOG = {
+    tee: {
+      defaultColor: 'black',
+      colors: {
+        black: {
+          label: '— Negro',
+          images: [
+            { src: 'tee-black.png', alt: 'DS Core Tee · Negro' },
+            // Añade más imágenes del color negro aquí:
+            // { src: 'tee-black-2.png', alt: 'DS Core Tee · Negro · Detalle' },
+          ]
+        },
+        sand: {
+          label: '— Arena',
+          images: [
+            { src: 'tee-sand.png', alt: 'DS Core Tee · Arena' },
+            // Añade más imágenes del color arena aquí:
+            // { src: 'tee-sand-2.png', alt: 'DS Core Tee · Arena · Detalle' },
+          ]
+        },
+        // Para añadir un nuevo color (ejemplo):
+        // grey: {
+        //   label: '— Gris',
+        //   images: [
+        //     { src: 'tee-grey-1.png', alt: 'DS Core Tee · Gris' },
+        //     { src: 'tee-grey-2.png', alt: 'DS Core Tee · Gris · Detalle' },
+        //   ]
+        // },
+      }
+    },
+    tracksuit: {
+      defaultColor: 'black',
+      colors: {
+        black: {
+          label: '— Negro',
+          images: [
+            { src: 'tracksuit.jpg',        alt: 'DS Tracksuit · Conjunto completo' },
+            { src: 'tracksuit-detail.jpg', alt: 'DS Tracksuit · Detalle bordado'   },
+            // Añade más imágenes aquí:
+          ]
+        },
+        // Ejemplo de nuevo color:
+        // navy: {
+        //   label: '— Navy',
+        //   images: [
+        //     { src: 'tracksuit-navy-1.jpg', alt: 'DS Tracksuit · Navy' },
+        //     { src: 'tracksuit-navy-2.jpg', alt: 'DS Tracksuit · Navy · Detalle' },
+        //   ]
+        // },
+      }
+    },
+    hoodie: {
+      defaultColor: 'black',
+      colors: {
+        black: {
+          label: '— Negro',
+          images: [
+            { src: 'hoodie.jpg', alt: 'Hoodie Earn Your Place' },
+            // Añade más imágenes aquí:
+          ]
+        },
+        // Ejemplo:
+        // beige: {
+        //   label: '— Beige',
+        //   images: [
+        //     { src: 'hoodie-beige-1.jpg', alt: 'Hoodie EYP · Beige' },
+        //   ]
+        // },
+      }
+    }
+  };
+
+  /* =========================================
+     ProductSlider — clase reutilizable
+     Una instancia por producto, misma lógica.
+     ========================================= */
+  class ProductSlider {
+    constructor(wrap) {
+      this.wrap       = wrap;
+      this.productId  = wrap.dataset.product;
+      this.catalog    = PRODUCT_CATALOG[this.productId];
+      if (!this.catalog) return;
+
+      this.track      = wrap.querySelector('.ps-track');
+      this.dotsWrap   = wrap.querySelector('.ps-dots');
+      this.prevBtn    = wrap.querySelector('.ps-prev');
+      this.nextBtn    = wrap.querySelector('.ps-next');
+      this.current    = 0;
+      this.activeColor = this.catalog.defaultColor;
+
+      // Conectar swatches de color en el DOM (fuera del wrap)
+      const section = wrap.closest('section') || document;
+      this.swatches = section.querySelectorAll(`.ps-swatches .ps-swatch`);
+      this.colorLabel = section.querySelector('.ps-color-name');
+
+      this._bindSwatches();
+      this._bindArrows();
+      this._bindSwipe();
+      this.loadColor(this.activeColor);
+    }
+
+    /* Renderiza los slides del color dado y resetea a 0 */
+    loadColor(colorKey) {
+      const colorData = this.catalog.colors[colorKey];
+      if (!colorData) return;
+      this.activeColor = colorKey;
+      this.current = 0;
+
+      // Renderizar slides
+      this.track.innerHTML = colorData.images.map(img =>
+        `<div class="ps-slide"><img src="${img.src}" alt="${img.alt}" loading="lazy"></div>`
+      ).join('');
+
+      // Renderizar dots (solo si hay más de 1 imagen)
+      if (colorData.images.length > 1) {
+        this.dotsWrap.innerHTML = colorData.images.map((_, i) =>
+          `<button class="ps-dot${i === 0 ? ' active' : ''}" data-i="${i}" type="button" aria-label="Imagen ${i+1}"></button>`
+        ).join('');
+        this.dotsWrap.querySelectorAll('.ps-dot').forEach(dot => {
+          dot.addEventListener('click', () => this.goTo(parseInt(dot.dataset.i)));
+        });
+        this.dotsWrap.style.display = '';
+      } else {
+        this.dotsWrap.innerHTML = '';
+        this.dotsWrap.style.display = 'none';
+      }
+
+      this._applyPosition();
+    }
+
+    goTo(i) {
+      const total = this.track.querySelectorAll('.ps-slide').length;
+      this.current = Math.max(0, Math.min(i, total - 1));
+      this._applyPosition();
+      this._updateDots();
+    }
+
+    next() { this.goTo(this.current + 1); }
+    prev() { this.goTo(this.current - 1); }
+
+    _applyPosition() {
+      this.track.style.transform = `translateX(-${this.current * 100}%)`;
+    }
+
+    _updateDots() {
+      this.dotsWrap.querySelectorAll('.ps-dot').forEach((d, i) =>
+        d.classList.toggle('active', i === this.current)
+      );
+    }
+
+    _bindSwatches() {
+      this.swatches.forEach(sw => {
+        sw.addEventListener('click', () => {
+          const color = sw.dataset.color;
+          if (!this.catalog.colors[color]) return;
+          // Actualizar estado visual del swatch
+          this.swatches.forEach(s => s.classList.remove('active'));
+          sw.classList.add('active');
+          // Actualizar label de color
+          if (this.colorLabel) {
+            this.colorLabel.textContent = this.catalog.colors[color].label;
+          }
+          this.loadColor(color);
+          // Notificar al sistema de Stripe para que use el color correcto
+          this.wrap.dispatchEvent(new CustomEvent('ps:colorchange', {
+            bubbles: true,
+            detail: { product: this.productId, color }
+          }));
+        });
+      });
+    }
+
+    _bindArrows() {
+      this.prevBtn?.addEventListener('click', () => this.prev());
+      this.nextBtn?.addEventListener('click', () => this.next());
+    }
+
+    _bindSwipe() {
+      let startX = 0, startY = 0;
+      this.wrap.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+      this.wrap.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+          dx < 0 ? this.next() : this.prev();
+        }
+      }, { passive: true });
+    }
+  }
+
+  /* ─── Inicializar todos los sliders del DOM ──────────────────────────── */
+  const sliders = {};
+  document.querySelectorAll('.ps-wrap[data-product]').forEach(wrap => {
+    sliders[wrap.dataset.product] = new ProductSlider(wrap);
+  });
+
+  /* ─── Conectar cambio de color al estado de Stripe (tee) ─────────────── */
+  // El evento ps:colorchange mantiene teeColor sincronizado
+  document.addEventListener('ps:colorchange', (e) => {
+    if (e.detail.product === 'tee') {
+      teeColor = e.detail.color;
+      teeCheckoutMsg.textContent = '';
+      teeCheckoutMsg.className = 'checkout-message';
+    }
+  });
+
+  /* ─── Talla Tee ──────────────────────────────────────────────────────── */
+  teeSizeGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.size-btn');
+    if (!btn) return;
+    teeSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    teeSize = btn.dataset.size;
+    teeSizeLabel.textContent = '— ' + teeSize;
+    teeCheckoutMsg.textContent = '';
+    teeCheckoutMsg.className = 'checkout-message';
+  });
     black: {
       S:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
       M:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
@@ -1952,62 +2241,16 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     },
   };
 
-  const TEE_IMAGES = {
-    black: 'tee-black.png',
-    sand:  'tee-sand.png',
-  };
-
-  const TEE_COLOR_LABELS = {
-    black: '— Negro',
-    sand:  '— Arena',
-  };
-
-  let teeColor = 'black';
+  /* ─── TEE: variables para Stripe (mantener estos IDs) ───────────────── */
+  let teeColor = 'black'; // actualizado por ps:colorchange
   let teeSize  = 'L';
 
-  const teeColorGrid   = document.getElementById('tee-color-grid');
   const teeSizeGrid    = document.getElementById('tee-size-grid');
-  const teeImage       = document.getElementById('tee-image');
-  const teeColorLabel  = document.getElementById('tee-color-current');
   const teeSizeLabel   = document.getElementById('tee-size-current');
   const buyTeeBtn      = document.getElementById('buy-tee-btn');
   const teeCheckoutMsg = document.getElementById('tee-checkout-message');
 
-  // Cambiar color (con fade de imagen)
-  teeColorGrid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.color-btn');
-    if (!btn) return;
-    teeColorGrid.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    teeColor = btn.dataset.color;
-    teeColorLabel.textContent = TEE_COLOR_LABELS[teeColor];
-
-    // Fade image transition
-    teeImage.classList.add('fading');
-    setTimeout(() => {
-      teeImage.src = TEE_IMAGES[teeColor];
-      teeImage.onload = () => teeImage.classList.remove('fading');
-      // Fallback si la imagen ya estaba cacheada
-      setTimeout(() => teeImage.classList.remove('fading'), 400);
-    }, 250);
-
-    teeCheckoutMsg.textContent = '';
-    teeCheckoutMsg.className = 'checkout-message';
-  });
-
-  // Cambiar talla
-  teeSizeGrid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.size-btn');
-    if (!btn) return;
-    teeSizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    teeSize = btn.dataset.size;
-    teeSizeLabel.textContent = '— ' + teeSize;
-    teeCheckoutMsg.textContent = '';
-    teeCheckoutMsg.className = 'checkout-message';
-  });
-
-  // Comprar
+  /* ─── Comprar Tee ────────────────────────────────────────────────────── */
   buyTeeBtn.addEventListener('click', async () => {
     teeCheckoutMsg.textContent = '';
     teeCheckoutMsg.className = 'checkout-message';
@@ -2097,39 +2340,6 @@ const res = await fetch('/.netlify/functions/create-checkout', {
   const tracksuitSizeLabel   = document.getElementById('tracksuit-size-current');
   const buyTracksuitBtn      = document.getElementById('buy-tracksuit-btn');
   const tracksuitCheckoutMsg = document.getElementById('tracksuit-checkout-message');
-
-  // Slider del tracksuit (conjunto + detalle)
-  const tracksuitSlides = document.getElementById('tracksuit-slides');
-  const tracksuitDots   = document.querySelectorAll('#tracksuit-dots .tracksuit-dot');
-  let tracksuitCurrent  = 0;
-  let tracksuitAutoplay = null;
-
-  function goToTracksuitSlide(i) {
-    tracksuitCurrent = i;
-    tracksuitSlides.style.transform = `translateX(-${i * 100}%)`;
-    tracksuitDots.forEach((d, idx) => d.classList.toggle('active', idx === i));
-  }
-  function startTracksuitAutoplay() {
-    stopTracksuitAutoplay();
-    tracksuitAutoplay = setInterval(() => {
-      goToTracksuitSlide((tracksuitCurrent + 1) % tracksuitDots.length);
-    }, 5000);
-  }
-  function stopTracksuitAutoplay() {
-    if (tracksuitAutoplay) { clearInterval(tracksuitAutoplay); tracksuitAutoplay = null; }
-  }
-  tracksuitDots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      goToTracksuitSlide(parseInt(dot.dataset.slide, 10));
-      stopTracksuitAutoplay();
-      startTracksuitAutoplay();
-    });
-  });
-  // Pausar autoplay cuando el usuario está sobre la imagen
-  const tracksuitSliderEl = document.getElementById('tracksuit-slider');
-  tracksuitSliderEl.addEventListener('mouseenter', stopTracksuitAutoplay);
-  tracksuitSliderEl.addEventListener('mouseleave', startTracksuitAutoplay);
-  startTracksuitAutoplay();
 
   // Cambiar talla
   tracksuitSizeGrid.addEventListener('click', (e) => {
@@ -2292,39 +2502,6 @@ try {
 
     return io;
   });
-})();
-
-/* =========================================
-   DS GALLERY — Swipe support for tracksuit slider
-   (extends existing tracksuit slider with touch/swipe)
-   ========================================= */
-(function() {
-  const slider = document.getElementById('tracksuit-slides');
-  if (!slider) return;
-
-  let startX = 0, startY = 0, isDragging = false;
-
-  slider.parentElement.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    isDragging = true;
-  }, { passive: true });
-
-  slider.parentElement.addEventListener('touchend', (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    const dx = e.changedTouches[0].clientX - startX;
-    const dy = e.changedTouches[0].clientY - startY;
-    // Only trigger if horizontal swipe is dominant
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-      const dots = document.querySelectorAll('#tracksuit-dots .tracksuit-dot');
-      const current = Array.from(dots).findIndex(d => d.classList.contains('active'));
-      const next = dx < 0
-        ? Math.min(current + 1, dots.length - 1)
-        : Math.max(current - 1, 0);
-      dots[next]?.click();
-    }
-  }, { passive: true });
 })();
 </script>
 
