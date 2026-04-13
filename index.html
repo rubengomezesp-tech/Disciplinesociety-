@@ -1301,7 +1301,7 @@
 
       <div class="tee-price-row">
         <div class="tee-price"><em>$40</em></div>
-        <div class="tee-price-note">Envío incluido UE · Edición limitada</div>
+        <div class="tee-price-note">Free US shipping · Limited edition</div>
       </div>
 
       <!-- Selector de color — usa ps-swatch para conectar al slider -->
@@ -1338,9 +1338,9 @@
       <div id="tee-checkout-message" class="checkout-message" aria-live="polite"></div>
 
       <div class="tee-trust">
-        <span><span class="dot"></span>Pago seguro vía Stripe</span>
-        <span><span class="dot"></span>Envío en 5–7 días</span>
-        <span><span class="dot"></span>Devolución 14 días</span>
+        <span><span class="dot"></span>Secure checkout via Stripe</span>
+        <span><span class="dot"></span>5–7 day shipping</span>
+        <span><span class="dot"></span>14-day returns</span>
       </div>
     </div>
 
@@ -1399,7 +1399,7 @@
 
       <div class="tracksuit-price-row">
         <div class="tracksuit-price"><em>$150</em></div>
-        <div class="tracksuit-price-note">Envío incluido UE · Set completo · Edición limitada</div>
+        <div class="tracksuit-price-note">Free US shipping · Full set · Limited edition</div>
       </div>
 
       <div class="tracksuit-sizes">
@@ -1454,7 +1454,7 @@
       </ul>
       <div class="hoodie-price-row">
         <div class="hoodie-price"><em>$69</em></div>
-        <div class="hoodie-price-note">Envío incluido UE · Producción limitada</div>
+        <div class="hoodie-price-note">Free US shipping · Limited edition</div>
       </div>
       <div class="hoodie-sizes">
         <div class="hoodie-sizes-label" style="display:flex;align-items:center;gap:0;flex-wrap:wrap">
@@ -2068,7 +2068,7 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     }
   }
 }
-
+};
     // Ejemplo:
     // beige: {
     //   label: '— Beige',
@@ -2076,9 +2076,6 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     //     { src: 'hoodie-beige-1.jpg', alt: 'Hoodie EYP · Beige' }
     //   ]
     // }
-    }
-  };
-
   /* =========================================
      ProductSlider — clase reutilizable
      Una instancia por producto, misma lógica.
@@ -2432,7 +2429,7 @@ try {
   <div class="sticky-buy-inner">
     <div class="sticky-buy-info">
       <div class="sticky-buy-name">DS Core Tee</div>
-      <div class="sticky-buy-price">45€ · Edición limitada</div>
+      <div class="sticky-buy-price">$40 · Limited edition</div>
     </div>
     <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-tee-btn').click()">
       Comprar ahora →
@@ -2443,7 +2440,7 @@ try {
   <div class="sticky-buy-inner">
     <div class="sticky-buy-info">
       <div class="sticky-buy-name">DS Discipline Society Tracksuit</div>
-      <div class="sticky-buy-price">149€ · Set completo</div>
+      <div class="sticky-buy-price">$150 · Full set</div>
     </div>
     <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-tracksuit-btn').click()">
       Comprar ahora →
@@ -2454,7 +2451,7 @@ try {
   <div class="sticky-buy-inner">
     <div class="sticky-buy-info">
       <div class="sticky-buy-name">Hoodie Earn Your Place</div>
-      <div class="sticky-buy-price">89€ · Producción limitada</div>
+      <div class="sticky-buy-price">$69 · Limited edition</div>
     </div>
     <button class="sticky-buy-btn" type="button" onclick="document.getElementById('buy-hoodie-btn').click()">
       Comprar ahora →
