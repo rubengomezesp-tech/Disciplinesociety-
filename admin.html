@@ -56,6 +56,8 @@
   .auth-panel h1,.denied-panel h1{font-size:42px;margin-bottom:22px}
   .auth-form{display:grid;gap:18px}
   .auth-form button{margin-top:4px}
+  .auth-help{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;justify-self:end;margin-top:-8px}
+  .auth-help:hover{color:var(--gold)}
   .slots-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
   .image-card{grid-column:span 4;border:1px solid var(--line);background:linear-gradient(180deg,rgba(201,169,97,.04),rgba(255,255,255,.01));display:flex;flex-direction:column;min-width:0}
   .image-card__media{aspect-ratio:4/5;background:#050504;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -110,6 +112,7 @@
           <span>Contrasena</span>
           <input type="password" name="password" autocomplete="current-password" required>
         </label>
+        <a class="auth-help" href="/recuperar.html">Resetear contrasena</a>
         <button type="submit">Entrar</button>
         <p id="login-message" class="message" aria-live="polite"></p>
       </form>
