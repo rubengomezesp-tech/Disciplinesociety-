@@ -39,6 +39,15 @@ function translateError(error) {
   return msg || 'Error al procesar la solicitud.';
 }
 
+function authRedirect(path) {
+  return `${window.location.origin}${path}`;
+}
+
+function safeLocalPath(path, fallback = '/mi-cuenta.html') {
+  if (!path || !path.startsWith('/') || path.startsWith('//')) return fallback;
+  return path;
+}
+
 // ─── signup ──────────────────────────────────────────────────────────────────
 
 export async function handleSignup(e) {
@@ -54,7 +63,13 @@ export async function handleSignup(e) {
   const orig = btn.dataset.orig || btn.textContent;
   btn.dataset.orig = orig;
   btn.textContent = 'Creando cuenta...';
-  const { data, error } = await supabase.auth.signUp({ email, password });
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: authRedirect('/confirmado.html'),
+    },
+  });
   btn.disabled = false;
   btn.textContent = orig;
   if (error) { showMsg(msg, translateError(error)); return; }
@@ -82,7 +97,7 @@ export async function handleLogin(e) {
   if (error) { showMsg(msg, translateError(error)); return; }
   const params = new URLSearchParams(window.location.search);
   const next = params.get('next');
-  window.location.href = (next && next.startsWith('/')) ? next : '/mi-cuenta.html';
+  window.location.href = safeLocalPath(next);
 }
 
 // ─── forgot password ─────────────────────────────────────────────────────────
@@ -99,7 +114,7 @@ export async function handleForgotPassword(e) {
   btn.dataset.orig = orig;
   btn.textContent = 'Enviando...';
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://disciplinesociety.net/nueva-contrasena.html',
+    redirectTo: authRedirect('/nueva-contrasena.html'),
   });
   btn.disabled = false;
   btn.textContent = orig;

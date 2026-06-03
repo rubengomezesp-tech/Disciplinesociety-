@@ -1,11 +1,19 @@
 {
-  "name": "discipline-society-functions",
-  "version": "1.0.0",
+  "name": "discipline-society",
+  "version": "2.0.0",
   "private": true,
-  "description": "Netlify Functions dependencies for Discipline Society",
+  "description": "Discipline Society static storefront and Netlify Functions",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "npm run check:functions",
+    "check:functions": "node --check netlify/functions/create-checkout.js && node --check netlify/functions/stripe-webhook.js && node --check netlify/functions/subscribe.js && node --check assets/js/site-images.js && node --check assets/js/admin-images.js",
+    "test": "npm run check"
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0",
-    "stripe": "^16.0.0",
-    "resend": "^4.0.0"
+    "@supabase/supabase-js": "^2.107.0",
+    "resend": "^6.12.4",
+    "stripe": "^22.2.0"
   }
 }

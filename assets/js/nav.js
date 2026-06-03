@@ -6,8 +6,8 @@
 //   [data-auth="user"]   → visible only when user IS logged in
 //
 // Usage in HTML (desktop nav example):
-//   <a href="/acceder" data-auth="guest">Acceder</a>
-//   <a href="/mi-cuenta" data-auth="user">Mi cuenta</a>
+//   <a href="/acceder.html" data-auth="guest">Acceder</a>
+//   <a href="/mi-cuenta.html" data-auth="user">Mi cuenta</a>
 //   <a href="#" data-auth="user" data-action="logout">Cerrar sesión</a>
 //
 // Same attributes work inside hamburger menu — no extra code needed.

@@ -40,6 +40,32 @@ function statusLabel(status) {
   return map[status] || status || '—';
 }
 
+function statusClass(status) {
+  return String(status || 'paid').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+}
+
+function variantLabel(order) {
+  const parts = [];
+
+  if (order.size) {
+    parts.push(`Talla ${escapeHtml(order.size)}`);
+  }
+
+  if (order.color) {
+    parts.push(escapeHtml(colorLabel(order.color)));
+  }
+
+  return parts.join(' · ');
+}
+
+function colorLabel(color) {
+  const map = {
+    black: 'Negro',
+    sand: 'Arena',
+  };
+  return map[color] || color;
+}
+
 // --- render orders ---
 function renderOrders(container, orders) {
   if (!orders || orders.length === 0) {
@@ -53,20 +79,22 @@ function renderOrders(container, orders) {
   }
 
   const rows = orders
-    .map(
-      (o) => `
+    .map((o) => {
+      const variant = variantLabel(o);
+
+      return `
       <article class="order-item">
         <div class="order-head">
           <div class="order-name">${escapeHtml(o.product_name || 'Pedido')}</div>
           <div class="order-amount">${formatPrice(o.amount, o.currency)}</div>
         </div>
         <div class="order-meta">
-          <span class="order-date">${formatDate(o.created_at)}</span>
-          <span class="order-status order-status--${escapeHtml(o.status || 'paid')}">${statusLabel(o.status)}</span>
+          <span class="order-date">${formatDate(o.created_at)}${variant ? ` · ${variant}` : ''}</span>
+          <span class="order-status order-status--${statusClass(o.status)}">${escapeHtml(statusLabel(o.status))}</span>
         </div>
       </article>
-    `
-    )
+    `;
+    })
     .join('');
 
   container.innerHTML = `<div class="orders-list">${rows}</div>`;
@@ -87,11 +115,22 @@ async function loadOrders(userId) {
   const container = document.getElementById('orders-container');
   if (!container) return;
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('orders')
-    .select('id, product_name, amount, currency, status, created_at')
+    .select('id, product_name, size, color, amount, currency, status, created_at')
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
+
+  if (error && error.code === '42703') {
+    const fallback = await supabase
+      .from('orders')
+      .select('id, product_name, amount, currency, status, created_at')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    data = fallback.data;
+    error = fallback.error;
+  }
 
   if (error) {
     console.error('Error loading orders:', error);
@@ -112,7 +151,7 @@ async function init() {
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
-    window.location.replace('/acceder');
+    window.location.replace('/acceder.html');
     return;
   }
 
@@ -144,7 +183,7 @@ async function init() {
   // Cross-tab sign-out
   supabase.auth.onAuthStateChange((event) => {
     if (event === 'SIGNED_OUT') {
-      window.location.replace('/acceder');
+      window.location.replace('/acceder.html');
     }
   });
 }

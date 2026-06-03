@@ -4,13 +4,23 @@
 create table if not exists public.orders (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
+  product_id text,
   product_name text not null,
+  size text,
+  color text,
   amount numeric(10, 2) not null,
   currency text not null default 'eur',
   status text not null default 'paid',
   stripe_session_id text unique,
+  stripe_payment_intent text,
   created_at timestamptz not null default now()
 );
+
+-- Safe upgrades for projects that already ran an older version of this file
+alter table public.orders add column if not exists product_id text;
+alter table public.orders add column if not exists size text;
+alter table public.orders add column if not exists color text;
+alter table public.orders add column if not exists stripe_payment_intent text;
 
 -- Index for fast per-user lookups
 create index if not exists orders_user_id_created_at_idx

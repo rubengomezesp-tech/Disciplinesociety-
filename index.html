@@ -261,8 +261,9 @@
     width:5px;height:5px;background:var(--gold);
     border-radius:50%;animation:pulse 2s infinite;
   }
-  /* Hide auth items until JS */
-  .mobile-nav [data-auth]{display:none}
+  /* Hide auth items until JS resolves session state */
+  .mobile-nav [data-auth]:not(.auth-visible){display:none !important}
+  .mobile-nav [data-auth].auth-visible{display:flex !important}
 
   /* =========================================
      QUICK-NAV STRIP (mobile only)
@@ -1098,7 +1099,7 @@
 
 <nav>
   <a href="#" class="logo">
-    <img src="ds-logo.png" alt="Discipline Society">
+    <img src="ds-logo.png" alt="Discipline Society" data-site-image="brand.logo">
     <span class="logo-text">Discipline<em>/</em>Society</span>
   </a>
   <ul class="nav-links">
@@ -1124,11 +1125,11 @@
       </button>
       <div class="nav-dropdown" id="nav-dropdown" role="menu">
         <div class="nav-dropdown-email" id="nav-dropdown-email">Cargando…</div>
-        <a href="/mi-cuenta" role="menuitem">
+        <a href="/mi-cuenta.html" role="menuitem">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Mi cuenta
         </a>
-        <a href="/mi-cuenta" role="menuitem">
+        <a href="/mi-cuenta.html" role="menuitem">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           Mis pedidos
         </a>
@@ -1169,23 +1170,23 @@
   <div class="mobile-nav-auth">
     <a href="/acceder.html" data-auth="guest" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Sign In
+      Acceder
     </a>
     <a href="/registro.html" data-auth="guest" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M9 7a4 4 0 1 0 8 0 4 4 0 0 0-8 0"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-      Create Account
+      Crear cuenta
     </a>
     <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      My Account
+      Mi cuenta
     </a>
     <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      My Orders
+      Mis pedidos
     </a>
     <a href="#" data-auth="user" data-action="logout" class="mobile-nav-link--logout">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Sign Out
+      Cerrar sesión
     </a>
   </div>
   <div class="mobile-nav-footer">
@@ -1524,7 +1525,7 @@
     <div class="footer-top">
       <div class="footer-brand">
         <a href="#" class="logo footer-logo">
-          <img src="ds-logo.png" alt="Discipline Society">
+          <img src="ds-logo.png" alt="Discipline Society" data-site-image="brand.logo">
           <span class="logo-text">Discipline<em>/</em>Society</span>
         </a>
         <p>Un movimiento para quienes eligen construirse en silencio. Ropa, nutrición y sistemas de disciplina de nivel élite.</p>
@@ -1584,6 +1585,11 @@
 
 <script type="module">
   import { supabase } from '/assets/js/supabase-client.js';
+  import {
+    applyDocumentImageOverrides,
+    applyProductImageOverrides,
+    loadSiteImageOverrides,
+  } from '/assets/js/site-images.js';
 
   /* =========================================
      HAMBURGER MENU
@@ -1663,8 +1669,8 @@
     if (navRegister) navRegister.classList.toggle('auth-visible', !authed);
 
     // Mobile nav
-    mobileGuest.forEach(el => el.style.display = authed ? 'none' : '');
-    mobileUser.forEach(el  => el.style.display = authed ? '' : 'none');
+    mobileGuest.forEach(el => el.classList.toggle('auth-visible', !authed));
+    mobileUser.forEach(el  => el.classList.toggle('auth-visible', authed));
 
     // Populate avatar + email
     if (authed && session.user) {
@@ -1867,34 +1873,11 @@
   });
 
   /* =========================================
-     HOODIE · STRIPE CHECKOUT
-     =========================================
-
-     🔑 EDITA ESTAS 2 CONSTANTES:
-
-     1. STRIPE_PUBLISHABLE_KEY — tu clave pública
-        Stripe Dashboard → Developers → API keys → "Publishable key"
-        Formato REAL: pk_live_51AbCdEf... (o pk_test_...)
-        ⚠️ Debe tener mínimo 20 caracteres después de "pk_test_" o "pk_live_"
-
-     2. HOODIE_PRICES — un Price ID por talla
-        Stripe Dashboard → Products → Founders Hoodie → + Add another price
-        Formato REAL: price_1AbCdEfGhIjKlMnOp...
-        Si solo tienes 1 precio, pon el mismo en las 5 tallas.
-  */
+     STRIPE CHECKOUT
+     ========================================= */
 
   const STRIPE_PUBLISHABLE_KEY = 'pk_live_51TJfb1HIYJhSnGO2XwmvmDkNyPpo2z4K5XgbuxD3OiYpBVbEsCzW3nDMCVRAHqys859T4ZE96TUAOyTlsGlBwWYs00uJaCySip';
-  const HOODIE_PRICES = {
-    S:   'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
-    M:   'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
-    L:   'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
-    XL:  'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
-    XXL: 'price_1TKIi8HIYJhSnGO2hMmiQ2Lu',
-  };
-
-  // Validadores estrictos (evitan crash de Stripe.js con placeholders)
-  const PK_REGEX    = /^pk_(test|live)_[A-Za-z0-9]{20,}$/;
-  const PRICE_REGEX = /^price_[A-Za-z0-9]{10,}$/;
+  const PK_REGEX = /^pk_(test|live)_[A-Za-z0-9]{20,}$/;
 
   // Init de Stripe diferido: solo se llama cuando las claves son válidas
   let _stripe = null;
@@ -1909,6 +1892,38 @@
       console.error('Stripe init error:', e);
       return null;
     }
+  }
+
+  function currentLocalPath() {
+    return `${window.location.pathname}${window.location.hash || ''}`;
+  }
+
+  async function createCheckoutSession(payload) {
+    const { data: { session } } = await supabase.auth
+      .getSession()
+      .catch(() => ({ data: { session: null } }));
+
+    if (!session) {
+      const next = encodeURIComponent(currentLocalPath());
+      window.location.href = `/acceder.html?next=${next}`;
+      return null;
+    }
+
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.id) {
+      throw new Error(data.error || 'No se pudo iniciar el pago');
+    }
+
+    return data.id;
   }
 
   let selectedSize = 'L';
@@ -1930,22 +1945,13 @@
     checkoutMsg.textContent = '';
     checkoutMsg.className = 'checkout-message';
 
-    // 1. Validar claves antes de tocar Stripe
     if (!PK_REGEX.test(STRIPE_PUBLISHABLE_KEY)) {
       checkoutMsg.textContent = 'Checkout en configuración. Vuelve pronto.';
       checkoutMsg.className = 'checkout-message info';
       console.warn('[Stripe] Edita STRIPE_PUBLISHABLE_KEY en index.html');
       return;
     }
-    const priceId = HOODIE_PRICES[selectedSize];
-    if (!PRICE_REGEX.test(priceId)) {
-      checkoutMsg.textContent = 'Esta talla todavía no está disponible.';
-      checkoutMsg.className = 'checkout-message info';
-      console.warn('[Stripe] Edita HOODIE_PRICES[' + selectedSize + '] en index.html');
-      return;
-    }
 
-    // 2. Init Stripe
     const stripe = getStripe();
     if (!stripe) {
       checkoutMsg.textContent = 'No se pudo inicializar el pago. Recarga la página.';
@@ -1953,33 +1959,17 @@
       return;
     }
 
-    // 3. Crear Checkout Session en backend
     buyBtn.disabled = true;
     buyBtn.innerHTML = 'Redirigiendo...';
     try {
-      const { data: { session } } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
+      const checkoutSessionId = await createCheckoutSession({
+        size: selectedSize,
+        product: 'founders-hoodie',
+      });
 
-if (!session) {
-  window.location.href = '/acceder';
-  return;
-}
+      if (!checkoutSessionId) return;
 
-const userId = session.user.id;
-
-const res = await fetch('/.netlify/functions/create-checkout', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    priceId,
-    size: selectedSize,
-    product: 'DS-Discipline-Society-hoodie',
-    userId
-  })
-});
-      const data = await res.json();
-      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
-
-      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+      const { error } = await stripe.redirectToCheckout({ sessionId: checkoutSessionId });
       if (error) throw error;
     } catch (err) {
       console.error(err);
@@ -2012,7 +2002,7 @@ const res = await fetch('/.netlify/functions/create-checkout', {
         black: {
           label: '— Negro',
           images: [
-            { src: 'tee-black.png', alt: 'DS Core Tee · Negro' },
+            { src: 'tee-black.jpg', alt: 'DS Core Tee · Negro' },
             // Añade más imágenes del color negro aquí:
             // { src: 'tee-black-2.png', alt: 'DS Core Tee · Negro · Detalle' },
           ]
@@ -2020,7 +2010,7 @@ const res = await fetch('/.netlify/functions/create-checkout', {
         sand: {
           label: '— Arena',
           images: [
-            { src: 'tee-sand.png', alt: 'DS Core Tee · Arena' },
+            { src: 'tee-sand.jpg', alt: 'DS Core Tee · Arena' },
             // Añade más imágenes del color arena aquí:
             // { src: 'tee-sand-2.png', alt: 'DS Core Tee · Arena · Detalle' },
           ]
@@ -2067,7 +2057,7 @@ const res = await fetch('/.netlify/functions/create-checkout', {
       ]
     }
   }
-}
+  }
 };
     // Ejemplo:
     // beige: {
@@ -2076,6 +2066,10 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     //     { src: 'hoodie-beige-1.jpg', alt: 'Hoodie EYP · Beige' }
     //   ]
     // }
+  const siteImageOverrides = await loadSiteImageOverrides(supabase);
+  applyDocumentImageOverrides(siteImageOverrides);
+  applyProductImageOverrides(PRODUCT_CATALOG, siteImageOverrides);
+
   /* =========================================
      ProductSlider — clase reutilizable
      Una instancia por producto, misma lógica.
@@ -2112,10 +2106,18 @@ const res = await fetch('/.netlify/functions/create-checkout', {
       this.activeColor = colorKey;
       this.current = 0;
 
-      // Renderizar slides
-      this.track.innerHTML = colorData.images.map(img =>
-        `<div class="ps-slide"><img src="${img.src}" alt="${img.alt}" loading="lazy"></div>`
-      ).join('');
+      this.track.innerHTML = '';
+      colorData.images.forEach((img) => {
+        const slide = document.createElement('div');
+        const image = document.createElement('img');
+
+        slide.className = 'ps-slide';
+        image.src = img.src;
+        image.alt = img.alt;
+        image.loading = 'lazy';
+        slide.appendChild(image);
+        this.track.appendChild(slide);
+      });
 
       // Renderizar dots (solo si hay más de 1 imagen)
       if (colorData.images.length > 1) {
@@ -2203,7 +2205,7 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     sliders[wrap.dataset.product] = new ProductSlider(wrap);
   });
 
-  /* ─── TEE: variables para Stripe (mantener estos IDs) ───────────────── */
+  /* ─── TEE: seleccion actual para checkout ───────────────────────────── */
   let teeColor = 'black'; // actualizado por ps:colorchange
   let teeSize  = 'L';
 
@@ -2211,27 +2213,6 @@ const res = await fetch('/.netlify/functions/create-checkout', {
   const teeSizeLabel   = document.getElementById('tee-size-current');
   const buyTeeBtn      = document.getElementById('buy-tee-btn');
   const teeCheckoutMsg = document.getElementById('tee-checkout-message');
-
-  /* 🔑 TEE — Price IDs por color y talla
-     Stripe Dashboard → Products → DS Core Tee → Prices
-     Estructura: TEE_PRICES[color][talla] = 'price_...'
-  */
-  const TEE_PRICES = {
-    black: {
-      S:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
-      M:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
-      L:   'price_1TKLmFHIYJhSnGO2z3l8ajPy',
-      XL:  'price_1TKLmFHIYJhSnGO2z3l8ajPy',
-      XXL: 'price_1TKLmFHIYJhSnGO2z3l8ajPy',
-    },
-    sand: {
-      S:   'price_1TKMmgHIYJhSnGO2zfMYCuaj',
-      M:   'price_1TKMmgHIYJhSnGO2zfMYCuaj',
-      L:   'price_1TKMmgHIYJhSnGO2zfMYCuaj',
-      XL:  'price_1TKMmgHIYJhSnGO2zfMYCuaj',
-      XXL: 'price_1TKMmgHIYJhSnGO2zfMYCuaj',
-    },
-  };
 
   /* ─── Sincronizar color con Stripe cuando el usuario cambia swatch ──── */
   document.addEventListener('ps:colorchange', (e) => {
@@ -2264,14 +2245,6 @@ const res = await fetch('/.netlify/functions/create-checkout', {
       teeCheckoutMsg.className = 'checkout-message info';
       return;
     }
-    const priceId = TEE_PRICES[teeColor] && TEE_PRICES[teeColor][teeSize];
-    if (!PRICE_REGEX.test(priceId)) {
-      teeCheckoutMsg.textContent = 'Esta combinación todavía no está disponible.';
-      teeCheckoutMsg.className = 'checkout-message info';
-      console.warn('[Stripe] Edita TEE_PRICES.' + teeColor + '.' + teeSize + ' en index.html');
-      return;
-    }
-
     const stripe = getStripe();
     if (!stripe) {
       teeCheckoutMsg.textContent = 'No se pudo inicializar el pago. Recarga la página.';
@@ -2283,31 +2256,15 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     buyTeeBtn.innerHTML = 'Redirigiendo...';
 
     try {
-      const { data: { session } } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
-
-      if (!session) {
-        window.location.href = '/acceder';
-        return;
-      }
-
-      const userId = session.user.id;
-
-      const res = await fetch('/.netlify/functions/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priceId,
-          size: teeSize,
-          color: teeColor,
-          product: 'ds-core-tee',
-          userId
-        })
+      const checkoutSessionId = await createCheckoutSession({
+        size: teeSize,
+        color: teeColor,
+        product: 'ds-core-tee',
       });
 
-      const data = await res.json();
-      if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
+      if (!checkoutSessionId) return;
 
-      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+      const { error } = await stripe.redirectToCheckout({ sessionId: checkoutSessionId });
       if (error) throw error;
 
     } catch (err) {
@@ -2318,26 +2275,6 @@ const res = await fetch('/.netlify/functions/create-checkout', {
       buyTeeBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
     }
   });
-
-  /* =========================================
-     DS CORE TRACKSUIT · STRIPE CHECKOUT
-     =========================================
-
-     🔑 RELLENA LOS PRICE IDs DEL TRACKSUIT
-     Stripe Dashboard → Products → DS Core Tracksuit → Prices
-
-     Estructura: TRACKSUIT_PRICES[talla] = 'price_...'
-     Si tu producto tiene un único precio (el mismo para todas las tallas),
-     pon el mismo price_... en las 5 tallas.
-     La talla queda registrada en los metadatos del pedido.
-  */
-  const TRACKSUIT_PRICES = {
-    S:   'price_1TKUFiHIYJhSnGO20HdJmG3P',
-    M:   'price_1TKUFiHIYJhSnGO20HdJmG3P',
-    L:   'price_1TKUFiHIYJhSnGO20HdJmG3P',
-    XL:  'price_1TKUFiHIYJhSnGO20HdJmG3P',
-    XXL: 'price_1TKUFiHIYJhSnGO20HdJmG3P',
-  };
 
   let tracksuitSize = 'L';
   const tracksuitSizeGrid    = document.getElementById('tracksuit-size-grid');
@@ -2367,14 +2304,6 @@ const res = await fetch('/.netlify/functions/create-checkout', {
       tracksuitCheckoutMsg.className = 'checkout-message info';
       return;
     }
-    const priceId = TRACKSUIT_PRICES[tracksuitSize];
-    if (!PRICE_REGEX.test(priceId)) {
-      tracksuitCheckoutMsg.textContent = 'Esta talla todavía no está disponible.';
-      tracksuitCheckoutMsg.className = 'checkout-message info';
-      console.warn('[Stripe] Edita TRACKSUIT_PRICES[' + tracksuitSize + '] en index.html');
-      return;
-    }
-
     const stripe = getStripe();
     if (!stripe) {
       tracksuitCheckoutMsg.textContent = 'No se pudo inicializar el pago. Recarga la página.';
@@ -2383,42 +2312,25 @@ const res = await fetch('/.netlify/functions/create-checkout', {
     }
 
     buyTracksuitBtn.disabled = true;
-buyTracksuitBtn.innerHTML = 'Redirigiendo...';
+    buyTracksuitBtn.innerHTML = 'Redirigiendo...';
 
-try {
-  const { data: { session } } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
+    try {
+      const checkoutSessionId = await createCheckoutSession({
+        size: tracksuitSize,
+        product: 'ds-core-tracksuit',
+      });
 
-  if (!session) {
-    window.location.href = '/acceder';
-    return;
-  }
+      if (!checkoutSessionId) return;
 
-  const userId = session.user.id;
-
-  const res = await fetch('/.netlify/functions/create-checkout', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      priceId,
-      size: tracksuitSize,
-      product: 'ds-core-tracksuit',
-      userId
-    })
-  });
-
-  const data = await res.json();
-  if (!res.ok || !data.id) throw new Error(data.error || 'No se pudo iniciar el pago');
-
-  const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
-  if (error) throw error;
-
-} catch (err) {
-  console.error(err);
-  tracksuitCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
-  tracksuitCheckoutMsg.className = 'checkout-message error';
-  buyTracksuitBtn.disabled = false;
-  buyTracksuitBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
-}
+      const { error } = await stripe.redirectToCheckout({ sessionId: checkoutSessionId });
+      if (error) throw error;
+    } catch (err) {
+      console.error(err);
+      tracksuitCheckoutMsg.textContent = (err && err.message) ? err.message : 'Error al iniciar el pago';
+      tracksuitCheckoutMsg.className = 'checkout-message error';
+      buyTracksuitBtn.disabled = false;
+      buyTracksuitBtn.innerHTML = 'Comprar ahora <span class="arrow">→</span>';
+    }
   });
 </script>
 

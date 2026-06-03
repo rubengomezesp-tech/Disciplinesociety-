@@ -15,12 +15,19 @@
 
 const { Resend } = require('resend');
 
+const LOCAL_ORIGINS = new Set([
+  'http://localhost:8888',
+  'http://localhost:8889',
+  'http://127.0.0.1:8888',
+  'http://127.0.0.1:8889',
+]);
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 204,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        ...corsHeaders(event),
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
@@ -28,7 +35,7 @@ exports.handler = async (event) => {
   }
 
   if (event.httpMethod !== 'POST') {
-    return json(405, { error: 'Method not allowed' });
+    return json(event, 405, { error: 'Method not allowed' });
   }
 
   // Parse + validate
@@ -36,19 +43,19 @@ exports.handler = async (event) => {
   try {
     body = JSON.parse(event.body || '{}');
   } catch {
-    return json(400, { error: 'JSON inválido.' });
+    return json(event, 400, { error: 'JSON invalido.' });
   }
 
   const email = (body.email || '').trim().toLowerCase();
   if (!isValidEmail(email)) {
-    return json(400, { error: 'Email no válido.' });
+    return json(event, 400, { error: 'Email no valido.' });
   }
 
   // Si Resend no está configurado, hacemos no-op (Netlify Forms ya
   // capturó el email con el POST al form "early-access").
   const { RESEND_API_KEY, FROM_EMAIL, ADMIN_EMAIL } = process.env;
   if (!RESEND_API_KEY || !FROM_EMAIL) {
-    return json(200, { ok: true, captured: true, notified: false });
+    return json(event, 200, { ok: true, captured: true, notified: false });
   }
 
   try {
@@ -73,11 +80,11 @@ exports.handler = async (event) => {
       });
     }
 
-    return json(200, { ok: true, captured: true, notified: true });
+    return json(event, 200, { ok: true, captured: true, notified: true });
   } catch (err) {
     console.error('[subscribe]', err);
     // No rompemos el flujo: el email ya quedó en Netlify Forms.
-    return json(200, { ok: true, captured: true, notified: false });
+    return json(event, 200, { ok: true, captured: true, notified: false });
   }
 };
 
@@ -86,15 +93,59 @@ function isValidEmail(e) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
 
-function json(statusCode, body) {
+function json(event, statusCode, body) {
   return {
     statusCode,
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      ...corsHeaders(event),
     },
     body: JSON.stringify(body),
   };
+}
+
+function corsHeaders(event) {
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin(event),
+    'Vary': 'Origin',
+  };
+}
+
+function allowedOrigin(event) {
+  const requestOrigin = normalizeOrigin(header(event, 'origin'));
+  const configuredOrigin = normalizeOrigin(process.env.SITE_URL);
+  const hostOrigin = originFromHost(header(event, 'host'));
+  const allowed = new Set(
+    [configuredOrigin, hostOrigin, ...LOCAL_ORIGINS].filter(Boolean)
+  );
+
+  if (requestOrigin && allowed.has(requestOrigin)) {
+    return requestOrigin;
+  }
+
+  return configuredOrigin || hostOrigin || requestOrigin || 'https://disciplinesociety.com';
+}
+
+function originFromHost(host) {
+  if (!host) return '';
+  const protocol = host.includes('localhost') || host.startsWith('127.') ? 'http' : 'https';
+  return `${protocol}://${host}`;
+}
+
+function normalizeOrigin(value) {
+  if (!value) return '';
+  try {
+    return new URL(value).origin;
+  } catch {
+    return '';
+  }
+}
+
+function header(event, name) {
+  const headers = (event && event.headers) || {};
+  const target = name.toLowerCase();
+  const foundKey = Object.keys(headers).find((key) => key.toLowerCase() === target);
+  return foundKey ? headers[foundKey] : '';
 }
 
 function welcomeHtml() {
