@@ -304,6 +304,7 @@
     .quick-nav{display:block}
     /* Shift hero down to account for quick nav height */
     .hero{padding-top:196px !important}
+    section{scroll-margin-top:128px}
   }
 
   /* =========================================
@@ -531,8 +532,8 @@
   .social-proof{
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
-    padding:40px 32px;
-    background:var(--bg-2);
+    padding:26px 32px;
+    background:#0d0c0a;
     overflow:hidden;
     position:relative;
   }
@@ -549,11 +550,11 @@
   }
   .sp-stat{
     flex:1;min-width:140px;
-    text-align:center;padding:16px 32px;
+    text-align:center;padding:12px 28px;
     display:flex;flex-direction:column;gap:6px;
   }
   .sp-num{
-    font-family:var(--serif);font-size:clamp(32px,4vw,48px);
+    font-family:var(--serif);font-size:clamp(24px,3vw,36px);
     font-weight:400;color:var(--ink);letter-spacing:-.02em;line-height:1;
   }
   .sp-num em{font-style:italic;color:var(--gold)}
@@ -625,7 +626,7 @@
   @media(max-width:600px){.hero-meta{font-size:9px;gap:12px;flex-wrap:wrap}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
-  section{padding:140px 32px;position:relative}
+  section{padding:140px 32px;position:relative;scroll-margin-top:124px}
   .section-label{display:flex;align-items:center;gap:16px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:32px}
   .section-label::before{content:"";width:32px;height:1px;background:var(--gold)}
   .section-title{font-family:var(--serif);font-size:clamp(40px,6vw,80px);font-weight:400;line-height:1;letter-spacing:-.015em;margin-bottom:40px;max-width:900px}
@@ -642,12 +643,19 @@
   .pillar-title{font-family:var(--serif);font-size:24px;margin-bottom:8px;font-weight:500}
   .pillar-desc{font-size:14px;color:var(--ink-dim);line-height:1.6}
 
-  .products{background:linear-gradient(180deg,var(--bg-2) 0%,#0d0c0a 100%);border-top:1px solid var(--line);overflow:hidden}
+  .products{background:#0d0c0a;border-top:1px solid var(--line);overflow:hidden}
   .products::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(174,184,179,.04),transparent 26%,rgba(201,169,97,.05) 78%,transparent);pointer-events:none}
   .products-header{display:grid;grid-template-columns:minmax(0,1fr) 320px;align-items:end;gap:48px;margin-bottom:48px;max-width:1280px;margin-left:auto;margin-right:auto;position:relative;z-index:2}
-  .products-copy{color:var(--ink-dim);font-size:15px;line-height:1.8;max-width:760px;margin-top:-12px}
+  .products-copy{color:var(--ink-dim);font-size:15px;line-height:1.8;max-width:720px;margin-top:-12px}
   .products-count{justify-self:end;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--ink-dim);text-align:right}
   .products-count span{color:var(--gold);font-size:38px;line-height:1}
+  .intent-strip{max-width:1280px;margin:0 auto 34px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative;z-index:2}
+  .intent-link{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:92px;padding:22px 24px;border:1px solid var(--line);background:rgba(255,255,255,.025);color:var(--ink);text-decoration:none;transition:border-color .3s,background .3s,transform .3s}
+  .intent-link:hover{border-color:var(--line-strong);background:rgba(201,169,97,.055);transform:translateY(-2px)}
+  .intent-link > div{display:flex;flex-direction:column;gap:8px;min-width:0}
+  .intent-link b{font-family:var(--serif);font-size:24px;font-weight:500;line-height:1}
+  .intent-link span{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-muted);line-height:1.2}
+  .intent-link i{font-style:normal;color:var(--gold);font-size:18px}
   .drop-benefits{max-width:1280px;margin:0 auto 34px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);position:relative;z-index:2}
   .drop-benefit{padding:18px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
   .drop-benefit:last-child{border-right:none}
@@ -664,15 +672,15 @@
   .product-visual{width:100%;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;margin:0;padding:18px;transition:transform .8s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01))}
   .product-visual::before{content:"";position:absolute;left:20%;right:20%;bottom:10%;height:22px;background:rgba(0,0,0,.5);filter:blur(18px);border-radius:50%}
   .product-visual img{width:100%;height:100%;object-fit:contain;object-position:center;position:relative;z-index:2;filter:drop-shadow(0 24px 44px rgba(0,0,0,.6));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-  .product-card-body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:16px;flex:1;position:relative}
+  .product-card-body{padding:24px;display:flex;flex-direction:column;gap:16px;flex:1;position:relative}
   .product-card-top{display:flex;justify-content:space-between;align-items:center;gap:14px}
   .product-category{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--steel);position:relative}
   .product-price{font-family:var(--serif);font-size:28px;line-height:1;color:var(--gold);white-space:nowrap}
-  .product-title{font-family:var(--serif);font-size:clamp(30px,3vw,42px);font-weight:500;line-height:1.02;position:relative}
+  .product-title{font-family:var(--serif);font-size:clamp(30px,3vw,40px);font-weight:500;line-height:1.02;position:relative}
   .product-title em{font-style:italic;color:var(--gold);font-weight:400}
   .product-desc{font-size:13px;color:var(--ink-dim);line-height:1.65;position:relative;min-height:62px}
-  .product-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .product-meta{background:rgba(10,9,8,.9);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .product-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(201,169,97,.14);border:1px solid rgba(201,169,97,.14)}
+  .product-meta{background:#0c0b09;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
   .product-meta b{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink)}
   .product-meta span{font-size:11px;color:var(--ink-muted)}
   .product-card-footer{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -1148,6 +1156,10 @@
     .products-header{gap:22px;margin-bottom:28px}
     .products-copy{font-size:14px;line-height:1.7;margin-top:-4px}
     .products-count span{font-size:34px}
+    .intent-strip{grid-template-columns:1fr;gap:10px;margin-bottom:22px}
+    .intent-link{min-height:76px;padding:18px 20px}
+    .intent-link > div{gap:7px}
+    .intent-link b{font-size:22px}
     .drop-benefits{grid-template-columns:repeat(2,1fr);margin-bottom:22px}
     .drop-benefit{padding:14px 16px}
     .drop-benefit b{font-size:16px}
@@ -1338,23 +1350,23 @@
 <div class="social-proof reveal">
   <div class="social-proof-inner">
     <div class="sp-stat">
-      <div class="sp-num">1<em>K+</em></div>
-      <div class="sp-label">Miembros fundadores</div>
+      <div class="sp-num">Drop <em>001</em></div>
+      <div class="sp-label">Primera colección</div>
     </div>
     <div class="sp-sep"></div>
     <div class="sp-stat">
       <div class="sp-num">3</div>
-      <div class="sp-label">Drops exclusivos</div>
+      <div class="sp-label">Piezas esenciales</div>
     </div>
     <div class="sp-sep"></div>
     <div class="sp-stat">
-      <div class="sp-num">48<em>h</em></div>
-      <div class="sp-label">Tiempo medio agotado</div>
+      <div class="sp-num">Made <em>to</em> Order</div>
+      <div class="sp-label">Producción limitada</div>
     </div>
     <div class="sp-sep"></div>
     <div class="sp-stat">
-      <div class="sp-num"><em>∞</em></div>
-      <div class="sp-label">Sin segundas oportunidades</div>
+      <div class="sp-num">Miami</div>
+      <div class="sp-label">Night training energy</div>
     </div>
   </div>
 </div>
@@ -1387,6 +1399,21 @@
       <p class="products-copy reveal">Compra por intención: una camiseta técnica para entrenar, un set completo para moverte con presencia y el hoodie que define la primera era de Discipline Society.</p>
     </div>
     <div class="products-count reveal"><span>03</span><br>piezas fundadoras</div>
+  </div>
+
+  <div class="intent-strip reveal" aria-label="Comprar por intención">
+    <a href="#tee" class="intent-link">
+      <div><b>Train</b><span>Core Tee</span></div>
+      <i>→</i>
+    </a>
+    <a href="#tracksuit" class="intent-link">
+      <div><b>Move</b><span>Full tracksuit</span></div>
+      <i>→</i>
+    </a>
+    <a href="#hoodie" class="intent-link">
+      <div><b>Recover</b><span>Heavy hoodie</span></div>
+      <i>→</i>
+    </a>
   </div>
 
   <div class="drop-benefits reveal">
@@ -1489,16 +1516,16 @@
 <section class="tee" id="tee">
   <div class="tee-inner">
     <div class="tee-content reveal">
-      <div class="section-label">Earn Your Place Drop · N° 002</div>
-      <div class="urgency-strip"><span class="pulse-dot"></span>Edición limitada · Quedan pocas unidades</div>
+      <div class="section-label">DS Core Tee · N° 002</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>Training fit · Drop limitado</div>
       <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
-      <h2>DS <em>Core Tee.</em><br>Founders <em>Edition.</em></h2>
+      <h2>Core Tee.<br><em>Muscle fit.</em></h2>
       <p class="lead strong">
-        No es una camiseta.<br>
-        Es el <span>uniforme</span> de quien ya ha decidido ir en serio.
+        Corte atlético, limpio y directo.<br>
+        Hecha para entrenar fuerte y salir igual de bien.
       </p>
       <p class="lead">
-        Diseñada para ajustarse al cuerpo con precisión, resaltar la estructura física y mantenerse firme bajo cualquier entrenamiento. Minimalista. Técnica. Silenciosa. Porque no necesitas hablar cuando tu físico ya lo hace por ti.
+        Una camiseta de entrenamiento con presencia premium: ajuste al cuerpo, tacto técnico y branding mínimo. La pieza más fácil para entrar al universo Discipline Society.
       </p>
 
       <div class="product-highlights">
@@ -1508,8 +1535,8 @@
       </div>
 
       <ul class="tee-specs">
-        <li><span class="n">I.</span><div><b>Ajuste compresivo premium</b> — estructura que respeta la forma.</div></li>
-        <li><span class="n">II.</span><div><b>Tejido técnico transpirable</b> — entreno o calle, nunca cede.</div></li>
+        <li><span class="n">I.</span><div><b>Ajuste atlético</b> — marca hombros, pecho y brazos sin sentirse disfraz.</div></li>
+        <li><span class="n">II.</span><div><b>Tejido técnico transpirable</b> — para entreno, calor y movimiento.</div></li>
         <li><span class="n">III.</span><div><b>Logo DS bordado frontal</b> — detalle silencioso, acabado premium.</div></li>
         <li><span class="n">IV.</span><div><b>"Earn Your Place" en espalda</b> — firma vertical discreta.</div></li>
         <li><span class="n">V.</span><div><b>Edición limitada — no restock</b>. Cuando se acaba, se acaba.</div></li>
@@ -1593,16 +1620,15 @@
       </div>
     </div>
     <div class="tracksuit-content reveal">
-      <div class="section-label">DS Discipline Society Tracksuit · N° 003</div>
-      <div class="urgency-strip"><span class="pulse-dot"></span>Set completo · Stock muy limitado</div>
+      <div class="section-label">DS Tracksuit · N° 003</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>Set completo · Training to street</div>
       <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
-      <h2>DS Discipline Society<br><em>Tracksuit.</em></h2>
+      <h2>DS Tracksuit.<br><em>Miami uniform.</em></h2>
       <p class="lead strong">
-        No es un chándal.<br>
-        Es la <span>armadura</span> de quien entrena en silencio y domina de día.
+        Set completo para entrenar, viajar y moverte con presencia.
       </p>
       <p class="lead">
-        Nylon técnico con caída estructurada, bordados "Discipline Society" en manga y pierna, y logo DS sobre el pecho. Zips laterales en el bajo del pantalón para ajuste exacto sobre la zapatilla. Diseñado para el gimnasio, construido para la calle.
+        Nylon técnico con caída estructurada, bordado visible y silueta limpia. Es la pieza más fuerte del drop: gym, aeropuerto, noche Miami.
       </p>
 
       <div class="product-highlights">
@@ -1612,8 +1638,8 @@
       </div>
 
       <ul class="tracksuit-specs">
-        <li><span class="n">I.</span><div><b>Nylon técnico arrugado premium</b> — textura que respira carácter.</div></li>
-        <li><span class="n">II.</span><div><b>Bordado "Discipline Society"</b> — manga y pierna, hilo blanco sobre navy.</div></li>
+        <li><span class="n">I.</span><div><b>Nylon técnico premium</b> — ligero, visual y resistente.</div></li>
+        <li><span class="n">II.</span><div><b>Bordado "Discipline Society"</b> — manga y pierna, presencia clara.</div></li>
         <li><span class="n">III.</span><div><b>Logo DS sobre el pecho</b> — monograma bordado con estrellas.</div></li>
         <li><span class="n">IV.</span><div><b>Zip lateral en el bajo</b> — ajuste exacto sobre la zapatilla.</div></li>
         <li><span class="n">V.</span><div><b>Set completo · 2 piezas</b> — chaqueta + pantalón · producción limitada.</div></li>
@@ -1664,10 +1690,10 @@
     </div>
     <div class="hoodie-content reveal">
       <div class="section-label">Hoodie Earn Your Place · N° 001</div>
-      <div class="urgency-strip"><span class="pulse-dot"></span>N° 001 · Producción bajo demanda · Sin restock</div>
+      <div class="urgency-strip"><span class="pulse-dot"></span>Heavy cotton · Founders piece</div>
       <div class="member-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Acceso exclusivo miembros</div>
       <h2>Hoodie <em>Earn</em><br>Your <em>Place.</em></h2>
-      <p class="lead">La primera prenda del movimiento. Algodón pesado, cortes estudiados y detalles que solo reconoce quien sabe. Producción limitada bajo demanda — cuando se acaba, se acaba.</p>
+      <p class="lead">La primera pieza del movimiento. Algodón pesado, caída sólida y detalles dorados. Para llevar después de entrenar, viajar o salir sin perder presencia.</p>
       <div class="product-highlights">
         <div class="product-highlight"><b>Heavy cotton</b><span>Peso premium y caída sólida</span></div>
         <div class="product-highlight"><b>Bordado DS</b><span>Hilo dorado mate</span></div>
