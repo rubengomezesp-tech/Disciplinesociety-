@@ -22,6 +22,11 @@ create table if not exists public.site_images (
 alter table public.site_admins enable row level security;
 alter table public.site_images enable row level security;
 
+grant usage on schema public to anon, authenticated;
+grant select on public.site_images to anon, authenticated;
+grant insert, update, delete on public.site_images to authenticated;
+grant select on public.site_admins to authenticated;
+
 drop policy if exists "Admins can read their own admin row" on public.site_admins;
 create policy "Admins can read their own admin row"
   on public.site_admins
