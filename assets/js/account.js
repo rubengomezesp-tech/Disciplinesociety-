@@ -151,7 +151,7 @@ async function init() {
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
-    window.location.replace('/acceder.html');
+    window.location.replace('acceder.html');
     return;
   }
 
@@ -183,7 +183,7 @@ async function init() {
   // Cross-tab sign-out
   supabase.auth.onAuthStateChange((event) => {
     if (event === 'SIGNED_OUT') {
-      window.location.replace('/acceder.html');
+      window.location.replace('acceder.html');
     }
   });
 }

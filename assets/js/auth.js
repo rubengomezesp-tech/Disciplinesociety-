@@ -43,7 +43,7 @@ function authRedirect(path) {
   return `${window.location.origin}${path}`;
 }
 
-function safeLocalPath(path, fallback = '/mi-cuenta.html') {
+function safeLocalPath(path, fallback = 'mi-cuenta.html') {
   if (!path || !path.startsWith('/') || path.startsWith('//')) return fallback;
   return path;
 }
@@ -73,7 +73,7 @@ export async function handleSignup(e) {
   btn.disabled = false;
   btn.textContent = orig;
   if (error) { showMsg(msg, translateError(error)); return; }
-  if (data.session) { window.location.href = '/confirmado.html'; return; }
+  if (data.session) { window.location.href = 'confirmado.html'; return; }
   showMsg(msg, '✓ Cuenta creada. Revisa tu correo para confirmarla. Mira también el spam.', 'success');
 }
 
@@ -127,7 +127,7 @@ export async function handleForgotPassword(e) {
 
 export async function handleLogout() {
   await supabase.auth.signOut();
-  window.location.href = '/';
+  window.location.href = 'index.html';
 }
 
 // ─── helpers ─────────────────────────────────────────────────────────────────

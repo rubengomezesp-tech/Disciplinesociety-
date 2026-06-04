@@ -33,7 +33,7 @@
 </head>
 <body>
 <div class="auth-wrap">
-  <a href="/" class="auth-back">← Volver</a>
+  <a href="index.html" class="auth-back">← Volver</a>
   <div class="auth-card">
     <div class="auth-brand">Discipline Society</div>
     <h1 class="auth-title">Acceder</h1>
@@ -43,16 +43,16 @@
       <input type="email" id="email" name="email" required autocomplete="email" />
       <label for="password">Contraseña</label>
       <input type="password" id="password" name="password" required autocomplete="current-password" />
-      <a href="/recuperar.html" class="forgot-link">¿Olvidaste tu contraseña?</a>
+      <a href="recuperar.html" class="forgot-link">¿Olvidaste tu contraseña?</a>
       <button type="submit">Entrar</button>
     </form>
     <div class="auth-footer">
-      ¿No tienes cuenta? <a href="/registro.html">Regístrate</a>
+      ¿No tienes cuenta? <a href="registro.html">Regístrate</a>
     </div>
   </div>
 </div>
 <script type="module">
-  import { handleLogin } from '/assets/js/auth.js';
+  import { handleLogin } from './assets/js/auth.js';
   document.getElementById('login-form').addEventListener('submit', handleLogin);
 </script>
 </body>

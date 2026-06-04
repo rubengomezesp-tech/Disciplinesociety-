@@ -106,7 +106,7 @@ async function handleLogin(event) {
 
 async function handleLogout() {
   await supabase.auth.signOut();
-  window.location.href = '/';
+  window.location.href = 'index.html';
 }
 
 function renderSlots() {

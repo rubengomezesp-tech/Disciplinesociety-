@@ -74,7 +74,7 @@
 </head>
 <body>
 <div class="auth-wrap">
-  <a href="/acceder.html" class="auth-back">← Volver</a>
+  <a href="acceder.html" class="auth-back">← Volver</a>
   <div class="auth-card">
     <div class="auth-brand">Discipline Society</div>
     <h1 class="auth-title">Recuperar acceso</h1>
@@ -86,12 +86,12 @@
       <button type="submit" id="recover-btn">Enviar enlace</button>
     </form>
     <div class="auth-footer">
-      ¿Recuerdas la contraseña? <a href="/acceder.html">Acceder</a>
+      ¿Recuerdas la contraseña? <a href="acceder.html">Acceder</a>
     </div>
   </div>
 </div>
 <script type="module">
-  import { handleForgotPassword } from '/assets/js/auth.js';
+  import { handleForgotPassword } from './assets/js/auth.js';
   document.getElementById('recover-form').addEventListener('submit', handleForgotPassword);
 </script>
 </body>

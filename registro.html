@@ -129,7 +129,7 @@
 </head>
 <body>
   <div class="auth-wrap">
-    <a href="/" class="auth-back">← Volver</a>
+    <a href="index.html" class="auth-back">← Volver</a>
     <div class="auth-card">
       <div class="auth-brand">Discipline Society</div>
       <h1 class="auth-title">Crear Cuenta</h1>
@@ -148,13 +148,13 @@
       </form>
 
       <div class="auth-footer">
-        ¿Ya tienes cuenta? <a href="/acceder.html">Acceder</a>
+        ¿Ya tienes cuenta? <a href="acceder.html">Acceder</a>
       </div>
     </div>
   </div>
 
   <script type="module">
-    import { handleSignup } from '/assets/js/auth.js';
+    import { handleSignup } from './assets/js/auth.js';
     document.getElementById('signup-form').addEventListener('submit', handleSignup);
   </script>
 </body>

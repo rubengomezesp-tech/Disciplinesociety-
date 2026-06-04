@@ -93,12 +93,12 @@
     </div>
     <div id="link-error" style="display:none" class="link-error">
       <p>El enlace ha expirado o no es válido.<br>Solicita uno nuevo.</p>
-      <a href="/recuperar.html">Solicitar nuevo enlace</a>
+      <a href="recuperar.html">Solicitar nuevo enlace</a>
     </div>
   </div>
 </div>
 <script type="module">
-  import { supabase } from '/assets/js/supabase-client.js';
+  import { supabase } from './assets/js/supabase-client.js';
 
   const form      = document.getElementById('newpass-form');
   const msg       = document.getElementById('newpass-msg');
@@ -149,7 +149,7 @@
     }
 
     showMsg('✓ Contraseña actualizada. Redirigiendo...', 'success');
-    setTimeout(() => { window.location.href = '/mi-cuenta.html'; }, 1800);
+    setTimeout(() => { window.location.href = 'mi-cuenta.html'; }, 1800);
   });
 </script>
 </body>

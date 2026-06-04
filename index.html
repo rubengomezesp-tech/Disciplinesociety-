@@ -19,7 +19,7 @@
 <meta name="twitter:description" content="Primer Drop. Founders Edition. Edición limitada.">
 <meta name="twitter:image" content="https://disciplinesociety.com/og-cover.jpg">
 <link rel="canonical" href="https://disciplinesociety.com">
-<link rel="icon" type="image/png" href="/ds-logo.png">
+<link rel="icon" type="image/png" href="ds-logo.png">
 <script src="https://js.stripe.com/v3/"></script>
   <style>
   :root{
@@ -1218,8 +1218,8 @@
 
   <!-- Account widget (desktop) -->
   <div class="nav-auth-widget" id="nav-auth-widget">
-    <a href="/registro.html" class="nav-auth-register" data-auth="guest">Registrarse</a>
-    <a href="/acceder.html" class="nav-auth-guest" data-auth="guest">
+    <a href="registro.html" class="nav-auth-register" data-auth="guest">Registrarse</a>
+    <a href="acceder.html" class="nav-auth-guest" data-auth="guest">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Acceder
     </a>
@@ -1230,11 +1230,11 @@
       </button>
       <div class="nav-dropdown" id="nav-dropdown" role="menu">
         <div class="nav-dropdown-email" id="nav-dropdown-email">Cargando…</div>
-        <a href="/mi-cuenta.html" role="menuitem">
+        <a href="mi-cuenta.html" role="menuitem">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Mi cuenta
         </a>
-        <a href="/mi-cuenta.html" role="menuitem">
+        <a href="mi-cuenta.html" role="menuitem">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           Mis pedidos
         </a>
@@ -1274,19 +1274,19 @@
     </ul>
   </div>
   <div class="mobile-nav-auth">
-    <a href="/acceder.html" data-auth="guest" class="mobile-nav-link--auth">
+    <a href="acceder.html" data-auth="guest" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Acceder
     </a>
-    <a href="/registro.html" data-auth="guest" class="mobile-nav-link--auth">
+    <a href="registro.html" data-auth="guest" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M9 7a4 4 0 1 0 8 0 4 4 0 0 0-8 0"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
       Crear cuenta
     </a>
-    <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
+    <a href="mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Mi cuenta
     </a>
-    <a href="/mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
+    <a href="mi-cuenta.html" data-auth="user" class="mobile-nav-link--auth">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       Mis pedidos
     </a>
@@ -1836,12 +1836,12 @@
 </div>
 
 <script type="module">
-  import { supabase } from '/assets/js/supabase-client.js';
+  import { supabase } from './assets/js/supabase-client.js';
   import {
     applyDocumentImageOverrides,
     applyProductImageOverrides,
     loadSiteImageOverrides,
-  } from '/assets/js/site-images.js';
+  } from './assets/js/site-images.js';
 
   /* =========================================
      HAMBURGER MENU
@@ -2093,7 +2093,7 @@
       modalMsg.textContent = 'Perfecto. Redirigiendo...';
       modalMsg.className = 'modal-msg success';
       try { sessionStorage.setItem(MODAL_KEY, '1'); } catch(e) {}
-      setTimeout(() => { window.location.href = '/gracias.html'; }, 900);
+      setTimeout(() => { window.location.href = 'gracias.html'; }, 900);
     } catch (err) {
       modalMsg.textContent = 'Error al enviar. Prueba de nuevo.';
       modalMsg.className = 'modal-msg error';
@@ -2125,7 +2125,7 @@
       formMessage.textContent = 'Perfecto. Redirigiendo...';
       formMessage.className = 'form-message success in';
       emailInput.value = '';
-      setTimeout(() => { window.location.href = '/gracias.html'; }, 900);
+      setTimeout(() => { window.location.href = 'gracias.html'; }, 900);
     } catch (error) {
       formMessage.textContent = 'Error al enviar. Prueba de nuevo.';
       formMessage.className = 'form-message error in';
@@ -2168,7 +2168,7 @@
 
     if (!session) {
       const next = encodeURIComponent(currentLocalPath());
-      window.location.href = `/acceder.html?next=${next}`;
+      window.location.href = `acceder.html?next=${next}`;
       return null;
     }
 
