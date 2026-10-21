@@ -158,5 +158,15 @@
     "source": "ds-logo.png",
     "treatment": "Escalado proporcional con transparencia preservada; sin recorte ni rediseño; original conservado.",
     "encoding": "PNG"
+  },
+  {
+    "file": "miami-retro-share.jpg",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 417077,
+    "sha256": "92050d6b798061b97c6fc8c15e9f77c767a5056b90060b01bf705d1bfc856ede",
+    "source": "assets/images/collection/miami-retro.png",
+    "treatment": "Conversión JPEG para metadatos sociales, sin recorte ni retoque; original conservado.",
+    "quality": 82
   }
 ]
