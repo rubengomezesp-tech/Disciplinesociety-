@@ -7,7 +7,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "npm run check:functions",
+    "check": "npm run check:functions && npm run check:editorial",
+    "check:editorial": "node --check assets/js/road.js",
+    "preview": "python3 -m http.server 4321 --bind 127.0.0.1",
     "check:functions": "node --check netlify/functions/create-checkout.js && node --check netlify/functions/stripe-webhook.js && node --check netlify/functions/subscribe.js && node --check assets/js/site-images.js && node --check assets/js/admin-images.js",
     "test": "npm run check"
   },

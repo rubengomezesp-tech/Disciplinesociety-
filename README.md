@@ -1,6 +1,22 @@
 # Discipline Society
 
-Storefront estatica para Discipline Society con autenticacion Supabase, Stripe Checkout, pedidos en Supabase, formulario de acceso anticipado y despliegue en Netlify.
+Web editorial de Discipline Society. La portada presenta cinco modelos como conceptos en desarrollo: Miami Retro, Iron Culture, Tonal y ANATOMY para hombre y mujer. No ofrece compra ni anuncia disponibilidad.
+
+## Portada editorial
+
+- `index.html`: colección, filtros, detalle accesible de cada concepto y dirección de marca.
+- `assets/css/road.css` y `assets/js/road.js`: diseño responsive y mejoras progresivas sin dependencias de frontend.
+- `assets/images/collection/`: diseños originales conservados.
+- `assets/images/editorial/`: WebP y variantes responsive; `ASSETS.json` documenta la procedencia. La carretera es una imagen ambiental generada para esta dirección creativa; no representa una prenda fabricada.
+- `assets/fonts/`: Barlow Condensed y Manrope locales, con licencias OFL.
+
+```bash
+npm run preview
+```
+
+Abre `http://127.0.0.1:4321/`. La portada funciona como web estática; no requiere claves ni servicios externos. El menú, los filtros y el visor respetan teclado y reduced-motion. Sin JavaScript, la colección y los enlaces a los diseños originales siguen disponibles.
+
+La infraestructura previa de Supabase, Stripe, pedidos y sus páginas se conserva. La portada editorial no la invoca. Las instrucciones siguientes describen esa infraestructura existente, no una disponibilidad comercial de los nuevos conceptos.
 
 ## Stack
 

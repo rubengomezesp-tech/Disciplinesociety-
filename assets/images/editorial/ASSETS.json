@@ -1,0 +1,162 @@
+[
+  {
+    "file": "anatomy-design-640.webp",
+    "width": 640,
+    "height": 361,
+    "bytes": 15038,
+    "sha256": "d7942efd0b930e28d7d2012a17909ba22faa2ab199448271807c823796df457f",
+    "source": "assets/images/collection/anatomy-design.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "anatomy-design.webp",
+    "width": 1440,
+    "height": 811,
+    "bytes": 44610,
+    "sha256": "4aab3c3e51c07634f4a1282d74749140007993a848ab1f3b63aecab5f08d30f9",
+    "source": "assets/images/collection/anatomy-design.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "anatomy-men-640.webp",
+    "width": 640,
+    "height": 800,
+    "bytes": 36062,
+    "sha256": "27d2a05065fb62a9051c8b2afa7ff9e9d05fbe4fa723bd5c50897737813bc2d7",
+    "source": "assets/images/collection/anatomy-men.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "anatomy-men.webp",
+    "width": 1122,
+    "height": 1402,
+    "bytes": 88988,
+    "sha256": "d624241c01980816c54ee366fb34c21ce23ce604342e1083fd765bbb42122495",
+    "source": "assets/images/collection/anatomy-men.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "anatomy-women-640.webp",
+    "width": 640,
+    "height": 800,
+    "bytes": 38200,
+    "sha256": "4fa33ab1b0d8062637f4e595ff34c8b3371fab6d3b42e392fd032a618fd3111b",
+    "source": "assets/images/collection/anatomy-women.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "anatomy-women.webp",
+    "width": 1122,
+    "height": 1402,
+    "bytes": 92658,
+    "sha256": "da7cf7f4e73b5783dafb72917b445bf7466f8a2892804a0f0ca4f5b4eab7238c",
+    "source": "assets/images/collection/anatomy-women.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "iron-culture-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 32420,
+    "sha256": "8ae869aff1c6d0c30ed95f279d2959d16facf07a564f2f4792089d8c6244196f",
+    "source": "assets/images/collection/iron-culture.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "iron-culture.webp",
+    "width": 1440,
+    "height": 960,
+    "bytes": 146702,
+    "sha256": "0a239bee035ba4f8b6a8e2f3f27283d6923d12f95d5b1e44a1c52cc6e8a6f23e",
+    "source": "assets/images/collection/iron-culture.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "miami-retro-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 34534,
+    "sha256": "2ef7ed72e446e6040d8447a72ad5093e9d16f3a67e2c15c2164f59c516a5ceab",
+    "source": "assets/images/collection/miami-retro.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "miami-retro.webp",
+    "width": 1440,
+    "height": 960,
+    "bytes": 149750,
+    "sha256": "813c1cc76b941cfcbc0c3d572aa67587f8ecac023bbd27f9554eb63ff5e3a4dc",
+    "source": "assets/images/collection/miami-retro.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "road-dusk-768.webp",
+    "width": 768,
+    "height": 512,
+    "bytes": 40754,
+    "sha256": "210aca66ce209f70b9707ebad6900dc50c488174444e8c0661f9ef89750e3c40",
+    "source": "generated_images/exec-2e3a912b-57ea-453f-a62c-bb650945fb55.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 86
+  },
+  {
+    "file": "road-dusk.webp",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 131712,
+    "sha256": "c47fef28dfe27148419c8ffa4e915f70a504ae08700022b0e1087ff192002e0f",
+    "source": "generated_images/exec-2e3a912b-57ea-453f-a62c-bb650945fb55.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 86
+  },
+  {
+    "file": "tonal-anthracite-640.webp",
+    "width": 640,
+    "height": 640,
+    "bytes": 23412,
+    "sha256": "880846531d98f6d20e208cfa61c2ed3540f8638e4a24bc44b0a9738746ecfb85",
+    "source": "assets/images/collection/tonal-anthracite.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "tonal-anthracite.webp",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 87540,
+    "sha256": "1807736d5a910830b7691b153fb97e9c47ec0c160702429904ffa797f2120a5b",
+    "source": "assets/images/collection/tonal-anthracite.png",
+    "treatment": "Conversión WebP con cwebp; escalado proporcional, sin recorte ni retoque; original conservado.",
+    "quality": 85
+  },
+  {
+    "file": "ds-mark.webp",
+    "width": 96,
+    "height": 102,
+    "bytes": 10638,
+    "sha256": "b83ccbcead8f4c1a27fbaae03db4da3bacf9ebdad465b132ed07dfdf7570944e",
+    "source": "ds-logo.png",
+    "treatment": "Escalado proporcional con transparencia preservada; sin recorte ni rediseño; original conservado.",
+    "encoding": "WebP lossless"
+  },
+  {
+    "file": "ds-icon.png",
+    "width": 32,
+    "height": 34,
+    "bytes": 2673,
+    "sha256": "b5a757e8370b7bd759c42ac4c075458e3f352f17e031e914ff4353c1d9d3ea56",
+    "source": "ds-logo.png",
+    "treatment": "Escalado proporcional con transparencia preservada; sin recorte ni rediseño; original conservado.",
+    "encoding": "PNG"
+  }
+]
